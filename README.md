@@ -442,4 +442,4 @@
 
 ## 11. 画面遷移図
 
-Figma URL：https://xxxxxx
+Figmaリンク：[わんわんとリスト 画面遷移図](https://www.figma.com/design/8GAUWcXwTAp2HqJGEBODIF/%E7%94%BB%E9%9D%A2%E9%81%B7%E7%A7%BB%E5%9B%B3-%E3%82%8F%E3%82%93%E3%82%8F%E3%82%93%E3%81%A8%E3%83%AA%E3%82%B9%E3%83%88-?node-id=0-1&p=f&t=WXC9Kk3mYUeXWoad-0)
