@@ -446,4 +446,4 @@ Figmaリンク：[わんわんとリスト 画面遷移図](https://www.figma.co
 
 ## 12. ER図
 
-[![Image from Gyazo](https://i.gyazo.com/8c20a4731dbe55b6102cdd24e436d781.png)](https://gyazo.com/8c20a4731dbe55b6102cdd24e436d781)
+[![Image from Gyazo](https://i.gyazo.com/e1a85ad73388c4cef1fbc3b126e6ac39.png)](https://gyazo.com/e1a85ad73388c4cef1fbc3b126e6ac39)
