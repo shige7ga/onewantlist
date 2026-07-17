@@ -446,4 +446,27 @@ Figmaリンク：[わんわんとリスト 画面遷移図](https://www.figma.co
 
 ## 12. ER図
 
-[![Image from Gyazo](https://i.gyazo.com/e1a85ad73388c4cef1fbc3b126e6ac39.png)](https://gyazo.com/e1a85ad73388c4cef1fbc3b126e6ac39)
+[![Image from Gyazo](https://i.gyazo.com/69b508d89007e39f069bf933f9b4c8cf.png)](https://gyazo.com/69b508d89007e39f069bf933f9b4c8cf)
+
+- ゲストユーザー情報は、Local Storageに保持する(下記のようにJSON形式で、ブラウザで情報保持)
+  ```
+    {
+      "level": 2,
+      "experience": 80,
+      "wants": [
+        {
+          "id": "1",
+          "title": "富士山に登る",
+          "status": "not started",
+          "due_date": ""
+          "createdAt": "2026-07-16",
+          "updatedAt": "2026-07-16"
+        }
+      ],
+      "free_want_registered": "true",
+      "random_want_registerd": "false"
+    }
+  ```
+
+- random_wantsテーブルは、wantsテーブルに保存するためのコピー元データとする。<br>
+  random_wantsのデータをwantsテーブルへそのままのcontentで保存する場合と、編集して保存する場合の両パターンに対応するため。
