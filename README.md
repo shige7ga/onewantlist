@@ -446,9 +446,13 @@ Figmaリンク：[わんわんとリスト 画面遷移図](https://www.figma.co
 
 ## 12. ER図
 
-[![Image from Gyazo](https://i.gyazo.com/69b508d89007e39f069bf933f9b4c8cf.png)](https://gyazo.com/69b508d89007e39f069bf933f9b4c8cf)
+[![Image from Gyazo](https://i.gyazo.com/faa484993ab228bd6b146b4d33bc437e.png)](https://gyazo.com/faa484993ab228bd6b146b4d33bc437e)
 
-- ゲストユーザー情報は、Local Storageに保持する(下記のようにJSON形式で、ブラウザで情報保持)
+- ゲストユーザー情報は、ブラウザのLocal StorageにJSON形式で保持する<br>
+  サーバー側では、ゲストユーザー情報を管理しないため、ゲストユーザー用テーブルは作成しない。ゲストユーザーが会員登録したタイミングで、Local StorageのデータをDBへ移行して、その後Local Storageのデータは削除する。
+
+例）
+
   ```
     {
       "level": 2,
@@ -458,15 +462,16 @@ Figmaリンク：[わんわんとリスト 画面遷移図](https://www.figma.co
           "id": "1",
           "title": "富士山に登る",
           "status": "not started",
-          "due_date": ""
+          "due_date": "",
           "createdAt": "2026-07-16",
           "updatedAt": "2026-07-16"
         }
       ],
-      "free_want_registered": "true",
-      "random_want_registerd": "false"
+      "free_want_registered": true,
+      "random_want_registered": false
     }
   ```
 
-- random_wantsテーブルは、wantsテーブルに保存するためのコピー元データとする。<br>
-  random_wantsのデータをwantsテーブルへそのままのcontentで保存する場合と、編集して保存する場合の両パターンに対応するため。
+- `random_wants`テーブルは、`wants`テーブルへ登録する際のコピー元データとして利用する。外部キー(`random_wants.id`と`wants.content_id`)での関連付けはせず、それぞれ独立したテーブルとして管理する。
+  `random_wants`は、ユーザーへランダムに提案する「やりたいこと候補」を管理するテーブルであり、`wants`はユーザーが実際に登録したやりたいことを管理するテーブルである。両者は役割が異なるため、独立したデータとして保持する。
+  また、ユーザーはランダム提案された内容をそのまま登録する場合と、内容を編集して登録する場合の両方があるため、登録時に`random_wants`の内容をコピーして、`wants`への登録に活用する。この設計により、`random_wants`のデータが更新・削除されても、`wants`にはユーザーが登録した時点の内容を保持できる。
