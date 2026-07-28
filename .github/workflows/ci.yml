@@ -95,6 +95,9 @@ jobs:
   system-test:
     runs-on: ubuntu-latest
 
+    env:
+      POSTGRES_PASSWORD: postgres
+
     services:
       postgres:
         image: postgres
