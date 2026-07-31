@@ -50,8 +50,7 @@ jobs:
       - name: Lint code for consistent style
         run: bin/rubocop -f github
 
-
-# ToDo：Docker環境構築だけを目的としたPRのため一旦コメントアウト
+# Minitestの為コメントアウト。後程、RSpecを導入予定のため、現時点ではMinitest使わないと判断
   # test:
   #   runs-on: ubuntu-latest
 
