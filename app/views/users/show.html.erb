@@ -1,9 +1,5 @@
-<% if @user == current_user %>
-  <h1>マイページ</h1>
-<% else %>
-  <h1><%= @user.name %>さんのページ</h1>
-<% end %>
+<h1>マイページ</h1>
+<p>ユーザー名：<%= @user.name %></p>
+<p>メールアドレス：<%= @user.email %></p>
 
-<% if @user == current_user %>
-  <%= link_to "プロフィールを編集", edit_user_registration_path %>
-<% end %>
+<%= link_to "プロフィールを編集", edit_user_registration_path %>
