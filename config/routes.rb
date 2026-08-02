@@ -4,7 +4,7 @@ Rails.application.routes.draw do
     sessions: "users/sessions"
   }
 
-
+  resources :users, only: [ :show ]
   root "top#index"
 
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
