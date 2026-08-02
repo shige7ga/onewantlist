@@ -1,2 +1,9 @@
-<h1>Users#show</h1>
-<p>Find me in app/views/users/show.html.erb</p>
+<% if @user == current_user %>
+  <h1>マイページ</h1>
+<% else %>
+  <h1><%= @user.name %>さんのページ</h1>
+<% end %>
+
+<% if @user == current_user %>
+  <%= link_to "プロフィールを編集", edit_user_registration_path %>
+<% end %>
