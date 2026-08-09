@@ -1,5 +1,35 @@
-<h1>マイページ</h1>
-<p>ユーザー名：<%= @user.name %></p>
-<p>メールアドレス：<%= @user.email %></p>
+<div class="min-h-screen bg-[#F6F5EE] p-6">
+  <div class="w-full max-w-md">
+    <h1 class="mb-4 text-2xl font-bold text-[#4F5A4C]">
+      マイページ
+    </h1>
 
-<%= link_to "プロフィールを編集", edit_user_registration_path %>
+    <div class="card border border-[#A8BFA0] bg-white shadow-md">
+      <div class="card-body">
+        <div>
+          <p class="text-sm font-semibold text-[#4F5A4C]/70">
+            ユーザー名
+          </p>
+          <p class="text-lg font-semibold text-[#4F5A4C]">
+            <%= @user.name %>
+          </p>
+        </div>
+
+        <div>
+          <p class="text-sm font-semibold text-[#4F5A4C]/70">
+            メールアドレス
+          </p>
+          <p class="text-lg text-[#4F5A4C]">
+            <%= @user.email %>
+          </p>
+        </div>
+
+        <div class="card-actions mt-4">
+          <%= link_to "プロフィールを編集",
+                      edit_user_registration_path,
+                      class: "btn border-none bg-[#A8BFA0] text-[#4F5A4C] hover:bg-[#E3C88F]" %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
