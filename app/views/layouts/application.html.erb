@@ -19,26 +19,40 @@
     <link rel="apple-touch-icon" href="/icon.png">
 
     <%# Includes all stylesheet files in app/assets/stylesheets %>
-    <%= stylesheet_link_tag :app, "data-turbo-track": "reload" %>
+    <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
     <%= javascript_include_tag "application", "data-turbo-track": "reload", type: "module" %>
   </head>
 
   <body>
     <%# 仮のheader配置 %>
-    <header>
-      <%= link_to "わんわんとリスト", root_path %>
-      <% if user_signed_in? %>
-        <li>
-          <%= link_to "ログアウト", destroy_user_session_path, data: { turbo_method: :delete } %>
-        </li>
-      <% else %>
-        <li>
-          <%= link_to "ユーザー登録", new_user_registration_path %>
-        </li>
-        <li>
-          <%= link_to "ログイン", new_user_session_path %>
-        </li>
-      <% end %>
+    <header class="flex items-center justify-between border-b border-[#A8BFA0] bg-[#F6F5EE] px-6 py-4">
+      <%= link_to "わんわんとリスト",
+                  root_path,
+                  class: "text-xl font-bold text-[#4F5A4C] transition hover:opacity-70" %>
+      <nav>
+        <ul class="flex items-center gap-3">
+          <% if user_signed_in? %>
+            <li>
+              <%= link_to "ログアウト",
+                          destroy_user_session_path,
+                          data: { turbo_method: :delete },
+                          class: "rounded-lg bg-[#A8BFA0] px-4 py-2 text-sm font-semibold text-[#4F5A4C] transition hover:opacity-80" %>
+            </li>
+          <% else %>
+            <li>
+              <%= link_to "ユーザー登録",
+                          new_user_registration_path,
+                          class: "rounded-lg border border-[#A8BFA0] px-4 py-2 text-sm font-semibold text-[#4F5A4C] transition hover:bg-[#A8BFA0]/30" %>
+            </li>
+
+            <li>
+              <%= link_to "ログイン",
+                          new_user_session_path,
+                          class: "rounded-lg bg-[#A8BFA0] px-4 py-2 text-sm font-semibold text-[#4F5A4C] transition hover:opacity-80" %>
+            </li>
+          <% end %>
+        </ul>
+      </nav>
     </header>
     <%= yield %>
   </body>
