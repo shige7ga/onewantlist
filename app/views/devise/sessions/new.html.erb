@@ -26,25 +26,11 @@
                                class: "input input-bordered w-full border-[#A8BFA0] bg-[#F6F5EE] text-[#4F5A4C] focus:border-[#4F5A4C] focus:outline-none" %>
         </div>
 
-        <% if devise_mapping.rememberable? %>
-          <div class="flex items-center gap-2">
-            <%= f.check_box :remember_me,
-                            class: "checkbox border-[#A8BFA0] [--chkbg:#A8BFA0] [--chkfg:#4F5A4C]" %>
-
-            <%= f.label :remember_me, "ログイン状態を保持する",
-                        class: "text-sm text-[#4F5A4C]" %>
-          </div>
-        <% end %>
-
         <div class="pt-2">
           <%= f.submit "ログイン",
                        class: "btn w-full border-none bg-[#A8BFA0] text-[#4F5A4C] hover:bg-[#E3C88F]" %>
         </div>
       <% end %>
-
-      <div class="mt-4 text-center text-sm text-[#4F5A4C]">
-        <%= render "devise/shared/links" %>
-      </div>
     </div>
   </div>
 </div>
