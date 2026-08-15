@@ -76,22 +76,26 @@ RSpec.describe User, type: :model do
       end
 
       it "5文字なら無効" do
-        user = build(:user, password: "a" * 5)
+        testpass = "a" * 5
+        user = build(:user, password: testpass, password_confirmation: testpass)
         expect(user).to be_invalid
       end
 
       it "6文字なら有効" do
-        user = build(:user, password: "a" * 6)
+        testpass = "a" * 6
+        user = build(:user, password: testpass, password_confirmation: testpass)
         expect(user).to be_valid
       end
 
       it "32文字なら有効" do
-        user = build(:user, password: "a" * 32)
+        testpass = "a" * 32
+        user = build(:user, password: testpass, password_confirmation: testpass)
         expect(user).to be_valid
       end
 
       it "33文字なら無効" do
-        user = build(:user, password: "a" * 33)
+        testpass = "a" * 33
+        user = build(:user, password: testpass, password_confirmation: testpass)
         expect(user).to be_invalid
       end
     end
