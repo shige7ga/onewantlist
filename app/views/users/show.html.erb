@@ -31,5 +31,14 @@
         </div>
       </div>
     </div>
+
+    <%# やりたいこと一覧 %>
+    <section>
+      <h2 class="mb-4 text-xl font-bold text-[#4F5A4C]">
+        やりたいことリスト
+      </h2>
+
+      <%= render "wants/list", wants: @wants %>
+    </section>
   </div>
 </div>
