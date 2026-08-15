@@ -1,0 +1,27 @@
+<div class="space-y-4">
+  <% wants.each do |want| %>
+    <div class="card bg-white shadow-md">
+      <div class="card-body gap-4">
+        <p class="whitespace-pre-wrap text-lg font-semibold text-[#4F5A4C]">
+          <%= want.content %>
+        </p>
+
+        <div class="flex flex-wrap items-center gap-2 text-sm text-[#4F5A4C]">
+          <span class="badge border-none bg-[#A8BFA0] text-[#4F5A4C]">
+            <%= want.status %>
+          </span>
+
+          <span>
+            期限：
+            <%= want.due_date.present? ? want.due_date.strftime("%Y/%m/%d") : "未設定" %>
+          </span>
+        </div>
+
+        <div class="text-xs text-gray-400">
+          投稿日：
+          <%= want.created_at.strftime("%Y/%m/%d %H:%M") %>
+        </div>
+      </div>
+    </div>
+  <% end %>
+</div>

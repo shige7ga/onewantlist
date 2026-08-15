@@ -4,7 +4,7 @@ Rails.application.routes.draw do
     sessions: "users/sessions"
   }
 
-  resources :wants
+  resources :wants, except: [:index]
 
   get "mypage", to: "users#show", as: :mypage
   root "top#index"
