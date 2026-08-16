@@ -5,6 +5,10 @@ class WantsController < ApplicationController
     @want = current_user.wants.new
   end
 
+  def show
+    @want = Want.find(params[:id])
+  end
+
   def create
     @want = current_user.wants.new(want_params)
     if @want.save
