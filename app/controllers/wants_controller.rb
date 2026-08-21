@@ -32,6 +32,12 @@ class WantsController < ApplicationController
     end
   end
 
+  def destroy
+    want = current_user.wants.find(params[:id])
+    want.destroy!
+    redirect_to mypage_path, success: t("defaults.flash_message.deleted", item: Want.model_name.human), status: :see_other
+  end
+
   private
 
   def want_params
