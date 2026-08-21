@@ -2,14 +2,12 @@
   <div class="w-full max-w-2xl">
     <div class="card border border-[#A8BFA0] bg-white shadow-md">
       <div class="card-body gap-5 p-6">
-
         <h1 class="text-center text-2xl font-bold text-[#4F5A4C]">
           やりたいこと詳細
         </h1>
 
         <%# やりたいこと内容 %>
         <div>
-
           <div class="rounded-lg bg-[#F6F5EE] p-4">
             <p class="whitespace-pre-wrap break-words text-lg font-semibold leading-relaxed text-[#4F5A4C]"><%= @want.content %></p>
           </div>
@@ -48,19 +46,14 @@
           </div>
         </div>
 
-        <%# 編集・削除 %>
+        <%# 編集ボタン %>
         <div class="card-actions mt-2 justify-end">
           <%= link_to "編集",
                       edit_want_path(@want),
                       class: "btn border-[#A8BFA0] bg-white text-[#4F5A4C] hover:border-[#E3C88F] hover:bg-[#E3C88F]" %>
 
-          <%= link_to "削除",
-                      want_path(@want),
-                      data: {
-                        turbo_method: :delete,
-                        turbo_confirm: "このやりたいことを削除しますか？"
-                      },
-                      class: "btn btn-error text-white" %>
+          <%# 削除ボタン %>
+          <%= render "delete_modal", want: @want %>
         </div>
       </div>
     </div>

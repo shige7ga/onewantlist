@@ -1,0 +1,36 @@
+<button
+  type="button"
+  onclick="delete_modal.showModal()"
+  class="btn btn-error text-white"
+>
+  削除
+</button>
+
+<dialog id="delete_modal" class="modal">
+  <div class="modal-box">
+    <h3 class="text-lg font-bold">
+      やりたいことを削除しますか？
+    </h3>
+
+    <p class="py-4 text-gray-600">
+      ※ 削除した内容は元に戻せません。
+    </p>
+
+    <div class="modal-action">
+      <form method="dialog">
+        <button class="btn">
+          キャンセル
+        </button>
+      </form>
+
+      <%= button_to "削除する",
+                    want_path(@want),
+                    method: :delete,
+                    class: "btn btn-error text-white" %>
+    </div>
+  </div>
+
+  <form method="dialog" class="modal-backdrop">
+    <button>閉じる</button>
+  </form>
+</dialog>
