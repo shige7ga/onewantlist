@@ -25,9 +25,9 @@ class WantsController < ApplicationController
   def update
     @want = current_user.wants.find(params[:id])
     if @want.update(want_params)
-      redirect_to want_path(@want), success: t('defaults.flash_message.updated', item: Want.model_name.human)
+      redirect_to want_path(@want), success: t("defaults.flash_message.updated", item: Want.model_name.human)
     else
-      flash.now[:danger] = t('defaults.flash_message.not_updated', item: Want.model_name.human)
+      flash.now[:danger] = t("defaults.flash_message.not_updated", item: Want.model_name.human)
       render :edit, status: :unprocessable_entity
     end
   end
