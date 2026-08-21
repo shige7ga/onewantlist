@@ -1,0 +1,57 @@
+<div class="flex min-h-[calc(100vh-4rem)] items-center justify-center bg-[#F6F5EE] px-4">
+  <div class="card w-full max-w-md bg-white shadow-xl">
+    <div class="card-body">
+      <h2 class="card-title justify-center text-2xl font-bold text-[#4F5A4C]">
+        やりたいこと編集
+      </h2>
+
+      <%= form_with(model: @want, html: { class: "space-y-4" }) do |f| %>
+
+        <%# やりたいこと内容 %>
+        <div>
+          <%= f.label :content,
+                      "やりたいこと",
+                      class: "mb-1 block text-sm font-semibold text-[#4F5A4C]" %>
+
+          <%= f.text_area :content,
+                      autofocus: true,
+                      rows: 8,
+                      class: "textarea textarea-bordered w-full border-[#A8BFA0] bg-[#F6F5EE] text-[#4F5A4C] focus:border-[#4F5A4C] focus:outline-none" %>
+        </div>
+
+        <%# ステータス %>
+        <div>
+          <%= f.label :status,
+                      "ステータス",
+                      class: "mb-1 block text-sm font-semibold text-[#4F5A4C]" %>
+
+          <%= f.select :status,
+                       [
+                         ["未着手", "not_started"],
+                         ["進行中", "in_progress"],
+                         ["完了", "completed"]
+                       ],
+                       {},
+                       class: "select select-bordered w-full border-[#A8BFA0] bg-[#F6F5EE] text-[#4F5A4C] focus:border-[#4F5A4C] focus:outline-none" %>
+        </div>
+
+        <%# 期限日 %>
+        <div>
+          <%= f.label :due_date,
+                      "期限日",
+                      class: "mb-1 block text-sm font-semibold text-[#4F5A4C]" %>
+
+          <%= f.date_field :due_date,
+                           class: "input input-bordered w-full border-[#A8BFA0] bg-[#F6F5EE] text-[#4F5A4C] focus:border-[#4F5A4C] focus:outline-none" %>
+        </div>
+
+        <%# 更新ボタン %>
+        <div class="pt-2">
+          <%= f.submit "更新する",
+                       class: "btn w-full border-none bg-[#A8BFA0] text-[#4F5A4C] hover:bg-[#E3C88F]" %>
+        </div>
+
+      <% end %>
+    </div>
+  </div>
+</div>
