@@ -3,7 +3,7 @@
     <div class="card border border-[#A8BFA0] bg-white shadow-md">
       <div class="card-body gap-5 p-6">
         <h1 class="text-center text-2xl font-bold text-[#4F5A4C]">
-          やりたいこと詳細
+          <%= t(".title") %>
         </h1>
 
         <%# やりたいこと内容 %>
@@ -17,27 +17,27 @@
         <div class="flex flex-wrap items-center gap-4">
           <div>
             <p class="mb-1 text-sm font-semibold text-[#4F5A4C]/70">
-              ステータス
+              <%= Want.human_attribute_name(:status) %>
             </p>
 
             <span class="badge border-none bg-[#A8BFA0] text-[#4F5A4C]">
-              <%= @want.status %>
+              <%= t("activerecord.enums.want.status.#{@want.status}") %>
             </span>
           </div>
 
           <div>
             <p class="mb-1 text-sm font-semibold text-[#4F5A4C]/70">
-              期限日
+              <%= Want.human_attribute_name(:due_date) %>
             </p>
 
             <p class="text-[#4F5A4C]">
-              <%= @want.due_date.present? ? @want.due_date.strftime("%Y/%m/%d") : "未設定" %>
+              <%= @want.due_date.present? ? @want.due_date.strftime("%Y/%m/%d") : t("wants.non_due_date") %>
             </p>
           </div>
 
           <div>
             <p class="mb-1 text-sm font-semibold text-[#4F5A4C]/70">
-              投稿日
+              <%= Want.human_attribute_name(:created_at) %>
             </p>
 
             <p class="text-[#4F5A4C]">
@@ -48,7 +48,7 @@
 
         <%# 編集ボタン %>
         <div class="card-actions mt-2 justify-end">
-          <%= link_to "編集",
+          <%= link_to t(".edit_btn"),
                       edit_want_path(@want),
                       class: "btn border-[#A8BFA0] bg-white text-[#4F5A4C] hover:border-[#E3C88F] hover:bg-[#E3C88F]" %>
 

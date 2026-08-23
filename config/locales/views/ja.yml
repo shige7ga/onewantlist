@@ -1,0 +1,55 @@
+ja:
+  helpers:
+    submit:
+      create: 登録する
+      submit: 保存する
+      update: 更新する
+  devise:
+    registrations:
+      new:
+        title: ユーザー登録
+        to_login_page: ※ユーザー登録済みの方はこちら
+      edit:
+        title: プロフィール編集
+        new_password: 新しいパスワード
+        blank_if_unchanged: ※変更しない場合は空欄
+        new_password_confirmation: 新しいパスワード（確認）
+        current_password: 現在のパスワード
+        delete_title: アカウント削除
+        delete_alert: アカウントを削除すると元に戻せません。
+        delete_btn: アカウントを削除する
+        delete_confirm: 本当にアカウントを削除しますか？
+      minimum_password_length: "※%{count}文字以上で入力してください"
+    sessions:
+      new:
+        title: ログイン
+        login: ログイン
+        to_register_page: ※ユーザー登録がお済でない方はこちら
+  users:
+    show:
+      title: マイページ
+      edit_btn: プロフィール編集
+  wants:
+    index:
+      title: やりたいことリスト
+    show:
+      title: やりたいこと詳細
+      edit_btn: 編集
+    new:
+      title: やりたいこと登録
+    edit:
+      title: やりたいこと編集
+    delete_modal:
+      btn: 削除
+      confirm: やりたいことを削除しますか？
+      alert: ※ 削除した内容は元に戻せません。
+      cancel: キャンセル
+      completed_delete_btn: 削除する
+    non_due_date: 未設定
+  header:
+    app_title: わんわんとリスト
+    new_user: ユーザー登録
+    login: ログイン
+    logout: ログアウト
+    new_want: やりたいこと登録
+  back: 戻る

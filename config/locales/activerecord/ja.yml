@@ -1,0 +1,23 @@
+ja:
+  activerecord:
+    models:
+      user: ユーザー
+      want: やりたいこと
+    attributes:
+      user:
+        name: ユーザー名
+        email: メールアドレス
+        password: パスワード
+        password_confirmation: パスワード確認
+        current_password: 現在のパスワード
+      want:
+        content: やりたいこと
+        status: ステータス
+        due_date: 期限
+        created_at: 投稿日
+    enums:
+      want:
+        status:
+          not_started: 未着手
+          in_progress: 進行中
+          completed: 完了

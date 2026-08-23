@@ -1,0 +1,38 @@
+<header class="navbar fixed top-0 h-16 z-50 w-full border-b border-[#A8BFA0] bg-[#F6F5EE] px-6">
+  <div class="navbar-start">
+    <%= link_to t("header.app_title"),
+                root_path,
+                class: "text-xl font-bold text-[#4F5A4C] transition hover:opacity-70" %>
+  </div>
+
+  <nav class="navbar-end">
+    <ul class="flex items-center gap-3">
+      <% if user_signed_in? %>
+        <li>
+          <%= link_to t("header.new_want"),
+                      new_want_path,
+                      class: "btn border-[#A8BFA0] bg-[#A8BFA0] text-[#4F5A4C] hover:bg-[#A8BFA0]/80" %>
+        </li>
+
+        <li>
+          <%= link_to t("header.logout"),
+                      destroy_user_session_path,
+                      data: { turbo_method: :delete },
+                      class: "btn btn-outline border-[#A8BFA0] text-[#4F5A4C] hover:border-[#A8BFA0] hover:bg-[#A8BFA0]/30" %>
+        </li>
+      <% else %>
+        <li>
+          <%= link_to t("header.new_user"),
+                      new_user_registration_path,
+                      class: "btn border-[#A8BFA0] bg-[#A8BFA0] text-[#4F5A4C] hover:bg-[#A8BFA0]/80" %>
+        </li>
+
+        <li>
+          <%= link_to t("header.login"),
+                      new_user_session_path,
+                      class: "btn btn-outline border-[#A8BFA0] text-[#4F5A4C] hover:border-[#A8BFA0] hover:bg-[#A8BFA0]/30" %>
+        </li>
+      <% end %>
+    </ul>
+  </nav>
+</header>

@@ -2,7 +2,7 @@
   <div class="card w-full max-w-md bg-white shadow-xl">
     <div class="card-body">
       <h2 class="card-title justify-center text-2xl font-bold text-[#4F5A4C]">
-        やりたいことを登録
+        <%= t(".title") %>
       </h2>
 
       <%= form_with(model: @want, html: { class: "space-y-4" }) do |f| %>
@@ -14,8 +14,7 @@
         </div>
 
         <div class="pt-2">
-          <%= f.submit "登録する",
-                       class: "btn w-full border-none bg-[#A8BFA0] text-[#4F5A4C] hover:bg-[#E3C88F]" %>
+          <%= f.submit class: "btn w-full border-none bg-[#A8BFA0] text-[#4F5A4C] hover:bg-[#E3C88F]" %>
         </div>
       <% end %>
     </div>
