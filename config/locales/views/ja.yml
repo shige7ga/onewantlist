@@ -1,0 +1,11 @@
+ja:
+  helpers:
+    submit:
+      create: 登録する
+      submit: 保存する
+      update: 更新する
+  devise:
+    registrations:
+      new:
+        title: ユーザー登録
+        to_login_page: ※ユーザー登録済みの方はこちら
