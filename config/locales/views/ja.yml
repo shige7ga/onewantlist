@@ -29,4 +29,10 @@ ja:
     show:
       title: マイページ
       edit_btn: プロフィール編集
+  header:
+    app_title: わんわんとリスト
+    new_user: ユーザー登録
+    login: ログイン
+    logout: ログアウト
+    new_want: やりたいこと登録
   back: 戻る
