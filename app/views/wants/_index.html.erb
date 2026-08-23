@@ -1,5 +1,5 @@
 <h2 class="mb-4 mt-4 text-xl font-bold text-[#4F5A4C]">
-  やりたいことリスト
+  <%= t(".title") %>
 </h2>
 
 <div class="space-y-4">
@@ -15,17 +15,17 @@
 
         <div class="flex flex-wrap items-center gap-2 text-sm text-[#4F5A4C]">
           <span class="badge border-none bg-[#A8BFA0] text-[#4F5A4C]">
-            <%= want.status %>
+            <%= t("activerecord.enums.want.status.#{want.status}") %>
           </span>
 
           <span>
-            期限：
-            <%= want.due_date.present? ? want.due_date.strftime("%Y/%m/%d") : "未設定" %>
+            <%= Want.human_attribute_name(:due_date) %>：
+            <%= want.due_date.present? ? want.due_date.strftime("%Y/%m/%d") : t("wants.non_due_date") %>
           </span>
         </div>
 
         <div class="text-xs text-gray-400">
-          投稿：<%= want.created_at.strftime("%Y/%m/%d %H:%M") %>
+          <%= Want.human_attribute_name(:created_at) %>：<%= want.created_at.strftime("%Y/%m/%d %H:%M") %>
         </div>
       </div>
     <% end %>

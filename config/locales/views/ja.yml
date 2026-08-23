@@ -29,6 +29,23 @@ ja:
     show:
       title: マイページ
       edit_btn: プロフィール編集
+  wants:
+    index:
+      title: やりたいことリスト
+    show:
+      title: やりたいこと詳細
+      edit_btn: 編集
+    new:
+      title: やりたいこと登録
+    edit:
+      title: やりたいこと編集
+    delete_modal:
+      btn: 削除
+      confirm: やりたいことを削除しますか？
+      alert: ※ 削除した内容は元に戻せません。
+      cancel: キャンセル
+      completed_delete_btn: 削除する
+    non_due_date: 未設定
   header:
     app_title: わんわんとリスト
     new_user: ユーザー登録

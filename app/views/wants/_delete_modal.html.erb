@@ -3,34 +3,30 @@
   onclick="delete_modal.showModal()"
   class="btn btn-error text-white"
 >
-  削除
+  <%= t(".btn") %>
 </button>
 
 <dialog id="delete_modal" class="modal">
   <div class="modal-box">
     <h3 class="text-lg font-bold">
-      やりたいことを削除しますか？
+      <%= t(".confirm") %>
     </h3>
 
     <p class="py-4 text-gray-600">
-      ※ 削除した内容は元に戻せません。
+      <%= t(".alert") %>
     </p>
 
     <div class="modal-action">
       <form method="dialog">
         <button class="btn">
-          キャンセル
+          <%= t(".cancel") %>
         </button>
       </form>
 
-      <%= button_to "削除する",
+      <%= button_to t(".completed_delete_btn"),
                     want_path(@want),
                     method: :delete,
                     class: "btn btn-error text-white" %>
     </div>
   </div>
-
-  <form method="dialog" class="modal-backdrop">
-    <button>閉じる</button>
-  </form>
 </dialog>

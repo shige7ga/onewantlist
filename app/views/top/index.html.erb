@@ -11,10 +11,10 @@
       </p>
 
       <div class="mt-6 flex justify-center gap-3">
-        <%= link_to "ユーザー登録",
+        <%= link_to t("devise.registrations.new.title"),
                     new_user_registration_path,
                     class: "btn border-[#A8BFA0] bg-[#A8BFA0] text-[#4F5A4C] hover:bg-[#A8BFA0]/80" %>
-        <%= link_to "ログイン",
+        <%= link_to t("devise.sessions.new.login"),
                     new_user_session_path,
                     class: "btn btn-outline border-[#A8BFA0] text-[#4F5A4C] hover:border-[#A8BFA0] hover:bg-[#A8BFA0]/30" %>
       </div>
