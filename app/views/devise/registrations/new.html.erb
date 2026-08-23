@@ -23,7 +23,7 @@
           <%= f.label :password, class: "text-sm font-semibold text-[#4F5A4C]" %>
           <% if @minimum_password_length %>
             <p class="text-xs text-[#4F5A4C]/70">
-              ※<%= @minimum_password_length %>文字以上で入力してください
+              <%= t("devise.registrations.minimum_password_length", count: @minimum_password_length) %>
             </p>
           <% end %>
         </div>
