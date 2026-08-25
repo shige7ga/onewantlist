@@ -1,0 +1,9 @@
+<% flash.each do |type, message| %>
+  <% daisy_type = type == "notice" ? "success" : "error" %>
+  <div
+    class="mb-2 alert  alert-<%= daisy_type %>"
+    data-controller="flash"
+  >
+    <%= message %>
+  </div>
+<% end %>

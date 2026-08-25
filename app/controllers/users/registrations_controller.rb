@@ -59,4 +59,9 @@ class Users::RegistrationsController < Devise::RegistrationsController
   def after_inactive_sign_up_path_for(resource)
     mypage_path
   end
+
+  # アカウント削除後の遷移先を定義
+  def after_sign_out_path_for(resource)
+    new_user_registration_path
+  end
 end
