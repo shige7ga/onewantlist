@@ -4,6 +4,7 @@
       <h2 class="card-title justify-center text-2xl font-bold text-[#4F5A4C]">
         <%= t(".title") %>
       </h2>
+      <%= render "shared/flash", flash: flash %>
 
       <%= form_for(resource, as: resource_name, url: session_path(resource_name), html: { class: "space-y-4" }) do |f| %>
 
