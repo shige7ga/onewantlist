@@ -31,7 +31,8 @@
                       class: "mb-1 block text-sm font-semibold text-[#4F5A4C]" %>
 
           <%= f.date_field :due_date,
-                           class: "input input-bordered w-full border-[#A8BFA0] bg-[#F6F5EE] text-[#4F5A4C] focus:border-[#4F5A4C] focus:outline-none" %>
+                          class: "input input-bordered w-full border-[#A8BFA0] bg-[#F6F5EE] text-[#4F5A4C] focus:border-[#4F5A4C] focus:outline-none",
+                          min: Date.current  %>
         </div>
 
         <%# 更新ボタン %>
