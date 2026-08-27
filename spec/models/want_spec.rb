@@ -54,6 +54,16 @@ RSpec.describe Want, type: :model do
         want = build(:want, status: :in_progress)
         expect(want.status).to eq("in_progress")
       end
+
+      it "不正なstatusを設定するとエラーになる" do
+        want = build(:want, status: :invalid_status)
+        expect(want).to be_invalid
+      end
+
+      it "statusがnilの場合に無効" do
+        want = build(:want, status: nil)
+        expect(want).to be_invalid
+      end
     end
   end
 end
