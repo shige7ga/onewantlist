@@ -65,5 +65,27 @@ RSpec.describe Want, type: :model do
         expect(want).to be_invalid
       end
     end
+
+    context "due_dateについて" do
+      it "未来の日付の登録は有効" do
+        want = build(:want, due_date: 1.day.from_now)
+        expect(want).to be_valid
+      end
+
+      it "今日の登録は有効" do
+        want = build(:want, due_date: Time.current)
+        expect(want).to be_valid
+      end
+
+      it "過去の日付の登録は有効" do
+        want = build(:want, due_date: 1.day.ago)
+        expect(want).to be_invalid
+      end
+
+      it "nilを許容" do
+        want = build(:want, due_date: nil)
+        expect(want).to be_valid
+      end
+    end
   end
 end
