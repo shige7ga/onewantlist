@@ -18,6 +18,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_08_30_094844) do
     t.datetime "created_at", null: false
     t.integer "experiment", default: 0, null: false
     t.date "last_login_date", default: -> { "CURRENT_DATE" }, null: false
+    t.date "last_registration_date"
     t.integer "level", default: 1, null: false
     t.integer "login_streak", default: 0, null: false
     t.integer "longest_login_streak", default: 0, null: false
@@ -25,7 +26,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_08_30_094844) do
     t.datetime "updated_at", null: false
     t.bigint "user_id", null: false
     t.integer "want_registration_streak", default: 0, null: false
-    t.index ["user_id"], name: "index_user_statuses_on_user_id"
+    t.index ["user_id"], name: "index_user_statuses_on_user_id", unique: true
   end
 
   create_table "users", force: :cascade do |t|
