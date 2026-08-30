@@ -12,6 +12,7 @@ class WantsController < ApplicationController
   def create
     @want = current_user.wants.new(want_params)
     if @want.save
+      current_user.user_status.update(last_registration_date: Time.current)
       redirect_to mypage_path, notice: t("defaults.flash_message.created", item: Want.model_name.human)
     else
       flash.now[:alert] = t("defaults.flash_message.not_created", item: Want.model_name.human)
