@@ -50,48 +50,42 @@ jobs:
       - name: Lint code for consistent style
         run: bin/rubocop -f github
 
-# Minitestの為コメントアウト。後程、RSpecを導入予定のため、現時点ではMinitest使わないと判断
-  # test:
-  #   runs-on: ubuntu-latest
+  test:
+    runs-on: ubuntu-latest
 
-  #   env:
-  #     POSTGRES_PASSWORD: postgres
+    services:
+      postgres:
+        image: postgres
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+        ports:
+          - 5432:5432
+        options: --health-cmd="pg_isready" --health-interval=10s --health-timeout=5s --health-retries=3
 
-  #   services:
-  #     postgres:
-  #       image: postgres
-  #       env:
-  #         POSTGRES_USER: postgres
-  #         POSTGRES_PASSWORD: postgres
-  #       ports:
-  #         - 5432:5432
-  #       options: --health-cmd="pg_isready" --health-interval=10s --health-timeout=5s --health-retries=3
+    steps:
+      - name: Install packages
+        run: sudo apt-get update && sudo apt-get install --no-install-recommends -y libpq-dev libvips node-gyp
 
-  #     # redis:
-  #     #   image: valkey/valkey:8
-  #     #   ports:
-  #     #     - 6379:6379
-  #     #   options: --health-cmd "redis-cli ping" --health-interval 10s --health-timeout 5s --health-retries 5
+      - name: Checkout code
+        uses: actions/checkout@v6
 
-  #   steps:
-  #     - name: Install packages
-  #       run: sudo apt-get update && sudo apt-get install --no-install-recommends -y libpq-dev libvips node-gyp
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          bundler-cache: true
 
-  #     - name: Checkout code
-  #       uses: actions/checkout@v6
+      - name: Prepare test database without seeds
+        env:
+          RAILS_ENV: test
+          DATABASE_URL: postgres://postgres:postgres@localhost:5432
+        run: bin/rails db:create db:schema:load
 
-  #     - name: Set up Ruby
-  #       uses: ruby/setup-ruby@v1
-  #       with:
-  #         bundler-cache: true
-
-  #     - name: Run tests
-  #       env:
-  #         RAILS_ENV: test
-  #         DATABASE_URL: postgres://postgres:postgres@localhost:5432
-  #         # RAILS_MASTER_KEY: ${{ secrets.RAILS_MASTER_KEY }}
-  #         # REDIS_URL: redis://localhost:6379/0
-  #       run: bin/rails db:test:prepare test
+      - name: Run RSpec tests
+        env:
+          RAILS_ENV: test
+          DATABASE_URL: postgres://postgres:postgres@localhost:5432
+        run: bundle exec rspec
 
   # system-test:
   #   runs-on: ubuntu-latest
