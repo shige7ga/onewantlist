@@ -1,0 +1,67 @@
+<div class="card border border-[#A8BFA0] bg-white shadow-md">
+  <div class="card-body">
+    <div>
+      <p class="text-sm font-semibold text-[#4F5A4C]/70">
+        <%= User.human_attribute_name(:name) %>
+      </p>
+      <p class="text-lg font-semibold text-[#4F5A4C]">
+        <%= user.name %>
+      </p>
+    </div>
+
+    <div>
+      <p class="text-sm font-semibold text-[#4F5A4C]/70">
+        Lv.
+      </p>
+      <p class="text-lg text-[#4F5A4C]">
+        <%= user_status&.level || "--" %>
+      </p>
+    </div>
+    <div>
+      <p class="text-sm font-semibold text-[#4F5A4C]/70">
+        EXP.
+      </p>
+      <p class="text-lg text-[#4F5A4C]">
+        <%= user_status&.experiment || "--" %>
+      </p>
+    </div>
+    <div>
+      <p class="text-sm font-semibold text-[#4F5A4C]/70">
+        連続ログイン期間 / 最長
+      </p>
+      <p class="text-lg text-[#4F5A4C]">
+        <%= user_status&.login_streak  || "--" %> / <%= user_status&.longest_login_streak || "--" %>
+      </p>
+    </div>
+    <div>
+      <p class="text-sm font-semibold text-[#4F5A4C]/70">
+        連続やりたいこと登録期間 / 最長
+      </p>
+      <p class="text-lg text-[#4F5A4C]">
+        <%= user_status&.want_registration_streak || "--" %> / <%= user_status&.longest_want_registration_streak || "--" %>
+      </p>
+    </div>
+    <div>
+      <p class="text-sm font-semibold text-[#4F5A4C]/70">
+        最新ログイン日
+      </p>
+      <p class="text-lg text-[#4F5A4C]">
+        <%= user_status&.last_login_date || "--" %>
+      </p>
+    </div>
+    <div>
+      <p class="text-sm font-semibold text-[#4F5A4C]/70">
+        最新やりたいこと投稿日
+      </p>
+      <p class="text-lg text-[#4F5A4C]">
+        <%= user_status&.last_registration_date || "--" %>
+      </p>
+    </div>
+
+    <div class="card-actions mt-4">
+      <%= link_to t("users.show.edit_btn"),
+                  edit_user_registration_path,
+                  class: "btn border-none bg-[#A8BFA0] text-[#4F5A4C] hover:bg-[#E3C88F]" %>
+    </div>
+  </div>
+</div>

@@ -1,5 +1,6 @@
 class WantsController < ApplicationController
   before_action :authenticate_user!
+  before_action :check_today_registration, only: %i[ new create ]
 
   def show
     @want = Want.find(params[:id])
@@ -12,6 +13,7 @@ class WantsController < ApplicationController
   def create
     @want = current_user.wants.new(want_params)
     if @want.save
+      current_user.user_status.update(last_registration_date: Date.current)
       redirect_to mypage_path, notice: t("defaults.flash_message.created", item: Want.model_name.human)
     else
       flash.now[:alert] = t("defaults.flash_message.not_created", item: Want.model_name.human)
@@ -40,6 +42,12 @@ class WantsController < ApplicationController
   end
 
   private
+
+  def check_today_registration
+    return unless current_user.user_status.last_registration_date == Date.current
+
+    redirect_to mypage_path, alert: "今日は既にやりたいことを登録完了しています"
+  end
 
   def want_params
     params.require(:want).permit(:content, :status, :due_date)

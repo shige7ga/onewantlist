@@ -9,9 +9,15 @@
     <ul class="flex items-center gap-3">
       <% if user_signed_in? %>
         <li>
-          <%= link_to t("header.new_want"),
-                      new_want_path,
-                      class: "btn border-[#A8BFA0] bg-[#A8BFA0] text-[#4F5A4C] hover:bg-[#A8BFA0]/80" %>
+          <% if current_user.user_status&.last_registration_date == Date.current %>
+            <span class="btn cursor-not-allowed border-gray-300 bg-gray-300 text-gray-500 opacity-70">
+              <%= t("header.new_want") %>
+            </span>
+          <% else %>
+            <%= link_to t("header.new_want"),
+                        new_want_path,
+                        class: "btn border-[#A8BFA0] bg-[#A8BFA0] text-[#4F5A4C] hover:bg-[#A8BFA0]/80" %>
+          <% end %>
         </li>
 
         <li>
