@@ -1,10 +1,12 @@
 class CreateUserStatuses < ActiveRecord::Migration[8.1]
   def change
     create_table :user_statuses do |t|
-      t.integer :experiment, default: 0, null: false
+      t.integer :experimence, default: 0, null: false
       t.integer :level, default: 1, null: false
-      t.integer :login_streak, default: 0, null: false
-      t.integer :longest_login_streak, default: 0, null: false
+      t.integer :login_count, default: 1, null: false
+      t.integer :login_streak, default: 1, null: false
+      t.integer :longest_login_streak, default: 1, null: false
+      t.integer :want_registration_count, default: 0, null: false
       t.integer :want_registration_streak, default: 0, null: false
       t.integer :longest_want_registration_streak, default: 0, null: false
       t.date :last_login_date, default: -> { "CURRENT_DATE" }, null: false
