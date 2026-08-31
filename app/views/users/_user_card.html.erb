@@ -22,23 +22,23 @@
         EXP.
       </p>
       <p class="text-lg text-[#4F5A4C]">
-        <%= user_status&.experiment || "--" %>
+        <%= user_status&.experimence || "--" %>
       </p>
     </div>
     <div>
       <p class="text-sm font-semibold text-[#4F5A4C]/70">
-        連続ログイン期間 / 最長
+        ログイン回数 / 連続日数 / 最長連続日数
       </p>
       <p class="text-lg text-[#4F5A4C]">
-        <%= user_status&.login_streak  || "--" %> / <%= user_status&.longest_login_streak || "--" %>
+        <%= user_status&.login_count  || "--" %> / <%= user_status&.login_streak  || "--" %> / <%= user_status&.longest_login_streak || "--" %>
       </p>
     </div>
     <div>
       <p class="text-sm font-semibold text-[#4F5A4C]/70">
-        連続やりたいこと登録期間 / 最長
+        やりたいこと登録回数 / 連続日数 / 最長連続日数
       </p>
       <p class="text-lg text-[#4F5A4C]">
-        <%= user_status&.want_registration_streak || "--" %> / <%= user_status&.longest_want_registration_streak || "--" %>
+        <%= user_status&.want_registration_count || "--" %> / <%= user_status&.want_registration_streak || "--" %> / <%= user_status&.longest_want_registration_streak || "--" %>
       </p>
     </div>
     <div>
