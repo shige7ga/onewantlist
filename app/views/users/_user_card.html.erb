@@ -57,6 +57,14 @@
         <%= user_status&.last_action_date || "--" %>
       </p>
     </div>
+    <div>
+      <p class="text-sm font-semibold text-[#4F5A4C]/70">
+        ランダム表示 ガチャ実施回数 / 実施日
+      </p>
+      <p class="text-lg text-[#4F5A4C]">
+        <%= user_status&.random_gacha_count || "--" %> / <%= user_status&.random_gacha_date || "--" %>
+      </p>
+    </div>
 
     <div class="card-actions mt-4">
       <%= link_to t("users.show.edit_btn"),
