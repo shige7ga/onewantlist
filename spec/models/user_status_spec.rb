@@ -233,7 +233,7 @@ RSpec.describe UserStatus, type: :model do
       end
 
       it "random_gacha_dateが過去の日付なら有効" do
-        user_status = build(:user_status,random_gacha_date: Date.current - 1.day)
+        user_status = build(:user_status, random_gacha_date: Date.current - 1.day)
         expect(user_status).to be_valid
       end
 
