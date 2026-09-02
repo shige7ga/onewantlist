@@ -1,3 +1,3 @@
 class RandomWant < ApplicationRecord
-  validates :content, presence: true, length: { maximum: 400 }
+  validates :content, presence: true, length: { maximum: 400 }, uniqueness: true
 end
