@@ -114,53 +114,53 @@ RSpec.describe UserStatus, type: :model do
       end
     end
 
-    context "want_registration_countについて" do
-      it "want_registration_countが0の場合、有効" do
-        user_status = build(:user_status, want_registration_count: 0)
+    context "action_countについて" do
+      it "action_countが0の場合、有効" do
+        user_status = build(:user_status, action_count: 0)
         expect(user_status).to be_valid
       end
 
-      it "want_registration_countが存在しない場合、無効" do
-        user_status = build(:user_status, want_registration_count: nil)
+      it "action_countが存在しない場合、無効" do
+        user_status = build(:user_status, action_count: nil)
         expect(user_status).to be_invalid
       end
 
-      it "want_registration_countがマイナスの場合、無効" do
-        user_status = build(:user_status, want_registration_count: -1)
+      it "action_countがマイナスの場合、無効" do
+        user_status = build(:user_status, action_count: -1)
         expect(user_status).to be_invalid
       end
     end
 
-    context "want_registration_streakについて" do
-      it "want_registration_streakが0の場合、有効" do
-        user_status = build(:user_status, want_registration_streak: 0)
+    context "action_streakについて" do
+      it "action_streakが0の場合、有効" do
+        user_status = build(:user_status, action_streak: 0)
         expect(user_status).to be_valid
       end
 
-      it "want_registration_streakが存在しない場合、無効" do
-        user_status = build(:user_status, want_registration_streak: nil)
+      it "action_streakが存在しない場合、無効" do
+        user_status = build(:user_status, action_streak: nil)
         expect(user_status).to be_invalid
       end
 
-      it "want_registration_streakがマイナスの場合、無効" do
-        user_status = build(:user_status, want_registration_streak: -1)
+      it "action_streakがマイナスの場合、無効" do
+        user_status = build(:user_status, action_streak: -1)
         expect(user_status).to be_invalid
       end
     end
 
-    context "longest_want_registration_streakについて" do
-      it "longest_want_registration_streakが0の場合、有効" do
-        user_status = build(:user_status, longest_want_registration_streak: 0)
+    context "longest_action_streakについて" do
+      it "longest_action_streakが0の場合、有効" do
+        user_status = build(:user_status, longest_action_streak: 0)
         expect(user_status).to be_valid
       end
 
-      it "longest_want_registration_streakが存在しない場合、無効" do
-        user_status = build(:user_status, longest_want_registration_streak: nil)
+      it "longest_action_streakが存在しない場合、無効" do
+        user_status = build(:user_status, longest_action_streak: nil)
         expect(user_status).to be_invalid
       end
 
-      it "longest_want_registration_streakがマイナスの場合、無効" do
-        user_status = build(:user_status, longest_want_registration_streak: -1)
+      it "longest_action_streakがマイナスの場合、無効" do
+        user_status = build(:user_status, longest_action_streak: -1)
         expect(user_status).to be_invalid
       end
     end
@@ -187,34 +187,63 @@ RSpec.describe UserStatus, type: :model do
       end
     end
 
-    context "last_registration_dateについて" do
-      it "last_registration_dateが本日の日付なら有効" do
-        user_status = build(:user_status, last_registration_date: Date.current)
-
+    context "last_action_dateについて" do
+      it "last_action_dateが本日の日付なら有効" do
+        user_status = build(:user_status, last_action_date: Date.current)
         expect(user_status).to be_valid
       end
 
-      it "last_registration_dateが過去の日付なら有効" do
-        user_status = build(
-          :user_status,
-          last_registration_date: Date.current - 1.day
-        )
-
+      it "last_action_dateが過去の日付なら有効" do
+        user_status = build(:user_status, last_action_date: Date.current - 1.day)
         expect(user_status).to be_valid
       end
 
-      it "last_registration_dateが未来の日付なら無効" do
-        user_status = build(
-          :user_status,
-          last_registration_date: Date.current + 1.day
-        )
-
+      it "last_action_dateが未来の日付なら無効" do
+        user_status = build(:user_status, last_action_date: Date.current + 1.day)
         expect(user_status).to be_invalid
       end
 
-      it "last_registration_dateがnilなら有効" do
-        user_status = build(:user_status, last_registration_date: nil)
+      it "last_action_dateがnilなら有効" do
+        user_status = build(:user_status, last_action_date: nil)
+        expect(user_status).to be_valid
+      end
+    end
 
+    context "random_gacha_countについて" do
+      it "random_gacha_countが0の場合、有効" do
+        user_status = build(:user_status, random_gacha_count: 0)
+        expect(user_status).to be_valid
+      end
+
+      it "random_gacha_countが存在しない場合、無効" do
+        user_status = build(:user_status, random_gacha_count: nil)
+        expect(user_status).to be_invalid
+      end
+
+      it "random_gacha_countがマイナスの場合、無効" do
+        user_status = build(:user_status, random_gacha_count: -1)
+        expect(user_status).to be_invalid
+      end
+    end
+
+    context "random_gacha_dateについて" do
+      it "random_gacha_dateが本日の日付なら有効" do
+        user_status = build(:user_status, random_gacha_date: Date.current)
+        expect(user_status).to be_valid
+      end
+
+      it "random_gacha_dateが過去の日付なら有効" do
+        user_status = build(:user_status, random_gacha_date: Date.current - 1.day)
+        expect(user_status).to be_valid
+      end
+
+      it "random_gacha_dateが未来の日付なら無効" do
+        user_status = build(:user_status, random_gacha_date: Date.current + 1.day)
+        expect(user_status).to be_invalid
+      end
+
+      it "random_gacha_dateがnilなら有効" do
+        user_status = build(:user_status, random_gacha_date: nil)
         expect(user_status).to be_valid
       end
     end

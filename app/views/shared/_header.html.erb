@@ -9,7 +9,7 @@
     <ul class="flex items-center gap-3">
       <% if user_signed_in? %>
         <li>
-          <% if current_user.user_status&.last_registration_date == Date.current %>
+          <% if current_user.user_status&.last_action_date == Date.current %>
             <span class="btn cursor-not-allowed border-gray-300 bg-gray-300 text-gray-500 opacity-70">
               <%= t("header.new_want") %>
             </span>

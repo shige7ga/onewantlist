@@ -10,24 +10,26 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_08_30_094844) do
+ActiveRecord::Schema[8.1].define(version: 2026_09_01_110154) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
   create_table "user_statuses", force: :cascade do |t|
+    t.integer "action_count", default: 0, null: false
+    t.integer "action_streak", default: 0, null: false
     t.datetime "created_at", null: false
     t.integer "experimence", default: 0, null: false
+    t.date "last_action_date"
     t.date "last_login_date", default: -> { "CURRENT_DATE" }, null: false
-    t.date "last_registration_date"
     t.integer "level", default: 1, null: false
     t.integer "login_count", default: 1, null: false
     t.integer "login_streak", default: 1, null: false
+    t.integer "longest_action_streak", default: 0, null: false
     t.integer "longest_login_streak", default: 1, null: false
-    t.integer "longest_want_registration_streak", default: 0, null: false
+    t.integer "random_gacha_count", default: 0, null: false
+    t.date "random_gacha_date"
     t.datetime "updated_at", null: false
     t.bigint "user_id", null: false
-    t.integer "want_registration_count", default: 0, null: false
-    t.integer "want_registration_streak", default: 0, null: false
     t.index ["user_id"], name: "index_user_statuses_on_user_id", unique: true
   end
 

@@ -38,7 +38,7 @@
         やりたいこと登録回数 / 連続日数 / 最長連続日数
       </p>
       <p class="text-lg text-[#4F5A4C]">
-        <%= user_status&.want_registration_count || "--" %> / <%= user_status&.want_registration_streak || "--" %> / <%= user_status&.longest_want_registration_streak || "--" %>
+        <%= user_status&.action_count || "--" %> / <%= user_status&.action_streak || "--" %> / <%= user_status&.longest_action_streak || "--" %>
       </p>
     </div>
     <div>
@@ -54,7 +54,15 @@
         最新やりたいこと投稿日
       </p>
       <p class="text-lg text-[#4F5A4C]">
-        <%= user_status&.last_registration_date || "--" %>
+        <%= user_status&.last_action_date || "--" %>
+      </p>
+    </div>
+    <div>
+      <p class="text-sm font-semibold text-[#4F5A4C]/70">
+        ランダム表示 ガチャ実施回数 / 実施日
+      </p>
+      <p class="text-lg text-[#4F5A4C]">
+        <%= user_status&.random_gacha_count || "--" %> / <%= user_status&.random_gacha_date || "--" %>
       </p>
     </div>
 
