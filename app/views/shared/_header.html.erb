@@ -11,6 +11,19 @@
         <li>
           <% if current_user.user_status&.last_action_date == Date.current %>
             <span class="btn cursor-not-allowed border-gray-300 bg-gray-300 text-gray-500 opacity-70">
+              やりたいガチャ
+            </span>
+          <% else %>
+            <%= link_to "やりたいガチャ",
+                        draw_random_want_path,
+                        data: { turbo_method: :post },
+                        class: "btn border-[#A8BFA0] bg-[#A8BFA0] text-[#4F5A4C] hover:bg-[#A8BFA0]/80" %>
+          <% end %>
+        </li>
+
+        <li>
+          <% if current_user.user_status&.last_action_date == Date.current %>
+            <span class="btn cursor-not-allowed border-gray-300 bg-gray-300 text-gray-500 opacity-70">
               <%= t("header.new_want") %>
             </span>
           <% else %>
