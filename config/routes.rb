@@ -5,6 +5,9 @@ Rails.application.routes.draw do
   }
 
   resources :wants, except: [ :index ]
+  resource :random_want, only: [ :show ] do
+    post :draw
+  end
 
   get "mypage", to: "users#show", as: :mypage
   root "top#index"
