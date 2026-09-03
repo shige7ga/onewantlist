@@ -42,6 +42,18 @@ RSpec.describe RandomWant, type: :model do
         random_want = build(:random_want, content: "a" * 401)
         expect(random_want).to be_invalid
       end
+
+      it "重複したcontentの場合、無効" do
+        create(:random_want)
+        random_want_non_unique = build(:random_want)
+        expect(random_want_non_unique).to be_invalid
+      end
+
+      it "重複したcontentの場合、無効" do
+        create(:random_want)
+        random_want_unique = build(:random_want, content: "豪華客船クルーズに乗る")
+        expect(random_want_unique).to be_valid
+      end
     end
   end
 end
