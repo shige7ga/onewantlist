@@ -35,7 +35,7 @@
     </div>
     <div>
       <p class="text-sm font-semibold text-[#4F5A4C]/70">
-        やりたいこと登録回数 / 連続日数 / 最長連続日数
+        アクション回数 / 連続アクション日数 / 最長連続日数
       </p>
       <p class="text-lg text-[#4F5A4C]">
         <%= user_status&.action_count || "--" %> / <%= user_status&.action_streak || "--" %> / <%= user_status&.longest_action_streak || "--" %>
@@ -51,7 +51,7 @@
     </div>
     <div>
       <p class="text-sm font-semibold text-[#4F5A4C]/70">
-        最新やりたいこと投稿日
+        最新アクション日
       </p>
       <p class="text-lg text-[#4F5A4C]">
         <%= user_status&.last_action_date || "--" %>
