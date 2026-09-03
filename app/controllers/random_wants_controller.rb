@@ -1,7 +1,7 @@
 class RandomWantsController < ApplicationController
   before_action :authenticate_user!
   before_action :initialize_gacha_count, only: %i[ draw ]
-  before_action :check_today_gacha_limit
+  before_action :check_today_gacha_limit, only: %i[ draw ]
 
   def show
     random_want = RandomWant.find(session[:random_want_id])
@@ -11,8 +11,13 @@ class RandomWantsController < ApplicationController
 
   def draw
     random_want = RandomWant.order(Arel.sql("RANDOM()")).first
-    current_user_status.increment!(:random_gacha_count)
     session[:random_want_id] = random_want.id
+    current_user_status.increment!(:random_gacha_count)
+
+    if current_user_status.random_gacha_count == UserStatus::RANDOM_GACHA_LIMIT
+      current_user_status.update(last_action_date: Date.current)
+    end
+
     redirect_to random_want_path
   end
 
@@ -30,7 +35,7 @@ class RandomWantsController < ApplicationController
   end
 
   def check_today_gacha_limit
-    return if current_user_status.random_gacha_count <= UserStatus::RANDOM_GACHA_LIMIT
+    return if current_user_status.random_gacha_available?
     redirect_to mypage_path, alert: "今日はやりたいことガチャを回す上限を超えています"
   end
 end
