@@ -2,9 +2,8 @@
   <div class="card w-full max-w-md bg-white shadow-xl">
     <div class="card-body">
       <h2 class="card-title justify-center text-2xl font-bold text-[#4F5A4C]">
-        ランダムでやりたいこと表示
+        やりたいことガチャ結果
       </h2>
-
       <%= render "shared/flash", flash: flash %>
 
       <%= form_with(model: @want, html: { class: "space-y-4" }) do |f| %>
@@ -18,18 +17,17 @@
         <div class="flex gap-3">
           <%= link_to draw_random_want_path,
                       data: { turbo_method: :post },
-                      class: "btn h-12 flex-1 flex-col gap-0.5 border-none bg-[#E3C88F] px-2 py-2 text-[#4F5A4C] hover:bg-[#D7B96F]" do %>
+                      class: "btn h-12 flex-1 flex-col gap-0.5 border-none  px-2 py-2  #{@user_status.random_gacha_available? ? "bg-[#E3C88F] text-[#4F5A4C] hover:bg-[#D7B96F]" : "pointer-events-none bg-gray-300 text-gray-500"}" do %>
             <span class="whitespace-nowrap">
               再度ガチャを回す
             </span>
 
             <span class="whitespace-nowrap text-[10px] font-normal leading-none">
-              （残り<%= 10 - @gacha_count %>/10回）
+              （残り<%= UserStatus::RANDOM_GACHA_LIMIT - @user_status.random_gacha_count %>/<%= UserStatus::RANDOM_GACHA_LIMIT %>回）
             </span>
           <% end %>
 
-          <%= f.submit "登録する",
-                       class: "btn h-12 flex-1 border-none bg-[#A8BFA0] text-[#4F5A4C] hover:bg-[#E3C88F]" %>
+          <%= f.submit class: "btn h-12 flex-1 border-none bg-[#A8BFA0] text-[#4F5A4C] hover:bg-[#E3C88F]" %>
         </div>
       <% end %>
     </div>

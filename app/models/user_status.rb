@@ -1,6 +1,13 @@
 class UserStatus < ApplicationRecord
   belongs_to :user
 
+  # ユーザーがガチャを回せる上限
+  RANDOM_GACHA_LIMIT = 10
+
+  def random_gacha_available?
+    random_gacha_count < RANDOM_GACHA_LIMIT
+  end
+
   validates :level, presence: true, numericality: { only_integer: true, greater_than_or_equal_to: 1 }
   validates :experimence, presence: true, numericality: { only_integer: true, greater_than_or_equal_to: 0 }
   validates :login_count, presence: true, numericality: { only_integer: true, greater_than_or_equal_to: 1 }
