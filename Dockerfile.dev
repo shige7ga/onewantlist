@@ -29,5 +29,12 @@ WORKDIR /myapp
 
 # Bundlerをインストール（Rubyのパッケージ管理ツール）
 RUN gem install bundler
+
+# Yarnのバージョン情報を先にコピー
+COPY package.json yarn.lock .yarnrc.yml ./
+
+# packageManagerで指定されたYarnを事前取得
+RUN corepack install
+
 # ホスト側のアプリケーションのコードをコンテナ内にコピー
 COPY . /myapp

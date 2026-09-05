@@ -1,0 +1,40 @@
+<div class="flex min-h-[calc(100vh-4rem)] items-center justify-center bg-[#F6F5EE] px-4">
+  <div class="card w-full max-w-md bg-white shadow-xl">
+    <div class="card-body">
+      <h2 class="card-title justify-center text-2xl font-bold text-[#4F5A4C]">
+        やりたいことガチャ結果
+      </h2>
+      <%= render "shared/flash", flash: flash %>
+
+      <%= form_with(model: @want, html: { class: "space-y-4" }) do |f| %>
+        <div>
+          <%= f.text_area :content,
+                          autofocus: true,
+                          rows: 8,
+                          class: "textarea textarea-bordered w-full border-[#A8BFA0] bg-[#F6F5EE] text-[#4F5A4C] focus:border-[#4F5A4C] focus:outline-none" %>
+        </div>
+
+        <div class="flex gap-3">
+          <%= link_to draw_random_want_path,
+                      data: { turbo_method: :post },
+                      class: [
+                        "btn h-12 flex-1 flex-col gap-0.5 border-none px-2 py-2",
+                        @user_status.random_gacha_available? ?
+                          "bg-[#E3C88F] text-[#4F5A4C] hover:bg-[#D7B96F]" :
+                          "pointer-events-none bg-gray-300 text-gray-500"
+                      ] do %>
+            <span class="whitespace-nowrap">
+              再度ガチャを回す
+            </span>
+
+            <span class="whitespace-nowrap text-[10px] font-normal leading-none">
+              （残り<%= UserStatus::RANDOM_GACHA_LIMIT - @user_status.random_gacha_count %>/<%= UserStatus::RANDOM_GACHA_LIMIT %>回）
+            </span>
+          <% end %>
+
+          <%= f.submit class: "btn h-12 flex-1 border-none bg-[#A8BFA0] text-[#4F5A4C] hover:bg-[#E3C88F]" %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>

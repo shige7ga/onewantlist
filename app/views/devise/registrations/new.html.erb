@@ -1,0 +1,49 @@
+<div class="flex min-h-[calc(100vh-4rem)] items-center justify-center bg-[#F6F5EE] px-4">
+  <div class="card w-full max-w-md bg-white shadow-xl">
+    <div class="card-body">
+      <h2 class="card-title justify-center text-2xl font-bold text-[#4F5A4C]">
+        <%= t(".title") %>
+      </h2>
+      <%= render "shared/flash", flash: flash %>
+
+      <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { class: "space-y-4" }) do |f| %>
+        <%= render "devise/shared/error_messages", resource: resource %>
+
+        <%= f.label :name, class: "mb-1 block text-sm font-semibold text-[#4F5A4C]" %>
+        <%= f.text_field :name,
+                          autofocus: true,
+                          autocomplete: "name",
+                          class: "input input-bordered w-full border-[#A8BFA0] bg-[#F6F5EE] text-[#4F5A4C] focus:border-[#4F5A4C] focus:outline-none" %>
+
+        <%= f.label :email, class: "mb-1 block text-sm font-semibold text-[#4F5A4C]" %>
+        <%= f.email_field :email,
+                          autocomplete: "email",
+                          class: "input input-bordered w-full border-[#A8BFA0] bg-[#F6F5EE] text-[#4F5A4C] focus:border-[#4F5A4C] focus:outline-none" %>
+
+        <div class="mb-1 flex items-center gap-2">
+          <%= f.label :password, class: "text-sm font-semibold text-[#4F5A4C]" %>
+          <% if @minimum_password_length %>
+            <p class="text-xs text-[#4F5A4C]/70">
+              <%= t("devise.registrations.minimum_password_length", count: @minimum_password_length) %>
+            </p>
+          <% end %>
+        </div>
+        <%= f.password_field :password,
+                              autocomplete: "new-password",
+                              class: "input input-bordered w-full border-[#A8BFA0] bg-[#F6F5EE] text-[#4F5A4C] focus:border-[#4F5A4C] focus:outline-none" %>
+
+        <%= f.label :password_confirmation, class: "mb-1 block text-sm font-semibold text-[#4F5A4C]" %>
+        <%= f.password_field :password_confirmation,
+                              autocomplete: "new-password",
+                              class: "input input-bordered w-full border-[#A8BFA0] bg-[#F6F5EE] text-[#4F5A4C] focus:border-[#4F5A4C] focus:outline-none" %>
+
+        <div class="pt-2">
+          <%= f.submit class: "btn w-full border-none bg-[#A8BFA0] text-[#4F5A4C] hover:bg-[#E3C88F]" %>
+        </div>
+      <% end %>
+      <p class="text-xs text-[#4F5A4C]/70">
+        <%= link_to t('.to_login_page'), new_user_session_path %>
+      </p>
+    </div>
+  </div>
+</div>

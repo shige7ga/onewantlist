@@ -1,0 +1,16 @@
+<% flash.each do |type, message| %>
+  <% daisy_class =
+    case type
+    when "notice"
+      "alert-success"
+    when "alert"
+      "alert-error"
+    end
+  %>
+  <div
+    class="mb-2 alert  <%= daisy_class %>"
+    data-controller="flash"
+  >
+    <%= message %>
+  </div>
+<% end %>

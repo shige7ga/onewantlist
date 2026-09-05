@@ -1,0 +1,91 @@
+<div class="flex min-h-[calc(100vh-4rem)] items-center justify-center bg-[#F6F5EE] px-4 py-8">
+  <div class="card w-full max-w-md bg-white shadow-xl">
+    <div class="card-body">
+      <h2 class="card-title justify-center text-2xl font-bold text-[#4F5A4C]">
+        <%= t(".title") %>
+      </h2>
+      <%= render "shared/flash", flash: flash %>
+
+      <%= form_for(
+            resource,
+            as: resource_name,
+            url: registration_path(resource_name),
+            html: { method: :put, class: "space-y-4" }
+          ) do |f| %>
+
+      <%= render "devise/shared/error_messages", resource: resource %>
+
+        <%= f.label :email, class: "mb-1 block text-sm font-semibold text-[#4F5A4C]" %>
+        <%= f.email_field :email,
+                          autofocus: true,
+                          autocomplete: "email",
+                          class: "input input-bordered w-full border-[#A8BFA0] bg-[#F6F5EE] text-[#4F5A4C] focus:border-[#4F5A4C] focus:outline-none" %>
+
+      <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
+        <p class="text-sm text-[#4F5A4C]/70">
+          現在、<%= resource.unconfirmed_email %> の確認待ちです。
+        </p>
+      <% end %>
+
+
+        <div class="mb-1 flex items-center gap-2">
+          <%= f.label :password, t(".new_password"),
+                      class: "text-sm font-semibold text-[#4F5A4C]" %>
+          <span class="text-xs text-[#4F5A4C]/70">
+            <%= t(".blank_if_unchanged") %>
+          </span>
+        </div>
+        <%= f.password_field :password,
+                              autocomplete: "new-password",
+                              class: "input input-bordered w-full border-[#A8BFA0] bg-[#F6F5EE] text-[#4F5A4C] focus:border-[#4F5A4C] focus:outline-none" %>
+        <% if @minimum_password_length %>
+          <p class="mt-1 text-xs text-[#4F5A4C]/70">
+            <%= t("devise.registrations.minimum_password_length", count: @minimum_password_length) %>
+          </p>
+        <% end %>
+
+        <%= f.label :password_confirmation, t(".new_password_confirmation"), class: "mb-1 block text-sm font-semibold text-[#4F5A4C]" %>
+
+        <%= f.password_field :password_confirmation,
+                              autocomplete: "new-password",
+                              class: "input input-bordered w-full border-[#A8BFA0] bg-[#F6F5EE] text-[#4F5A4C] focus:border-[#4F5A4C] focus:outline-none" %>
+
+        <div class="mb-1 flex items-center gap-2">
+          <%= f.label :current_password, t(".current_password"),
+                      class: "text-sm font-semibold text-[#4F5A4C]" %>
+        </div>
+        <%= f.password_field :current_password,
+                              autocomplete: "current-password",
+                              class: "input input-bordered w-full border-[#A8BFA0] bg-[#F6F5EE] text-[#4F5A4C] focus:border-[#4F5A4C] focus:outline-none" %>
+
+        <div class="flex justify-center pt-2">
+          <%= f.submit class: "btn border-none bg-[#A8BFA0] text-[#4F5A4C] hover:bg-[#E3C88F]" %>
+        </div>
+      <% end %>
+
+      <div class="divider my-6"></div>
+
+      <div class="text-center">
+        <h3 class="mb-2 font-semibold text-[#4F5A4C]">
+          <%= t(".delete_title") %>
+        </h3>
+        <p class="mb-3 text-xs text-[#4F5A4C]/70">
+          <%= t(".delete_alert") %>
+        </p>
+        <%= button_to t(".delete_btn"),
+                      registration_path(resource_name),
+                      data: {
+                        turbo_confirm: t("devise.registrations.edit.delete_confirm")
+                      },
+                      method: :delete,
+                      class: "btn btn-outline btn-sm text-[#4F5A4C]" %>
+      </div>
+
+      <div class="mt-4 text-center">
+        <%= link_to t("back"),
+                    :back,
+                    class: "link text-sm text-[#4F5A4C] hover:text-[#A8BFA0]" %>
+      </div>
+    </div>
+  </div>
+</div>

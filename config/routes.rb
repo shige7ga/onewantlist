@@ -1,4 +1,17 @@
 Rails.application.routes.draw do
+  devise_for :users, controllers: {
+    registrations: "users/registrations",
+    sessions: "users/sessions"
+  }
+
+  resources :wants, except: [ :index ]
+  resource :random_want, only: [ :show ] do
+    post :draw
+  end
+
+  get "mypage", to: "users#show", as: :mypage
+  root "top#index"
+
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
   # Reveal health status on /up that returns 200 if the app boots with no exceptions, otherwise 500.

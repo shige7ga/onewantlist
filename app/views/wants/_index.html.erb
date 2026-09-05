@@ -1,0 +1,33 @@
+<h2 class="mb-4 mt-4 text-xl font-bold text-[#4F5A4C]">
+  <%= t(".title") %>
+</h2>
+
+<div class="space-y-4">
+  <% wants.each do |want| %>
+    <%= link_to want_path(want),
+                class: "card block bg-white shadow-md transition duration-200 hover:-translate-y-1 hover:shadow-lg active:translate-y-0" do %>
+
+      <div class="card-body gap-3 p-4">
+
+        <div class="flex items-start justify-between gap-4">
+          <p class="min-w-0 flex-1 whitespace-pre-wrap break-words text-lg font-semibold text-[#4F5A4C]"><%= want.content %></p>
+        </div>
+
+        <div class="flex flex-wrap items-center gap-2 text-sm text-[#4F5A4C]">
+          <span class="badge border-none bg-[#A8BFA0] text-[#4F5A4C]">
+            <%= t("activerecord.enums.want.status.#{want.status}") %>
+          </span>
+
+          <span>
+            <%= Want.human_attribute_name(:due_date) %>：
+            <%= want.due_date.present? ? want.due_date.strftime("%Y/%m/%d") : t("wants.non_due_date") %>
+          </span>
+        </div>
+
+        <div class="text-xs text-gray-400">
+          <%= Want.human_attribute_name(:created_at) %>：<%= want.created_at.strftime("%Y/%m/%d %H:%M") %>
+        </div>
+      </div>
+    <% end %>
+  <% end %>
+</div>

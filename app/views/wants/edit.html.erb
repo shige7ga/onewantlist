@@ -1,0 +1,46 @@
+<div class="flex min-h-[calc(100vh-4rem)] items-center justify-center bg-[#F6F5EE] px-4">
+  <div class="card w-full max-w-md bg-white shadow-xl">
+    <div class="card-body">
+      <h2 class="card-title justify-center text-2xl font-bold text-[#4F5A4C]">
+        <%= t(".title") %>
+      </h2>
+      <%= render "shared/flash", flash: flash %>
+
+      <%= form_with(model: @want, html: { class: "space-y-4" }) do |f| %>
+        <%# やりたいこと内容 %>
+        <%= f.text_area :content,
+                    autofocus: true,
+                    rows: 8,
+                    class: "textarea textarea-bordered w-full border-[#A8BFA0] bg-[#F6F5EE] text-[#4F5A4C] focus:border-[#4F5A4C] focus:outline-none" %>
+
+        <%# ステータス %>
+          <%= f.label :status,
+                      Want.human_attribute_name(:status),
+                      class: "mb-1 block text-sm font-semibold text-[#4F5A4C]" %>
+          <%= f.select :status,
+                        Want.statuses.keys.map { |status|
+                          [ t("activerecord.enums.want.status.#{status}"), status ]
+                        },
+                       {},
+                       class: "select select-bordered w-full border-[#A8BFA0] bg-[#F6F5EE] text-[#4F5A4C] focus:border-[#4F5A4C] focus:outline-none" %>
+
+        <%# 期限日 %>
+        <div>
+          <%= f.label :due_date,
+                      Want.human_attribute_name(:due_date),
+                      class: "mb-1 block text-sm font-semibold text-[#4F5A4C]" %>
+
+          <%= f.date_field :due_date,
+                          class: "input input-bordered w-full border-[#A8BFA0] bg-[#F6F5EE] text-[#4F5A4C] focus:border-[#4F5A4C] focus:outline-none",
+                          min: Date.current  %>
+        </div>
+
+        <%# 更新ボタン %>
+        <div class="pt-2">
+          <%= f.submit class: "btn w-full border-none bg-[#A8BFA0] text-[#4F5A4C] hover:bg-[#E3C88F]" %>
+        </div>
+
+      <% end %>
+    </div>
+  </div>
+</div>

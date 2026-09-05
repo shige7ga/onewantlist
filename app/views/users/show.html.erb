@@ -1,0 +1,10 @@
+<div class="min-h-screen bg-[#F6F5EE] p-6">
+  <div class="w-full max-w-md">
+    <%= render "shared/flash", flash: flash %>
+
+    <%= render "user_card", user: @user, user_status: @user_status %>
+
+    <%# やりたいこと一覧 %>
+    <%= render "wants/index", wants: @wants %>
+  </div>
+</div>

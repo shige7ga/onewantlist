@@ -1,0 +1,62 @@
+<div class="flex min-h-[calc(100vh-4rem)] items-center justify-center bg-[#F6F5EE] px-4 py-6">
+  <div class="w-full max-w-2xl">
+    <div class="card border border-[#A8BFA0] bg-white shadow-md">
+      <div class="card-body gap-5 p-6">
+        <h1 class="text-center text-2xl font-bold text-[#4F5A4C]">
+          <%= t(".title") %>
+        </h1>
+        <%= render "shared/flash", flash: flash %>
+
+        <%# やりたいこと内容 %>
+        <div>
+          <div class="rounded-lg bg-[#F6F5EE] p-4">
+            <p class="whitespace-pre-wrap break-words text-lg font-semibold leading-relaxed text-[#4F5A4C]"><%= @want.content %></p>
+          </div>
+        </div>
+
+        <%# ステータス・期限 %>
+        <div class="flex flex-wrap items-center gap-4">
+          <div>
+            <p class="mb-1 text-sm font-semibold text-[#4F5A4C]/70">
+              <%= Want.human_attribute_name(:status) %>
+            </p>
+
+            <span class="badge border-none bg-[#A8BFA0] text-[#4F5A4C]">
+              <%= t("activerecord.enums.want.status.#{@want.status}") %>
+            </span>
+          </div>
+
+          <div>
+            <p class="mb-1 text-sm font-semibold text-[#4F5A4C]/70">
+              <%= Want.human_attribute_name(:due_date) %>
+            </p>
+
+            <p class="text-[#4F5A4C]">
+              <%= @want.due_date.present? ? @want.due_date.strftime("%Y/%m/%d") : t("wants.non_due_date") %>
+            </p>
+          </div>
+
+          <div>
+            <p class="mb-1 text-sm font-semibold text-[#4F5A4C]/70">
+              <%= Want.human_attribute_name(:created_at) %>
+            </p>
+
+            <p class="text-[#4F5A4C]">
+              <%= @want.created_at.strftime("%Y/%m/%d %H:%M") %>
+            </p>
+          </div>
+        </div>
+
+        <%# 編集ボタン %>
+        <div class="card-actions mt-2 justify-end">
+          <%= link_to t(".edit_btn"),
+                      edit_want_path(@want),
+                      class: "btn border-[#A8BFA0] bg-white text-[#4F5A4C] hover:border-[#E3C88F] hover:bg-[#E3C88F]" %>
+
+          <%# 削除ボタン %>
+          <%= render "delete_modal", want: @want %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
