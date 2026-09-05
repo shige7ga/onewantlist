@@ -64,6 +64,9 @@ group :development, :test do
   # rspec & factorybot導入
   gem "rspec-rails"
   gem "factory_bot_rails"
+
+  # カバレッジ測定ツール導入
+  gem "simplecov", require: false
 end
 
 group :development do
