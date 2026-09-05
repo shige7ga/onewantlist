@@ -18,7 +18,7 @@ RUN apt-get update -qq \
 # corepack有効化(yarnやpnpmを利用可に設定)
 # aptのパッケージ一覧キャッシュを削除
 RUN apt-get update -qq \
-&& apt-get install -y build-essential libpq-dev nodejs vim \
+&& apt-get install -y build-essential libpq-dev libvips nodejs vim \
 && corepack enable \
 && rm -rf /var/lib/apt/lists/*
 
