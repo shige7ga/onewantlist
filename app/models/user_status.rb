@@ -5,7 +5,7 @@ class UserStatus < ApplicationRecord
   RANDOM_GACHA_LIMIT = 10
 
   def random_gacha_available?
-    random_gacha_count < RANDOM_GACHA_LIMIT
+    random_gacha_date != Date.current || random_gacha_count < RANDOM_GACHA_LIMIT
   end
 
   validates :level, presence: true, numericality: { only_integer: true, greater_than_or_equal_to: 1 }

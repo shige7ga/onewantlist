@@ -17,7 +17,12 @@
         <div class="flex gap-3">
           <%= link_to draw_random_want_path,
                       data: { turbo_method: :post },
-                      class: "btn h-12 flex-1 flex-col gap-0.5 border-none  px-2 py-2  #{@user_status.random_gacha_available? ? "bg-[#E3C88F] text-[#4F5A4C] hover:bg-[#D7B96F]" : "pointer-events-none bg-gray-300 text-gray-500"}" do %>
+                      class: [
+                        "btn h-12 flex-1 flex-col gap-0.5 border-none px-2 py-2",
+                        @user_status.random_gacha_available? ?
+                          "bg-[#E3C88F] text-[#4F5A4C] hover:bg-[#D7B96F]" :
+                          "pointer-events-none bg-gray-300 text-gray-500"
+                      ] do %>
             <span class="whitespace-nowrap">
               再度ガチャを回す
             </span>
