@@ -255,4 +255,21 @@ RSpec.describe UserStatus, type: :model do
       expect(user.user_status).to be_present
     end
   end
+
+  describe "#random_gacha_available?" do
+    it "random_gacha_dateが本日でない時、trueを返す" do
+      user_status = build(:user_status, random_gacha_date: Date.yesterday, random_gacha_count: UserStatus::RANDOM_GACHA_LIMIT)
+      expect(user_status.random_gacha_available?).to eq(true)
+    end
+
+    it "random_gacha_dateが本日かつrandom_gacha_countが上限未満の場合、trueを返す" do
+      user_status = build(:user_status, random_gacha_date: Date.current, random_gacha_count: UserStatus::RANDOM_GACHA_LIMIT - 1)
+      expect(user_status.random_gacha_available?).to eq(true)
+    end
+
+    it "random_gacha_dateが本日かつrandom_gacha_countが上限の場合、falseを返す" do
+      user_status = build(:user_status, random_gacha_date: Date.current, random_gacha_count: UserStatus::RANDOM_GACHA_LIMIT)
+      expect(user_status.random_gacha_available?).to eq(false)
+    end
+  end
 end
