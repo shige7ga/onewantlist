@@ -209,6 +209,28 @@ RSpec.describe UserStatus, type: :model do
       end
     end
 
+    context "last_want_registration_dateについて" do
+      it "last_want_registration_dateが本日の日付なら有効" do
+        user_status = build(:user_status, last_want_registration_date: Date.current)
+        expect(user_status).to be_valid
+      end
+
+      it "last_want_registration_dateが過去の日付なら有効" do
+        user_status = build(:user_status, last_want_registration_date: Date.current - 1.day)
+        expect(user_status).to be_valid
+      end
+
+      it "last_want_registration_dateが未来の日付なら無効" do
+        user_status = build(:user_status, last_want_registration_date: Date.current + 1.day)
+        expect(user_status).to be_invalid
+      end
+
+      it "last_want_registration_dateがnilなら有効" do
+        user_status = build(:user_status, last_want_registration_date: nil)
+        expect(user_status).to be_valid
+      end
+    end
+
     context "random_gacha_countについて" do
       it "random_gacha_countが0の場合、有効" do
         user_status = build(:user_status, random_gacha_count: 0)
