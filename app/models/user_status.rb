@@ -8,6 +8,11 @@ class UserStatus < ApplicationRecord
     random_gacha_date != Date.current || random_gacha_count < RANDOM_GACHA_LIMIT
   end
 
+  def record_daily_login!
+    return if last_login_date == Date.current
+    self.update!(last_login_date: Date.current)
+  end
+
   validates :level, presence: true, numericality: { only_integer: true, greater_than_or_equal_to: 1 }
   validates :experimence, presence: true, numericality: { only_integer: true, greater_than_or_equal_to: 0 }
   validates :login_count, presence: true, numericality: { only_integer: true, greater_than_or_equal_to: 1 }
