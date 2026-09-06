@@ -294,4 +294,39 @@ RSpec.describe UserStatus, type: :model do
       expect(user_status.random_gacha_available?).to eq(false)
     end
   end
+
+  describe "#record_daily_login!" do
+    let(:user) { create(:user) }
+    let(:user_status) { user.user_status }
+
+    context "最終ログイン日が昨日の場合" do
+      before do
+        user_status.update!(last_login_date: Date.yesterday)
+      end
+
+      it "last_login_dateを今日に更新する" do
+        expect {
+          user_status.record_daily_login!
+        }.to change {
+          user_status.reload.last_login_date
+        }
+        .from(Date.yesterday)
+        .to(Date.current)
+      end
+    end
+
+    context "最終ログイン日が今日の場合" do
+      before do
+        user_status.update!(last_login_date: Date.current)
+      end
+
+      it "last_login_dateを変更しない" do
+        expect {
+          user_status.record_daily_login!
+        }.not_to change {
+          user_status.reload.last_login_date
+        }
+      end
+    end
+  end
 end
