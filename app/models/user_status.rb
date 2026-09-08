@@ -1,7 +1,7 @@
 class UserStatus < ApplicationRecord
   belongs_to :user
   validates :level, presence: true, numericality: { only_integer: true, greater_than_or_equal_to: 1 }
-  validates :experimence, presence: true, numericality: { only_integer: true, greater_than_or_equal_to: 0 }
+  validates :experience, presence: true, numericality: { only_integer: true, greater_than_or_equal_to: 0 }
   validates :login_count, presence: true, numericality: { only_integer: true, greater_than_or_equal_to: 1 }
   validates :login_streak, presence: true, numericality: { only_integer: true, greater_than_or_equal_to: 1 }
   validates :longest_login_streak, presence: true, numericality: { only_integer: true, greater_than_or_equal_to: 1 }
@@ -78,7 +78,7 @@ class UserStatus < ApplicationRecord
       login_count_exp_reward(login_status[:login_count]),
       login_streak_exp_reward(login_status[:login_streak])
     ].compact
-    update!(experimence: experimence + rewards.sum { |reward| reward[:exp] })
+    update!(experience: experience + rewards.sum { |reward| reward[:exp] })
     rewards
   end
 
@@ -140,7 +140,7 @@ class UserStatus < ApplicationRecord
       action_count_exp_reward(action_status[:action_count]),
       action_streak_exp_reward(action_status[:action_streak])
     ].compact
-    update!(experimence: experimence + rewards.sum { |reward| reward[:exp] })
+    update!(experience: experience + rewards.sum { |reward| reward[:exp] })
     rewards
   end
 
