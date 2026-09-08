@@ -1,26 +1,45 @@
 class UserStatus < ApplicationRecord
   belongs_to :user
-  validates :level, presence: true, numericality: { only_integer: true, greater_than_or_equal_to: 1 }
-  validates :experience, presence: true, numericality: { only_integer: true, greater_than_or_equal_to: 0 }
-  validates :login_count, presence: true, numericality: { only_integer: true, greater_than_or_equal_to: 1 }
-  validates :login_streak, presence: true, numericality: { only_integer: true, greater_than_or_equal_to: 1 }
-  validates :longest_login_streak, presence: true, numericality: { only_integer: true, greater_than_or_equal_to: 1 }
-  validates :action_count, presence: true, numericality: { only_integer: true, greater_than_or_equal_to: 0 }
-  validates :action_streak, presence: true, numericality: { only_integer: true, greater_than_or_equal_to: 0 }
-  validates :longest_action_streak, presence: true, numericality: { only_integer: true, greater_than_or_equal_to: 0 }
-  validates :last_login_date, presence: true, comparison: { less_than_or_equal_to: Date.current }
-  validates :last_action_date, comparison: { less_than_or_equal_to: Date.current }, allow_nil: true
-  validates :last_want_registration_date, comparison: { less_than_or_equal_to: Date.current }, allow_nil: true
-  validates :random_gacha_count, presence: true, numericality: { only_integer: true, greater_than_or_equal_to: 0 }
-  validates :random_gacha_date, comparison: { less_than_or_equal_to: Date.current }, allow_nil: true
 
+  # バリデーション
+  # 1以上
+  validates :level,
+            :login_count,
+            :login_streak,
+            :longest_login_streak,
+            numericality: { only_integer: true, greater_than_or_equal_to: 1 }
+
+  # 0以上
+  validates :experience,
+            :action_count,
+            :action_streak,
+            :longest_action_streak,
+            :random_gacha_count,
+            numericality: { only_integer: true, greater_than_or_equal_to: 0 }
+
+  # 必須とする日付
+  validates :last_login_date,
+            presence: true,
+            comparison: { less_than_or_equal_to: ->{ Date.current } }
+
+  # nil許容の日付
+  validates :last_action_date,
+            :last_want_registration_date,
+            :random_gacha_date,
+            comparison: { less_than_or_equal_to: Date.current },
+            allow_nil: true
+
+  # 1日のガチャ回数制限
   RANDOM_GACHA_LIMIT = 10
+
+  # ログインによる経験値
   DAILY_LOGIN_EXP = 10
   LOGIN_COUNT_BONUS_INTERVAL = 10
   LOGIN_COUNT_BONUS_EXP = 10
   LOGIN_STREAK_BONUS_INTERVAL = 10
   LOGIN_STREAK_BONUS_EXP = 10
 
+  # アクションによる経験値
   DAILY_ACTION_EXP = 10
   ACTION_COUNT_BONUS_INTERVAL = 10
   ACTION_COUNT_BONUS_EXP = 10
