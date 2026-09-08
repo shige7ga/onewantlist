@@ -21,6 +21,12 @@ class UserStatus < ApplicationRecord
   LOGIN_STREAK_BONUS_INTERVAL = 10
   LOGIN_STREAK_BONUS_EXP = 10
 
+  DAILY_ACTION_EXP = 10
+  ACTION_COUNT_BONUS_INTERVAL = 10
+  ACTION_COUNT_BONUS_EXP = 10
+  ACTION_STREAK_BONUS_INTERVAL = 10
+  ACTION_STREAK_BONUS_EXP = 10
+
   def random_gacha_available?
     random_gacha_date != Date.current || random_gacha_count < RANDOM_GACHA_LIMIT
   end
@@ -32,6 +38,19 @@ class UserStatus < ApplicationRecord
       login_status = update_login_status!
       grant_login_exp!(login_status)
     end
+  end
+
+  def record_want_registration!
+    return if last_want_registration_date == Date.current
+
+    transaction do
+      update!(last_want_registration_date: Date.current)
+      update_action_status_and_exp!
+    end
+  end
+
+  def record_random_wants_limit!
+    update_action_status_and_exp!
   end
 
   private
@@ -86,6 +105,68 @@ class UserStatus < ApplicationRecord
       type: :login_streak,
       exp: LOGIN_STREAK_BONUS_EXP,
       message: "#{login_streak}日連続ログイン +#{LOGIN_STREAK_BONUS_EXP}EXP"
+    }
+  end
+
+  def update_action_status_and_exp!
+    return if last_action_date == Date.current
+
+    transaction do
+      action_status = update_action_status!
+      grant_action_exp!(action_status)
+    end
+  end
+
+  def update_action_status!
+    new_action_count = action_count + 1
+    new_action_streak = last_action_date == Date.yesterday ? action_streak + 1 : 1
+
+    update!(
+      last_action_date: Date.current,
+      action_count: new_action_count,
+      action_streak: new_action_streak,
+      longest_action_streak: [longest_action_streak, new_action_streak].max
+    )
+
+    {
+      action_count: new_action_count,
+      action_streak: new_action_streak
+    }
+  end
+
+  def grant_action_exp!(action_status)
+    rewards = [
+      daily_action_exp_reward,
+      action_count_exp_reward(action_status[:action_count]),
+      action_streak_exp_reward(action_status[:action_streak])
+    ].compact
+    update!(experimence: experimence + rewards.sum { |reward| reward[:exp] })
+    rewards
+  end
+
+  def daily_action_exp_reward
+    {
+      type: :daily_action,
+      exp: DAILY_ACTION_EXP,
+      message: "アクション +#{DAILY_ACTION_EXP}EXP"
+    }
+  end
+
+  def action_count_exp_reward(action_count)
+    return unless action_count % ACTION_COUNT_BONUS_INTERVAL == 0
+    {
+      type: :action_count,
+      exp: ACTION_COUNT_BONUS_EXP,
+      message: "累計アクション#{action_count}日 +#{ACTION_COUNT_BONUS_EXP}EXP"
+    }
+  end
+
+  def action_streak_exp_reward(action_streak)
+    return unless action_streak % ACTION_STREAK_BONUS_INTERVAL == 0
+    {
+      type: :action_streak,
+      exp: ACTION_STREAK_BONUS_EXP,
+      message: "#{action_streak}日連続アクション +#{ACTION_STREAK_BONUS_EXP}EXP"
     }
   end
 end
