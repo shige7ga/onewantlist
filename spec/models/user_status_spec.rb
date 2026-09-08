@@ -31,19 +31,19 @@ RSpec.describe UserStatus, type: :model do
       end
     end
 
-    context "experimenceについて" do
-      it "experimenceが0の場合、有効" do
-        user_status = build(:user_status, experimence: 0)
+    context "experienceについて" do
+      it "experienceが0の場合、有効" do
+        user_status = build(:user_status, experience: 0)
         expect(user_status).to be_valid
       end
 
-      it "experimenceが存在しない場合、無効" do
-        user_status = build(:user_status, experimence: nil)
+      it "experienceが存在しない場合、無効" do
+        user_status = build(:user_status, experience: nil)
         expect(user_status).to be_invalid
       end
 
-      it "experimenceがマイナスの場合、無効" do
-        user_status = build(:user_status, experimence: -1)
+      it "experienceがマイナスの場合、無効" do
+        user_status = build(:user_status, experience: -1)
         expect(user_status).to be_invalid
       end
     end
