@@ -20,13 +20,13 @@ class UserStatus < ApplicationRecord
   # 必須とする日付
   validates :last_login_date,
             presence: true,
-            comparison: { less_than_or_equal_to: ->{ Date.current } }
+            comparison: { less_than_or_equal_to: -> { Date.current } }
 
   # nil許容の日付
   validates :last_action_date,
             :last_want_registration_date,
             :random_gacha_date,
-            comparison: { less_than_or_equal_to: Date.current },
+            comparison: { less_than_or_equal_to: -> { Date.current } },
             allow_nil: true
 
   # 1日のガチャ回数制限
@@ -98,7 +98,7 @@ class UserStatus < ApplicationRecord
       last_login_date: Date.current,
       login_count: new_login_count,
       login_streak: new_login_streak,
-      longest_login_streak: [longest_login_streak, new_login_streak].max
+      longest_login_streak: [ longest_login_streak, new_login_streak ].max
     )
 
     {
@@ -160,7 +160,7 @@ class UserStatus < ApplicationRecord
       last_action_date: Date.current,
       action_count: new_action_count,
       action_streak: new_action_streak,
-      longest_action_streak: [longest_action_streak, new_action_streak].max
+      longest_action_streak: [ longest_action_streak, new_action_streak ].max
     )
 
     {
