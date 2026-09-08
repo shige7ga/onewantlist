@@ -32,14 +32,17 @@ class UserStatus < ApplicationRecord
   # 1日のガチャ回数制限
   RANDOM_GACHA_LIMIT = 10
 
-  # ログインによる経験値
+  # ユーザー登録による経験値UP関連(仮：LvUPに必要分+EXPする予定)
+  SIGNUP_EXP = 10
+
+  # ログインによる経験値UP関連
   DAILY_LOGIN_EXP = 10
   LOGIN_COUNT_BONUS_INTERVAL = 10
   LOGIN_COUNT_BONUS_EXP = 10
   LOGIN_STREAK_BONUS_INTERVAL = 10
   LOGIN_STREAK_BONUS_EXP = 10
 
-  # アクションによる経験値
+  # アクションによる経験値UP関連
   DAILY_ACTION_EXP = 10
   ACTION_COUNT_BONUS_INTERVAL = 10
   ACTION_COUNT_BONUS_EXP = 10
@@ -48,6 +51,11 @@ class UserStatus < ApplicationRecord
 
   def random_gacha_available?
     random_gacha_date != Date.current || random_gacha_count < RANDOM_GACHA_LIMIT
+  end
+
+  def record_signup!
+    update!(experience: experience + signup_exp_reward[:exp])
+    signup_exp_reward
   end
 
   def record_daily_login!
@@ -73,6 +81,14 @@ class UserStatus < ApplicationRecord
   end
 
   private
+
+  def signup_exp_reward
+    {
+      type: :signup,
+      exp: SIGNUP_EXP,
+      message: "ユーザー登録 +#{SIGNUP_EXP}EXP"
+    }
+  end
 
   def update_login_status!
     new_login_count = login_count + 1
