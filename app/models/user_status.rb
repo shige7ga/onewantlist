@@ -56,6 +56,7 @@ class UserStatus < ApplicationRecord
   def record_signup!
     update!(experience: experience + signup_exp_reward[:exp])
     signup_exp_reward
+    level_up_if_needed!
   end
 
   def record_daily_login!
@@ -64,6 +65,7 @@ class UserStatus < ApplicationRecord
     transaction do
       login_status = update_login_status!
       grant_login_exp!(login_status)
+      level_up_if_needed!
     end
   end
 
@@ -73,11 +75,28 @@ class UserStatus < ApplicationRecord
     transaction do
       update!(last_want_registration_date: Date.current)
       update_action_status_and_exp!
+      level_up_if_needed!
     end
   end
 
   def record_random_wants_limit!
     update_action_status_and_exp!
+    level_up_if_needed!
+  end
+
+  # 次Lvまでに必要なEXP
+  def required_exp_for_next_level
+    required_exp_for(level)
+  end
+
+  # 次のLvまでの残りEXP
+  def exp_to_next_level
+    total_exp_for_next_level - experience
+  end
+
+  # 現在Lvになってから獲得したEXP
+  def current_level_exp
+    experience - total_exp_for_current_level
   end
 
   private
@@ -203,5 +222,34 @@ class UserStatus < ApplicationRecord
       exp: ACTION_STREAK_BONUS_EXP,
       message: "#{action_streak}日連続アクション +#{ACTION_STREAK_BONUS_EXP}EXP"
     }
+  end
+
+  # 経験値が条件を満たしたらLvアップ
+  def level_up_if_needed!
+    while experience >= total_exp_for_next_level
+      increment!(:level)
+    end
+  end
+
+  # 指定Lvから次Lvへ上がるために必要なEXP
+  def required_exp_for(lv)
+    case lv
+    when 1..57
+      (10 * 1.05**(lv - 1)).floor
+    when 58..100
+      100 + lv
+    else
+      200
+    end
+  end
+
+  # 次Lvに到達するために必要な累計EXP
+  def total_exp_for_next_level
+    (1..level).sum { |lv| required_exp_for(lv) }
+  end
+
+  # 現在Lvに到達した時点の累計EXP
+  def total_exp_for_current_level
+    (1...level).sum { |lv| required_exp_for(lv) }
   end
 end
