@@ -57,7 +57,6 @@ class UserStatus < ApplicationRecord
   def record_signup!
     update!(experience: experience + signup_exp_event[:exp])
     signup_exp_event
-    level_up_if_needed!
   end
 
   # ログイン時のステータス更新記録
@@ -68,19 +67,14 @@ class UserStatus < ApplicationRecord
 
   # やりたいこと登録時のステータス更新記録
   def record_want_registration!
-    return if last_want_registration_date == Date.current
-
-    transaction do
-      update!(last_want_registration_date: Date.current)
-      update_action_status_and_exp!
-      level_up_if_needed!
-    end
+    return [] if last_want_registration_date == Date.current
+    process_daily_want_registration!
   end
 
   # やりたいことガチャ制限まで実施した際のステータス更新記録
   def record_random_wants_limit!
-    update_action_status_and_exp!
-    level_up_if_needed!
+    return [] if last_action_date == Date.current
+    process_daily_action!
   end
 
   # 次Lvまでに必要なEXP
@@ -101,7 +95,7 @@ class UserStatus < ApplicationRecord
   private
 
   # 経験値UP・レベルUP共通処理
-  def process_exp_events(exp_events)
+  def process_exp_events!(exp_events)
     events = []
     new_exp = experience
     new_lv = level
@@ -127,26 +121,18 @@ class UserStatus < ApplicationRecord
   def process_daily_login!
     transaction do
       update_login_status!
-      exp_events = login_exp_events
-      process_exp_events!(exp_events)
+      process_exp_events!(login_exp_events)
     end
   end
 
   def update_login_status!
-    new_login_count = login_count + 1
     new_login_streak = last_login_date == Date.yesterday ? login_streak + 1 : 1
-
     update!(
       last_login_date: Date.current,
-      login_count: new_login_count,
+      login_count: login_count + 1,
       login_streak: new_login_streak,
       longest_login_streak: [ longest_login_streak, new_login_streak ].max
     )
-
-    {
-      login_count: new_login_count,
-      login_streak: new_login_streak
-    }
   end
 
   def login_exp_events
@@ -167,33 +153,28 @@ class UserStatus < ApplicationRecord
     { type: :login_streak, exp: LOGIN_STREAK_BONUS_EXP }
   end
 
-
-
-
-  def update_action_status_and_exp!
-    return if last_action_date == Date.current
-
+  def process_daily_want_registration!
     transaction do
-      action_status = update_action_status!
-      grant_action_exp!(action_status)
+      update!(last_want_registration_date: Date.current)
+      process_daily_action!
+    end
+  end
+
+  def process_daily_action!
+    transaction do
+      update_action_status!
+      process_exp_events!(action_exp_events)
     end
   end
 
   def update_action_status!
-    new_action_count = action_count + 1
     new_action_streak = last_action_date == Date.yesterday ? action_streak + 1 : 1
-
     update!(
       last_action_date: Date.current,
-      action_count: new_action_count,
+      action_count: action_count + 1,
       action_streak: new_action_streak,
       longest_action_streak: [ longest_action_streak, new_action_streak ].max
     )
-
-    {
-      action_count: new_action_count,
-      action_streak: new_action_streak
-    }
   end
 
   def action_exp_events
@@ -214,13 +195,6 @@ class UserStatus < ApplicationRecord
     { type: :action_streak, exp: ACTION_STREAK_BONUS_EXP }
   end
 
-  # 経験値が条件を満たしたらLvアップ
-  def level_up_if_needed!
-    while experience >= total_exp_for_next_level
-      increment!(:level)
-    end
-  end
-
   # 指定Lvから次Lvへ上がるために必要なEXP
   def required_exp_for(lv)
     case lv
@@ -234,12 +208,12 @@ class UserStatus < ApplicationRecord
   end
 
   # 次Lvに到達するために必要な累計EXP
-  def total_exp_for_next_level
-    (1..level).sum { |lv| required_exp_for(lv) }
+  def total_exp_for_next_level(current_lv)
+    (1..current_lv).sum { |lv| required_exp_for(lv) }
   end
 
   # 現在Lvに到達した時点の累計EXP
-  def total_exp_for_current_level
-    (1...level).sum { |lv| required_exp_for(lv) }
+  def total_exp_for_current_level(current_lv)
+    (1...current_lv).sum { |lv| required_exp_for(lv) }
   end
 end

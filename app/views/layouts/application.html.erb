@@ -26,6 +26,13 @@
   <body>
     <%= render "shared/header" %>
 
+    <%# 経験値付与・レベルアップのメッセージ（仮） %>
+    <% if @events.present? %>
+      <% @events.each do |event| %>
+        <%= render "shared/event_message", event: event  %>
+      <% end %>
+    <% end %>
+
     <%# メイン画面 %>
     <main class="pt-16">
       <%= yield %>
