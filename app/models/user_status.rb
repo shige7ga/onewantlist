@@ -53,22 +53,20 @@ class UserStatus < ApplicationRecord
     random_gacha_date != Date.current || random_gacha_count < RANDOM_GACHA_LIMIT
   end
 
+  # ユーザー登録時のステータス更新記録
   def record_signup!
-    update!(experience: experience + signup_exp_reward[:exp])
-    signup_exp_reward
+    update!(experience: experience + signup_exp_event[:exp])
+    signup_exp_event
     level_up_if_needed!
   end
 
+  # ログイン時のステータス更新記録
   def record_daily_login!
-    return if last_login_date == Date.current
-
-    transaction do
-      login_status = update_login_status!
-      grant_login_exp!(login_status)
-      level_up_if_needed!
-    end
+    return [] if last_login_date == Date.current
+    process_daily_login!
   end
 
+  # やりたいこと登録時のステータス更新記録
   def record_want_registration!
     return if last_want_registration_date == Date.current
 
@@ -79,6 +77,7 @@ class UserStatus < ApplicationRecord
     end
   end
 
+  # やりたいことガチャ制限まで実施した際のステータス更新記録
   def record_random_wants_limit!
     update_action_status_and_exp!
     level_up_if_needed!
@@ -101,12 +100,36 @@ class UserStatus < ApplicationRecord
 
   private
 
-  def signup_exp_reward
-    {
-      type: :signup,
-      exp: SIGNUP_EXP,
-      message: "ユーザー登録 +#{SIGNUP_EXP}EXP"
-    }
+  # 経験値UP・レベルUP共通処理
+  def process_exp_events(exp_events)
+    events = []
+    new_exp = experience
+    new_lv = level
+
+    exp_events.each do |event|
+      new_exp += event[:exp]
+      events << event
+
+      while new_exp >= total_exp_for_next_level(new_lv)
+        new_lv += 1
+        events << { type: :level_up, level: new_lv }
+      end
+
+      update!(experience: new_exp, level: new_lv)
+      events
+    end
+  end
+
+  def signup_exp_event
+    { type: :signup, exp: SIGNUP_EXP }
+  end
+
+  def process_daily_login!
+    transaction do
+      update_login_status!
+      exp_events = login_exp_events
+      process_exp_events!(exp_events)
+    end
   end
 
   def update_login_status!
@@ -126,41 +149,26 @@ class UserStatus < ApplicationRecord
     }
   end
 
-  def grant_login_exp!(login_status)
-    rewards = [
-      daily_login_exp_reward,
-      login_count_exp_reward(login_status[:login_count]),
-      login_streak_exp_reward(login_status[:login_streak])
-    ].compact
-    update!(experience: experience + rewards.sum { |reward| reward[:exp] })
-    rewards
+  def login_exp_events
+    [ login_exp_event, login_count_exp_event, login_streak_exp_event ].compact
   end
 
-  def daily_login_exp_reward
-    {
-      type: :daily_login,
-      exp: DAILY_LOGIN_EXP,
-      message: "ログイン +#{DAILY_LOGIN_EXP}EXP"
-    }
+  def login_exp_event
+    { type: :daily_login, exp: DAILY_LOGIN_EXP }
   end
 
-  def login_count_exp_reward(login_count)
+  def login_count_exp_event
     return unless login_count % LOGIN_COUNT_BONUS_INTERVAL == 0
-    {
-      type: :login_count,
-      exp: LOGIN_COUNT_BONUS_EXP,
-      message: "累計ログイン#{login_count}日 +#{LOGIN_COUNT_BONUS_EXP}EXP"
-    }
+    { type: :login_count, exp: LOGIN_COUNT_BONUS_EXP }
   end
 
-  def login_streak_exp_reward(login_streak)
+  def login_streak_exp_event
     return unless login_streak % LOGIN_STREAK_BONUS_INTERVAL == 0
-    {
-      type: :login_streak,
-      exp: LOGIN_STREAK_BONUS_EXP,
-      message: "#{login_streak}日連続ログイン +#{LOGIN_STREAK_BONUS_EXP}EXP"
-    }
+    { type: :login_streak, exp: LOGIN_STREAK_BONUS_EXP }
   end
+
+
+
 
   def update_action_status_and_exp!
     return if last_action_date == Date.current
@@ -188,40 +196,22 @@ class UserStatus < ApplicationRecord
     }
   end
 
-  def grant_action_exp!(action_status)
-    rewards = [
-      daily_action_exp_reward,
-      action_count_exp_reward(action_status[:action_count]),
-      action_streak_exp_reward(action_status[:action_streak])
-    ].compact
-    update!(experience: experience + rewards.sum { |reward| reward[:exp] })
-    rewards
+  def action_exp_events
+    [ action_exp_event, action_count_exp_event, action_streak_exp_event ].compact
   end
 
-  def daily_action_exp_reward
-    {
-      type: :daily_action,
-      exp: DAILY_ACTION_EXP,
-      message: "アクション +#{DAILY_ACTION_EXP}EXP"
-    }
+  def action_exp_event
+    { type: :daily_action, exp: DAILY_ACTION_EXP }
   end
 
-  def action_count_exp_reward(action_count)
+  def action_count_exp_event
     return unless action_count % ACTION_COUNT_BONUS_INTERVAL == 0
-    {
-      type: :action_count,
-      exp: ACTION_COUNT_BONUS_EXP,
-      message: "累計アクション#{action_count}日 +#{ACTION_COUNT_BONUS_EXP}EXP"
-    }
+    { type: :action_count, exp: ACTION_COUNT_BONUS_EXP }
   end
 
-  def action_streak_exp_reward(action_streak)
+  def action_streak_exp_event
     return unless action_streak % ACTION_STREAK_BONUS_INTERVAL == 0
-    {
-      type: :action_streak,
-      exp: ACTION_STREAK_BONUS_EXP,
-      message: "#{action_streak}日連続アクション +#{ACTION_STREAK_BONUS_EXP}EXP"
-    }
+    { type: :action_streak, exp: ACTION_STREAK_BONUS_EXP }
   end
 
   # 経験値が条件を満たしたらLvアップ

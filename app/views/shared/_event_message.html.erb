@@ -1,0 +1,11 @@
+<div class="space-y-2 mb-2">
+  <div class="rounded-xl border border-[#A8BFA0] bg-white px-4 py-3 shadow-sm">
+    <p class="text-sm font-bold text-[#4F5A4C]">
+      <% if event[:type] == :experience %>
+        経験値付与 +<%= event[:exp] %>EXP
+      <% elsif event[:type] == :level_up %>
+        🎉レベルアップ Lv.<%= event[:level] %>になりました
+      <% end %>
+    </p>
+  </div>
+</div>

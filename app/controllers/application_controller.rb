@@ -7,6 +7,6 @@ class ApplicationController < ActionController::Base
   private
 
   def record_daily_login
-    current_user.user_status.record_daily_login!
+    @events = current_user.user_status.record_daily_login!
   end
 end
