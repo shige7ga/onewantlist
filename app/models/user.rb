@@ -17,6 +17,5 @@ class User < ApplicationRecord
   # ユーザー登録時に、デフォルトのステータスを作成し紐づける。
   def create_default_user_status
     create_user_status!(last_login_date: Date.current)
-    user_status.record_signup!
   end
 end

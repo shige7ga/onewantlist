@@ -55,8 +55,7 @@ class UserStatus < ApplicationRecord
 
   # ユーザー登録時のステータス更新記録
   def record_signup!
-    update!(experience: experience + signup_exp_event[:exp])
-    signup_exp_event
+    process_exp_events!([signup_exp_event])
   end
 
   # ログイン時のステータス更新記録
@@ -106,16 +105,16 @@ class UserStatus < ApplicationRecord
 
       while new_exp >= total_exp_for_next_level(new_lv)
         new_lv += 1
-        events << { type: :level_up, level: new_lv }
+        events << { type: :lv_up, level: new_lv }
       end
-
-      update!(experience: new_exp, level: new_lv)
-      events
     end
+
+    update!(experience: new_exp, level: new_lv)
+    events
   end
 
   def signup_exp_event
-    { type: :signup, exp: SIGNUP_EXP }
+    { type: "exp_up", source: "signup", exp: SIGNUP_EXP }
   end
 
   def process_daily_login!
@@ -140,17 +139,17 @@ class UserStatus < ApplicationRecord
   end
 
   def login_exp_event
-    { type: :daily_login, exp: DAILY_LOGIN_EXP }
+    { type: "exp_up", source: "daily_login", exp: DAILY_LOGIN_EXP }
   end
 
   def login_count_exp_event
     return unless login_count % LOGIN_COUNT_BONUS_INTERVAL == 0
-    { type: :login_count, exp: LOGIN_COUNT_BONUS_EXP }
+    { type: "exp_up", source: "login_count", exp: LOGIN_COUNT_BONUS_EXP }
   end
 
   def login_streak_exp_event
     return unless login_streak % LOGIN_STREAK_BONUS_INTERVAL == 0
-    { type: :login_streak, exp: LOGIN_STREAK_BONUS_EXP }
+    { type: "exp_up", source: "login_streak", exp: LOGIN_STREAK_BONUS_EXP }
   end
 
   def process_daily_want_registration!
@@ -182,17 +181,17 @@ class UserStatus < ApplicationRecord
   end
 
   def action_exp_event
-    { type: :daily_action, exp: DAILY_ACTION_EXP }
+    { type: "exp_up", source: "daily_action", exp: DAILY_ACTION_EXP }
   end
 
   def action_count_exp_event
     return unless action_count % ACTION_COUNT_BONUS_INTERVAL == 0
-    { type: :action_count, exp: ACTION_COUNT_BONUS_EXP }
+    { type: "exp_up", source: "action_count", exp: ACTION_COUNT_BONUS_EXP }
   end
 
   def action_streak_exp_event
     return unless action_streak % ACTION_STREAK_BONUS_INTERVAL == 0
-    { type: :action_streak, exp: ACTION_STREAK_BONUS_EXP }
+    { type: "exp_up", source: "action_streak", exp: ACTION_STREAK_BONUS_EXP }
   end
 
   # 指定Lvから次Lvへ上がるために必要なEXP
