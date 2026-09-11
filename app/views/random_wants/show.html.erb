@@ -6,6 +6,9 @@
       </h2>
       <%= render "shared/flash", flash: flash %>
 
+      <%# 経験値・Lvアップ時メッセージ（仮置き） %>
+      <%= render "shared/event_message", events: @events %>
+
       <%= form_with(model: @want, html: { class: "space-y-4" }) do |f| %>
         <div>
           <%= f.text_area :content,

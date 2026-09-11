@@ -160,6 +160,7 @@ class UserStatus < ApplicationRecord
   end
 
   def process_daily_action!
+    return if last_action_date == Date.current
     transaction do
       update_action_status!
       process_exp_events!(action_exp_events)
