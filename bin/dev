@@ -8,4 +8,8 @@ fi
 # Default to port 3000 if not specified
 export PORT="${PORT:-3000}"
 
-exec foreman start -f Procfile.dev --env /dev/null "$@"
+# JS / CSS のwatch処理をバックグラウンドで起動
+foreman start -f Procfile.dev --env /dev/null &
+
+# RailsはForemanを通さず、直接起動
+exec bin/rails server -b 0.0.0.0 -p "$PORT"
