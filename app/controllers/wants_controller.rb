@@ -13,7 +13,7 @@ class WantsController < ApplicationController
   def create
     @want = current_user.wants.new(want_params)
     if @want.save
-      session[:status_events] = current_user.user_status.record_want_registration!
+      add_status_events(current_user.user_status.record_want_registration!)
       redirect_to mypage_path, notice: t("defaults.flash_message.created", item: Want.model_name.human)
     else
       flash.now[:alert] = t("defaults.flash_message.not_created", item: Want.model_name.human)

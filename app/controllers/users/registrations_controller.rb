@@ -13,7 +13,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
   def create
     super do |resource|
       if resource.persisted?
-        session[:status_events] = resource.user_status.record_signup!
+        add_status_events(resource.user_status.record_signup!)
       end
     end
   end
