@@ -62,6 +62,10 @@ group :development, :test do
   # Omakase Ruby styling [https://github.com/rails/rubocop-rails-omakase/]
   gem "rubocop-rails-omakase", require: false
 
+  gem "better_errors"
+  gem "binding_of_caller"
+  gem "pry-byebug"
+
   # rspec & factorybot導入
   gem "rspec-rails"
   gem "factory_bot_rails"
