@@ -16,7 +16,7 @@ class RandomWantsController < ApplicationController
     current_user_status.increment!(:random_gacha_count)
 
     if current_user_status.random_gacha_count == UserStatus::RANDOM_GACHA_LIMIT
-      current_user_status.record_random_wants_limit!
+      add_status_events(current_user_status.record_random_wants_limit!)
     end
 
     redirect_to random_want_path

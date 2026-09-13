@@ -1,0 +1,16 @@
+<% if events.present? %>
+  <% events.each do |event| %>
+    <% event = event.with_indifferent_access %>
+    <div class="space-y-2 mb-2">
+      <div class="rounded-xl border border-[#A8BFA0] bg-white px-4 py-3 shadow-sm">
+        <p class="text-sm font-bold text-[#4F5A4C]">
+          <% if event[:type] == "exp_up" %>
+            経験値付与 +<%= event[:exp] %>EXP
+          <% elsif event[:type] == "lv_up" %>
+            🎉 Lv.<%= event[:level] %>にレベルアップ！
+          <% end %>
+        </p>
+      </div>
+    </div>
+  <% end %>
+<% end %>
