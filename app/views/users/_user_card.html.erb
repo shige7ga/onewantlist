@@ -27,6 +27,14 @@
     </div>
     <div>
       <p class="text-sm font-semibold text-[#4F5A4C]/70">
+        Lv.UPまで残り
+      </p>
+      <p class="text-lg text-[#4F5A4C]">
+        <%= user_status.exp_to_next_level %> (<%= user_status.current_level_exp %> / <%= user_status.required_exp_for_next_level %>)
+      </p>
+    </div>
+    <div>
+      <p class="text-sm font-semibold text-[#4F5A4C]/70">
         ログイン回数 / 連続日数 / 最長連続日数
       </p>
       <p class="text-lg text-[#4F5A4C]">

@@ -32,8 +32,8 @@ class UserStatus < ApplicationRecord
   # 1日のガチャ回数制限
   RANDOM_GACHA_LIMIT = 10
 
-  # ユーザー登録による経験値UP関連(仮：LvUPに必要分+EXPする予定)
-  SIGNUP_EXP = 10
+  # # ユーザー登録による経験値UP関連(仮：LvUPに必要分+EXPする予定)
+  # SIGNUP_EXP = 10
 
   # ログインによる経験値UP関連
   DAILY_LOGIN_EXP = 10
@@ -83,12 +83,12 @@ class UserStatus < ApplicationRecord
 
   # 次のLvまでの残りEXP
   def exp_to_next_level
-    total_exp_for_next_level - experience
+    total_exp_for_next_level(level) - experience
   end
 
   # 現在Lvになってから獲得したEXP
   def current_level_exp
-    experience - total_exp_for_current_level
+    experience - total_exp_for_current_level(level)
   end
 
   private
@@ -105,7 +105,7 @@ class UserStatus < ApplicationRecord
 
       while new_exp >= total_exp_for_next_level(new_lv)
         new_lv += 1
-        events << { type: :lv_up, level: new_lv }
+        events << { type: "lv_up", level: new_lv }
       end
     end
 
@@ -114,7 +114,7 @@ class UserStatus < ApplicationRecord
   end
 
   def signup_exp_event
-    { type: "exp_up", source: "signup", exp: SIGNUP_EXP }
+    { type: "exp_up", source: "signup", exp: total_exp_for_next_level(level) }
   end
 
   def process_daily_login!
