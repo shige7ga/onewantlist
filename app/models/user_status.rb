@@ -55,7 +55,7 @@ class UserStatus < ApplicationRecord
 
   # ユーザー登録時のステータス更新記録
   def record_signup!
-    process_exp_events!([signup_exp_event])
+    process_exp_events!([ signup_exp_event ])
   end
 
   # ログイン時のステータス更新記録
