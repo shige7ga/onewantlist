@@ -32,9 +32,6 @@ class UserStatus < ApplicationRecord
   # 1日のガチャ回数制限
   RANDOM_GACHA_LIMIT = 10
 
-  # # ユーザー登録による経験値UP関連(仮：LvUPに必要分+EXPする予定)
-  # SIGNUP_EXP = 10
-
   # ログインによる経験値UP関連
   DAILY_LOGIN_EXP = 10
   LOGIN_COUNT_BONUS_INTERVAL = 10
@@ -114,7 +111,7 @@ class UserStatus < ApplicationRecord
   end
 
   def signup_exp_event
-    { type: "exp_up", source: "signup", exp: total_exp_for_next_level(level) }
+    { type: "exp_up", source: "signup", exp: required_exp_for_next_level }
   end
 
   def process_daily_login!
@@ -160,7 +157,7 @@ class UserStatus < ApplicationRecord
   end
 
   def process_daily_action!
-    return if last_action_date == Date.current
+    return [] if last_action_date == Date.current
     transaction do
       update_action_status!
       process_exp_events!(action_exp_events)
