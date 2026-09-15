@@ -1,9 +1,9 @@
 class WantsController < ApplicationController
   before_action :authenticate_user!
   before_action :check_today_want_registration, only: %i[ new create ]
+  before_action :set_want, only: %i[ show edit update destroy ]
 
   def show
-    @want = Want.find(params[:id])
   end
 
   def new
@@ -22,11 +22,9 @@ class WantsController < ApplicationController
   end
 
   def edit
-    @want = current_user.wants.find(params[:id])
   end
 
   def update
-    @want = current_user.wants.find(params[:id])
     if @want.update(want_params)
       redirect_to want_path(@want), notice: t("defaults.flash_message.updated", item: Want.model_name.human)
     else
@@ -36,8 +34,7 @@ class WantsController < ApplicationController
   end
 
   def destroy
-    want = current_user.wants.find(params[:id])
-    want.destroy!
+    @want.destroy!
     redirect_to mypage_path, notice: t("defaults.flash_message.deleted", item: Want.model_name.human), status: :see_other
   end
 
@@ -51,5 +48,11 @@ class WantsController < ApplicationController
 
   def want_params
     params.require(:want).permit(:content, :status, :due_date)
+  end
+
+  def set_want
+    @want = current_user.wants.find_by(id: params[:id])
+    return if @want.present?
+    redirect_to mypage_path, alert: "アクセス権がありません"
   end
 end
