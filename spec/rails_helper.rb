@@ -47,7 +47,11 @@ RSpec.configure do |config|
 
   # System Spec導入時の設定
   config.before(:each, type: :system) do
-    driven_by :remote_chrome
+    if ENV["CI"]
+      driven_by :selenium_chrome_headless
+    else
+      driven_by :remote_chrome
+    end
   end
 
   # Remove this line if you're not using ActiveRecord or ActiveRecord fixtures

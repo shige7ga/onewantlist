@@ -16,6 +16,8 @@ Capybara.register_driver :remote_chrome do |app|
   )
 end
 
-Capybara.server_host = IPSocket.getaddress(Socket.gethostname)
-Capybara.server_port = 4444
-Capybara.app_host = "http://#{Capybara.server_host}:#{Capybara.server_port}"
+unless ENV["CI"]
+  Capybara.server_host = IPSocket.getaddress(Socket.gethostname)
+  Capybara.server_port = 4444
+  Capybara.app_host = "http://#{Capybara.server_host}:#{Capybara.server_port}"
+end
