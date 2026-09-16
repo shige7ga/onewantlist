@@ -1,6 +1,8 @@
 require 'rails_helper'
 
 RSpec.describe "Top", type: :system do
+  include LoginMacros
+
   context "未ログイン時" do
     it "トップページが表示される" do
       visit root_path
@@ -34,12 +36,7 @@ RSpec.describe "Top", type: :system do
     let!(:user) { create(:user) }
 
      before do
-      visit new_user_session_path
-
-      fill_in "メールアドレス", with: user.email
-      fill_in "パスワード", with: user.password
-      click_button "ログイン"
-
+      login(user)
       expect(page).to have_current_path(mypage_path)
     end
 
