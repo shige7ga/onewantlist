@@ -34,12 +34,25 @@ begin
 rescue ActiveRecord::PendingMigrationError => e
   abort e.to_s.strip
 end
+
+# capybara等ファイルの読み込み設定
+Dir[Rails.root.join("spec", "support", "**", "*.rb")].sort.each { |f| require f }
+
 RSpec.configure do |config|
   # FactoryBot省略できる設定追加
   config.include FactoryBot::Syntax::Methods
 
   # Request SpecにてDeviseを使えるように設定
   config.include Devise::Test::IntegrationHelpers, type: :request
+
+  # System Spec導入時の設定
+  config.before(:each, type: :system) do
+    if ENV["CI"]
+      driven_by :selenium_chrome_headless
+    else
+      driven_by :remote_chrome
+    end
+  end
 
   # Remove this line if you're not using ActiveRecord or ActiveRecord fixtures
   config.fixture_paths = [
