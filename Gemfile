@@ -77,6 +77,9 @@ end
 group :development do
   # Use console on exceptions pages [https://github.com/rails/web-console]
   gem "web-console"
+
+  # N+1問題等の非効率なDBアクセス検出用
+  gem "bullet"
 end
 
 group :test do
