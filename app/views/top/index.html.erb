@@ -11,6 +11,12 @@
       </p>
 
       <div class="mt-6 flex justify-center gap-3">
+        <%= link_to "ゲストページ",
+                    guest_user_path,
+                    class: "btn border-[#A8BFA0] bg-[#A8BFA0] text-[#4F5A4C] hover:bg-[#A8BFA0]/80" %>
+      </div>
+
+      <div class="mt-6 flex justify-center gap-3">
         <%= link_to t("devise.registrations.new.title"),
                     new_user_registration_path,
                     class: "btn border-[#A8BFA0] bg-[#A8BFA0] text-[#4F5A4C] hover:bg-[#A8BFA0]/80" %>
