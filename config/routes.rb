@@ -9,6 +9,10 @@ Rails.application.routes.draw do
     post :draw
   end
 
+  namespace :guest do
+    resource :user, only: :show
+  end
+
   get "mypage", to: "users#show", as: :mypage
   root "top#index"
 
