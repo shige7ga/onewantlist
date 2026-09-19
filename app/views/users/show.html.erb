@@ -7,7 +7,7 @@
     <%# 経験値UP・レベルアップなど %>
     <%= render "shared/event_message", events: status_events %>
 
-    <%= render "user_card", user: @user, user_status: @user_status %>
+    <%= render "shared/user_card", user: @user, user_status: @user_status %>
 
     <%# やりたいこと一覧 %>
     <%= render "wants/index", wants: @wants %>
