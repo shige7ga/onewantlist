@@ -9,9 +9,9 @@ RSpec.describe "Users", type: :request do
         sign_in user
       end
 
-      let!(:my_want) { create(:want, user: user, content: "映画を見る") }
+      let!(:my_want) { create(:want, owner: user, content: "映画を見る") }
       let!(:other_user) { create(:user, email: "other@test") }
-      let!(:other_want) { create(:want, user: other_user, content: "富士山に登る") }
+      let!(:other_want) { create(:want, owner: other_user, content: "富士山に登る") }
 
       it "正常にレスポンスが返る" do
         get mypage_path

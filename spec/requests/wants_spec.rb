@@ -107,7 +107,7 @@ RSpec.describe "Wants", type: :request do
   end
 
   describe "GET /wants/:id(showアクション)" do
-    let(:want) { create(:want, user: user) }
+    let(:want) { create(:want, owner: user) }
 
     context "ログイン時" do
       before do
@@ -121,7 +121,7 @@ RSpec.describe "Wants", type: :request do
 
       context "他人のWantの場合" do
         let(:other_user) { create(:user, email: "other_test@example.com") }
-        let(:other_want) { create(:want, user: other_user) }
+        let(:other_want) { create(:want, owner: other_user) }
 
         it "マイページにリダイレクトされる" do
           get want_path(other_want)
@@ -139,7 +139,7 @@ RSpec.describe "Wants", type: :request do
   end
 
   describe "GET /wants/:id/edit(editアクション)" do
-    let(:want) { create(:want, user: user) }
+    let(:want) { create(:want, owner: user) }
 
     context "ログイン時" do
       before do
@@ -161,7 +161,7 @@ RSpec.describe "Wants", type: :request do
   end
 
   describe "PATCH /wants/:id(updateアクション)" do
-    let(:want) { create(:want, user: user, content: "富士山を登る") }
+    let(:want) { create(:want, owner: user, content: "富士山を登る") }
     let(:valid_params) do
       { want: { content: "映画を見る" } }
     end
@@ -211,7 +211,7 @@ RSpec.describe "Wants", type: :request do
   end
 
   describe "DELETE want_path(deleteアクション)" do
-    let!(:want) { create(:want, user: user) }
+    let!(:want) { create(:want, owner: user) }
 
     context "ログイン時" do
       before do
