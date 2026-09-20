@@ -1,5 +1,5 @@
 class Want < ApplicationRecord
-  belongs_to :user
+  belongs_to :owner, polymorphic: true
 
   validates :content, presence: true, length: { maximum: 400 }
   validates :status, presence: true

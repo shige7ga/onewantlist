@@ -45,7 +45,7 @@ RSpec.describe "Wants", type: :system do
     end
 
     context "やりたいこと詳細・編集・削除" do
-      let!(:want) { create(:want, user: user, content: "富士山に登る") }
+      let!(:want) { create(:want, owner: user, content: "富士山に登る") }
 
       it "自分のやりたいこと詳細を表示できる" do
         visit want_path(want)
@@ -74,7 +74,7 @@ RSpec.describe "Wants", type: :system do
 
     context "アクセス制御" do
       let!(:other_user) { create(:user, email: "other@example.com") }
-      let!(:other_want) { create(:want, user: other_user, content: "海外旅行へ行く") }
+      let!(:other_want) { create(:want, owner: other_user, content: "海外旅行へ行く") }
 
       it "他ユーザーのやりたいこと詳細にはアクセスできない" do
         visit want_path(other_want)

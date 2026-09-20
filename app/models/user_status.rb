@@ -1,13 +1,9 @@
 class UserStatus < ApplicationRecord
-  belongs_to :user
+  belongs_to :owner, polymorphic: true
 
   # バリデーション
   # 1以上
-  validates :level,
-            :login_count,
-            :login_streak,
-            :longest_login_streak,
-            numericality: { only_integer: true, greater_than_or_equal_to: 1 }
+  validates :level, numericality: { only_integer: true, greater_than_or_equal_to: 1 }
 
   # 0以上
   validates :experience,
@@ -17,17 +13,25 @@ class UserStatus < ApplicationRecord
             :random_gacha_count,
             numericality: { only_integer: true, greater_than_or_equal_to: 0 }
 
-  # 必須とする日付
-  validates :last_login_date,
-            presence: true,
-            comparison: { less_than_or_equal_to: -> { Date.current } }
-
   # nil許容の日付
   validates :last_action_date,
             :last_want_registration_date,
             :random_gacha_date,
             comparison: { less_than_or_equal_to: -> { Date.current } },
             allow_nil: true
+
+  with_options if: :user_owner? do
+    # 必須とする日付
+    validates :last_login_date,
+              presence: true,
+              comparison: { less_than_or_equal_to: -> { Date.current } }
+
+    # 1以上
+    validates :login_count,
+              :login_streak,
+              :longest_login_streak,
+              numericality: { only_integer: true, greater_than_or_equal_to: 1 }
+  end
 
   # 1日のガチャ回数制限
   RANDOM_GACHA_LIMIT = 10
@@ -89,6 +93,10 @@ class UserStatus < ApplicationRecord
   end
 
   private
+
+  def user_owner?
+    owner_type == "User"
+  end
 
   # 経験値UP・レベルUP共通処理
   def process_exp_events!(exp_events)

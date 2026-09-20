@@ -4,7 +4,7 @@ RSpec.describe "Users", type: :system do
   include LoginMacros
 
   let!(:user) { create(:user) }
-  let!(:want) { create(:want, user: user, content: "富士山に登る") }
+  let!(:want) { create(:want, owner: user, content: "富士山に登る") }
   let!(:random_want) { create(:random_want, content: "早朝にウォーキングする") }
 
   context "ログイン時" do
@@ -43,7 +43,7 @@ RSpec.describe "Users", type: :system do
 
     it "他ユーザーのやりたいことは表示されない" do
       other_user = create(:user, email: "other@example.com")
-      create(:want, user: other_user, content: "海外旅行へ行く")
+      create(:want, owner: other_user, content: "海外旅行へ行く")
 
       visit mypage_path
       expect(page).to have_content("富士山に登る")
