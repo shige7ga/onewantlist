@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_09_20_032409) do
+ActiveRecord::Schema[8.1].define(version: 2026_09_20_070816) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -45,9 +45,7 @@ ActiveRecord::Schema[8.1].define(version: 2026_09_20_032409) do
     t.integer "random_gacha_count", default: 0, null: false
     t.date "random_gacha_date"
     t.datetime "updated_at", null: false
-    t.bigint "user_id", null: false
     t.index ["owner_type", "owner_id"], name: "index_user_statuses_on_owner", unique: true
-    t.index ["user_id"], name: "index_user_statuses_on_user_id", unique: true
   end
 
   create_table "users", force: :cascade do |t|
@@ -71,11 +69,6 @@ ActiveRecord::Schema[8.1].define(version: 2026_09_20_032409) do
     t.string "owner_type", null: false
     t.integer "status", default: 0, null: false
     t.datetime "updated_at", null: false
-    t.bigint "user_id", null: false
     t.index ["owner_type", "owner_id"], name: "index_wants_on_owner"
-    t.index ["user_id"], name: "index_wants_on_user_id"
   end
-
-  add_foreign_key "user_statuses", "users"
-  add_foreign_key "wants", "users"
 end
