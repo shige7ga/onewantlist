@@ -6,6 +6,32 @@ class ApplicationController < ActionController::Base
   # Only allow modern browsers supporting webp images, web push, badges, import maps, CSS nesting, and CSS :has.
   allow_browser versions: :modern
 
+  def current_guest
+    return @current_guest if defined?(@current_guest)
+
+    token = cookies.encrypted[:guest_token]
+    @current_guest = GuestUser.find_by(token: token)
+  end
+
+  def create_guest
+    guest_user = GuestUser.create!
+    guest_user.create_user_status!
+
+    cookies.encrypted[:guest_token] = {
+      value: guest_user.token,
+      expires: 30.days.from_now,
+      httponly: true,
+      same_site: :lax,
+      secure: Rails.env.production?
+    }
+
+    guest_user
+  end
+
+  def ensure_guest
+    current_guest || create_guest
+  end
+
   private
 
   def record_daily_login

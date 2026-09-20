@@ -1,8 +1,9 @@
 class Guest::UsersController < ApplicationController
+  before_action :ensure_guest
+
   def show
-    # 一時的にデータを格納
-    @user = User.new(name: "ゲストユーザー")
-    @user_status = UserStatus.new(user: @user)
-    @wants = Want.none
+    @user = current_guest
+    @user_status = @user.user_status
+    @wants = @user.wants
   end
 end

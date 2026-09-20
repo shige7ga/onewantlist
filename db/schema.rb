@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_09_20_070816) do
+ActiveRecord::Schema[8.1].define(version: 2026_09_20_073754) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -33,13 +33,13 @@ ActiveRecord::Schema[8.1].define(version: 2026_09_20_070816) do
     t.datetime "created_at", null: false
     t.integer "experience", default: 0, null: false
     t.date "last_action_date"
-    t.date "last_login_date", default: -> { "CURRENT_DATE" }, null: false
+    t.date "last_login_date"
     t.date "last_want_registration_date"
     t.integer "level", default: 1, null: false
-    t.integer "login_count", default: 1, null: false
-    t.integer "login_streak", default: 1, null: false
+    t.integer "login_count"
+    t.integer "login_streak"
     t.integer "longest_action_streak", default: 0, null: false
-    t.integer "longest_login_streak", default: 1, null: false
+    t.integer "longest_login_streak"
     t.bigint "owner_id", null: false
     t.string "owner_type", null: false
     t.integer "random_gacha_count", default: 0, null: false
