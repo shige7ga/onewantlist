@@ -1,6 +1,6 @@
 class User < ApplicationRecord
-  has_many :wants, dependent: :destroy
-  has_one :user_status, dependent: :destroy
+  has_one :user_status, as: :owner, dependent: :destroy
+  has_many :wants, as: :owner, dependent: :destroy
   after_create :create_default_user_status
 
   # Include default devise modules. Others available are:

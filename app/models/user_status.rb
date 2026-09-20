@@ -1,5 +1,5 @@
 class UserStatus < ApplicationRecord
-  belongs_to :user
+  belongs_to :owner, polymorphic: true
 
   # バリデーション
   # 1以上
