@@ -91,9 +91,15 @@ RSpec.describe "Wants", type: :system do
   end
 
   context "未ログイン" do
-    it "登録画面へアクセスするとログイン画面へ移動する" do
-      visit new_want_path
-      expect(page).to have_current_path(new_user_session_path)
-    end
+    it "やりたいことを登録できる" do
+        visit new_want_path
+
+        fill_in "want_content", with: "富士山に登る"
+        click_button "登録"
+
+        expect(page).to have_current_path(guest_user_path)
+        expect(page).to have_content("富士山に登る")
+        expect(page).to have_content("やりたいことを登録しました")
+      end
   end
 end

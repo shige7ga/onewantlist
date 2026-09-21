@@ -1,10 +1,36 @@
 class ApplicationController < ActionController::Base
   before_action :record_daily_login, if: :user_signed_in?, unless: :devise_controller?
+  before_action :reset_expired_action_streak
 
   helper_method :status_events
+  helper_method :current_owner
 
   # Only allow modern browsers supporting webp images, web push, badges, import maps, CSS nesting, and CSS :has.
   allow_browser versions: :modern
+
+  def owner_home_path
+    user_signed_in? ? mypage_path : guest_user_path
+  end
+
+  def current_owner
+    user_signed_in? ? current_user : ensure_guest
+  end
+
+  def ensure_guest
+    current_guest || create_guest
+  end
+
+  def check_today_want_registration
+    return unless current_owner.user_status.last_want_registration_date == Date.current
+
+    redirect_to owner_home_path, alert: "今日は既にやりたいことを登録完了しています"
+  end
+
+  private
+
+  def reset_expired_action_streak
+    current_owner.user_status.reset_action_streak_if_expired!
+  end
 
   def current_guest
     return @current_guest if defined?(@current_guest)
@@ -14,25 +40,19 @@ class ApplicationController < ActionController::Base
   end
 
   def create_guest
-    guest_user = GuestUser.create!
-    guest_user.create_user_status!
+    @current_guest = GuestUser.create!
+    @current_guest.create_user_status!
 
     cookies.encrypted[:guest_token] = {
-      value: guest_user.token,
+      value: @current_guest.token,
       expires: 30.days.from_now,
       httponly: true,
       same_site: :lax,
       secure: Rails.env.production?
     }
 
-    guest_user
+    @current_guest
   end
-
-  def ensure_guest
-    current_guest || create_guest
-  end
-
-  private
 
   def record_daily_login
     add_status_events(current_user.user_status.record_daily_login!)

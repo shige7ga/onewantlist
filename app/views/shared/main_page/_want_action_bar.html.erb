@@ -1,0 +1,41 @@
+<div class="fixed bottom-0 left-1/2 z-40
+            w-full -translate-x-1/2
+            md:w-1/2 md:max-w-2xl
+            border-t border-gray-200
+            bg-[#F6F5EE]
+            p-3 shadow-[0_-4px_12px_rgba(0,0,0,0.08)]">
+
+  <div class="grid grid-cols-2 gap-3">
+
+    <%= link_to new_want_path,
+          class: "flex items-center justify-center
+                  rounded-xl bg-[#A8BFA0]
+                  px-3 py-3
+                  font-bold text-[#4F5A4C]
+                  hover:opacity-80" do %>
+      ＋ やりたいこと登録
+    <% end %>
+
+    <% if current_owner.user_status&.last_want_registration_date != Date.current && current_owner.user_status.random_gacha_available? %>
+      <%= link_to  draw_random_want_path,
+            data: { turbo_method: :post },
+            class: "flex items-center justify-center
+                    rounded-xl bg-[#E3C88F]
+                    px-3 py-3
+                    font-bold text-[#4F5A4C]
+                    hover:opacity-80" do %>
+        🎲 やりたいことガチャ
+      <% end %>
+    <% else %>
+      <%= link_to  random_want_path,
+            class: "flex items-center justify-center
+                    rounded-xl bg-[#E3C88F]
+                    px-3 py-3
+                    font-bold text-[#4F5A4C]
+                    hover:opacity-80" do %>
+        🎲 やりたいことガチャ
+      <% end %>
+    <% end %>
+
+  </div>
+</div>

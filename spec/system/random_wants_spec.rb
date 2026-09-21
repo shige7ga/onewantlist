@@ -42,27 +42,12 @@ RSpec.describe "RandomWants", type: :system do
         expect(page).to have_content("やりたいことガチャを回してください")
       end
     end
-
-    context "ガチャ上限に達している場合" do
-      before do
-        user.user_status.update!(
-          random_gacha_date: Date.current,
-          random_gacha_count: UserStatus::RANDOM_GACHA_LIMIT
-        )
-      end
-
-      it "マイページのガチャボタンがリンクではなくなる" do
-        visit mypage_path
-        expect(page).to have_content("やりたいことガチャ")
-        expect(page).not_to have_link("やりたいことガチャ")
-      end
-    end
   end
 
   context "未ログイン時" do
-    it "ガチャ結果画面へアクセスするとログイン画面へ移動する" do
+    it "ガチャ結果画面へアクセスするとゲストユーザー画面へ移動する" do
       visit random_want_path
-      expect(page).to have_current_path(new_user_session_path)
+      expect(page).to have_current_path(guest_user_path)
     end
   end
 end

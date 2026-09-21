@@ -27,9 +27,9 @@ RSpec.describe "Wants", type: :request do
     end
 
     context "未ログイン時" do
-      it "ログイン画面へリダイレクトされる" do
+      it "正常にレスポンスが返る" do
         get new_want_path
-        expect(response).to redirect_to(new_user_session_path)
+        expect(response).to have_http_status(:success)
       end
     end
   end
@@ -99,9 +99,9 @@ RSpec.describe "Wants", type: :request do
     end
 
     context "未ログイン時" do
-      it "ログイン画面へリダイレクトされる" do
+      it "ゲストユーザー画面へリダイレクトされる" do
         post wants_path, params: valid_params
-        expect(response).to redirect_to(new_user_session_path)
+        expect(response).to redirect_to(guest_user_path)
       end
     end
   end
@@ -131,9 +131,9 @@ RSpec.describe "Wants", type: :request do
     end
 
     context "未ログイン時" do
-      it "ログイン画面へリダイレクトされる" do
+      it "ゲストユーザー画面へリダイレクトされる" do
         get want_path(want)
-        expect(response).to redirect_to(new_user_session_path)
+        expect(response).to redirect_to(guest_user_path)
       end
     end
   end
@@ -153,9 +153,9 @@ RSpec.describe "Wants", type: :request do
     end
 
     context "未ログイン時" do
-      it "ログイン画面へリダイレクトされる" do
+      it "ゲストユーザー画面へリダイレクトされる" do
         get edit_want_path(want)
-        expect(response).to redirect_to(new_user_session_path)
+        expect(response).to redirect_to(guest_user_path)
       end
     end
   end
@@ -203,9 +203,9 @@ RSpec.describe "Wants", type: :request do
     end
 
     context "未ログイン時" do
-      it "ログイン画面へリダイレクトされる" do
+      it "ゲストユーザー画面へリダイレクトされる" do
         patch want_path(want), params: valid_params
-        expect(response).to redirect_to(new_user_session_path)
+        expect(response).to redirect_to(guest_user_path)
       end
     end
   end
@@ -231,9 +231,9 @@ RSpec.describe "Wants", type: :request do
     end
 
     context "未ログイン時" do
-      it "ログイン画面へリダイレクトされる" do
+      it "ゲストユーザー画面へリダイレクトされる" do
         delete want_path(want)
-        expect(response).to redirect_to(new_user_session_path)
+        expect(response).to redirect_to(guest_user_path)
       end
     end
   end
