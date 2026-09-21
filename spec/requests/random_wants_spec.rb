@@ -10,9 +10,9 @@ RSpec.describe "RandomWants", type: :request do
 
   describe "GET /random_want" do
     context "未ログイン時" do
-      it "ログイン画面にリダイレクトされる" do
+      it "ゲストユーザー画面にリダイレクトされる" do
         get random_want_path
-        expect(response).to redirect_to(new_user_session_path)
+        expect(response).to redirect_to(guest_user_path)
       end
     end
 
@@ -66,9 +66,9 @@ RSpec.describe "RandomWants", type: :request do
 
   describe "POST /random_want/draw" do
     context "未ログイン時" do
-      it "ログイン画面にリダイレクトされる" do
+      it "ガチャ結果画面にリダイレクトされる" do
         post draw_random_want_path
-        expect(response).to redirect_to(new_user_session_path)
+        expect(response).to redirect_to(random_want_path)
       end
     end
 
