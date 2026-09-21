@@ -1,5 +1,6 @@
 class ApplicationController < ActionController::Base
   before_action :record_daily_login, if: :user_signed_in?, unless: :devise_controller?
+  before_action :reset_expired_action_streak
 
   helper_method :status_events
   helper_method :current_owner
@@ -26,6 +27,10 @@ class ApplicationController < ActionController::Base
   end
 
   private
+
+  def reset_expired_action_streak
+    current_owner.user_status.reset_action_streak_if_expired!
+  end
 
   def current_guest
     return @current_guest if defined?(@current_guest)

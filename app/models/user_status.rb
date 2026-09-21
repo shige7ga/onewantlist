@@ -54,6 +54,14 @@ class UserStatus < ApplicationRecord
     random_gacha_date != Date.current || random_gacha_count < RANDOM_GACHA_LIMIT
   end
 
+  def reset_action_streak_if_expired!
+    return if last_action_date.nil?
+    return if last_action_date >= Date.yesterday
+    return if action_streak.zero?
+
+    update!(action_streak: 0)
+  end
+
   # ユーザー登録時のステータス更新記録
   def record_signup!
     process_exp_events!([ signup_exp_event ])
