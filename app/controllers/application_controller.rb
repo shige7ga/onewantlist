@@ -2,6 +2,7 @@ class ApplicationController < ActionController::Base
   before_action :record_daily_login, if: :user_signed_in?, unless: :devise_controller?
 
   helper_method :status_events
+  helper_method :current_owner
 
   # Only allow modern browsers supporting webp images, web push, badges, import maps, CSS nesting, and CSS :has.
   allow_browser versions: :modern
@@ -16,6 +17,12 @@ class ApplicationController < ActionController::Base
 
   def ensure_guest
     current_guest || create_guest
+  end
+
+  def check_today_want_registration
+    return unless current_owner.user_status.last_want_registration_date == Date.current
+
+    redirect_to owner_home_path, alert: "今日は既にやりたいことを登録完了しています"
   end
 
   private

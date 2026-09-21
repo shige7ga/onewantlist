@@ -39,12 +39,6 @@ class WantsController < ApplicationController
 
   private
 
-  def check_today_want_registration
-    return unless current_owner.user_status.last_want_registration_date == Date.current
-
-    redirect_to owner_home_path, alert: "今日は既にやりたいことを登録完了しています"
-  end
-
   def want_params
     params.require(:want).permit(:content, :status, :due_date)
   end
