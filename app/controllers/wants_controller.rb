@@ -1,5 +1,4 @@
 class WantsController < ApplicationController
-  before_action :authenticate_user!
   before_action :check_today_want_registration, only: %i[ new create ]
   before_action :set_want, only: %i[ show edit update destroy ]
 
@@ -7,14 +6,14 @@ class WantsController < ApplicationController
   end
 
   def new
-    @want = current_user.wants.new
+    @want = current_owner.wants.new
   end
 
   def create
-    @want = current_user.wants.new(want_params)
+    @want = current_owner.wants.new(want_params)
     if @want.save
-      add_status_events(current_user.user_status.record_want_registration!)
-      redirect_to mypage_path, notice: t("defaults.flash_message.created", item: Want.model_name.human)
+      add_status_events(current_owner.user_status.record_want_registration!)
+      redirect_to owner_home_path, notice: t("defaults.flash_message.created", item: Want.model_name.human)
     else
       flash.now[:alert] = t("defaults.flash_message.not_created", item: Want.model_name.human)
       render :new, status: :unprocessable_entity
@@ -41,9 +40,9 @@ class WantsController < ApplicationController
   private
 
   def check_today_want_registration
-    return unless current_user.user_status.last_want_registration_date == Date.current
+    return unless current_owner.user_status.last_want_registration_date == Date.current
 
-    redirect_to mypage_path, alert: "今日は既にやりたいことを登録完了しています"
+    redirect_to owner_home_path, alert: "今日は既にやりたいことを登録完了しています"
   end
 
   def want_params
@@ -51,8 +50,8 @@ class WantsController < ApplicationController
   end
 
   def set_want
-    @want = current_user.wants.find_by(id: params[:id])
+    @want = current_owner.wants.find_by(id: params[:id])
     return if @want.present?
-    redirect_to mypage_path, alert: "アクセス権がありません"
+    redirect_to owner_home_path, alert: "アクセス権がありません"
   end
 end
