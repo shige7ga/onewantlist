@@ -20,6 +20,10 @@ class ApplicationController < ActionController::Base
     current_guest || create_guest
   end
 
+  def current_owner_status
+    current_owner.user_status
+  end
+
   def check_today_want_registration
     return unless current_owner.user_status.last_want_registration_date == Date.current
 
