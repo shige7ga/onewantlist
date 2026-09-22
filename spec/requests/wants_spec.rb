@@ -36,7 +36,10 @@ RSpec.describe "Wants", type: :request do
 
   describe "POST /wants(createアクション)" do
     let(:valid_params) do
-      { want: { content: "映画を見る" } }
+      {
+        want: { content: "映画を見る" },
+        registration_source: "direct"
+      }
     end
 
     context "ログイン時" do

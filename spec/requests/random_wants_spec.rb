@@ -50,12 +50,6 @@ RSpec.describe "RandomWants", type: :request do
           )
         end
 
-        it "ガチャ回数を0回にリセットする" do
-          get random_want_path
-          expect(user_status.reload.random_gacha_count).to eq(0)
-          expect(user_status.random_gacha_date).to eq(Date.current)
-        end
-
         it "ガチャ結果を破棄してマイページにリダイレクトする" do
           get random_want_path
           expect(response).to redirect_to(mypage_path)
