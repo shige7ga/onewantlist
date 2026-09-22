@@ -1,6 +1,7 @@
 class RandomWantsController < ApplicationController
+  before_action :clear_stale_gacha_result, only: %i[ show ]
   before_action :check_guest_gacha_usage_limit, only: %i[ show draw ]
-  before_action :check_today_want_registration, only: %i[ draw show ]
+  before_action :check_today_want_registration, only: %i[ show draw ]
   before_action :check_random_want, only: %i[ show ]
   before_action :check_today_gacha_limit, only: %i[ draw ]
 
@@ -14,6 +15,7 @@ class RandomWantsController < ApplicationController
     random_want = RandomWant.order(Arel.sql("RANDOM()")).first
 
     prepare_gacha_for_draw!
+
     session[:random_want_id] = random_want.id
     current_owner_status.increment!(:random_gacha_count)
 
@@ -26,11 +28,17 @@ class RandomWantsController < ApplicationController
 
   private
 
+  def clear_stale_gacha_result
+    return if current_owner_status.random_gacha_date == Date.current
+    session.delete(:random_want_id)
+  end
+
   def prepare_gacha_for_draw!
     return if current_owner_status.random_gacha_date == Date.current
 
     current_owner.record_gacha_usage! unless user_signed_in?
-    initialize_gacha_count!
+    current_owner_status.update!(random_gacha_date: Date.current, random_gacha_count: 0)
+    session.delete(:random_want_id)
   end
 
   def check_guest_gacha_usage_limit
@@ -39,20 +47,6 @@ class RandomWantsController < ApplicationController
     return if current_owner.gacha_usage_available?
 
     redirect_to new_user_registration_path, alert: "ゲスト利用制限に達しました。ユーザー登録して使ってみましょう。"
-  end
-
-  def record_guest_gacha_usage!
-    return if user_signed_in?
-
-    unless current_owner.gacha_usage_available?
-      redirect_to ne
-    end
-  end
-
-  def initialize_gacha_count!
-    return if current_owner_status.random_gacha_date == Date.current
-      current_owner_status.update!(random_gacha_date: Date.current, random_gacha_count: 0)
-      session.delete(:random_want_id)
   end
 
   def check_random_want
