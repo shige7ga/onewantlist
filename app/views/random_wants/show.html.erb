@@ -10,6 +10,7 @@
       <%= render "shared/event_message", events: status_events %>
 
       <%= form_with(model: @want, html: { class: "space-y-4" }) do |f| %>
+        <%= hidden_field_tag :registration_source, "gacha" %>
         <div>
           <%= f.text_area :content,
                           autofocus: true,
