@@ -3,7 +3,7 @@ class Guest::UsersController < ApplicationController
 
   def show
     @user_status = @current_guest.user_status
-    @wants = @current_guest.wants
+    @wants = @current_guest.wants.order(created_at: :desc)
   end
 
   private

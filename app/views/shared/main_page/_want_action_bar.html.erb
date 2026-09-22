@@ -8,34 +8,67 @@
   <div class="grid grid-cols-2 gap-3">
 
     <%= link_to new_want_path,
-          class: "flex items-center justify-center
+          class: "flex flex-col items-center justify-center
                   rounded-xl bg-[#A8BFA0]
                   px-3 py-3
                   font-bold text-[#4F5A4C]
                   hover:opacity-80" do %>
-      ＋ やりたいこと登録
+      <span class="whitespace-nowrap">＋ やりたいこと登録</span>
+      <% unless user_signed_in? %>
+        <span class="text-[10px] font-normal leading-none">
+          （残り <%= current_owner.remaining_direct_registrations %> /
+          <%= GuestUser::DIRECT_REGISTRATION_LIMIT %> 回）
+        </span>
+      <% end %>
     <% end %>
 
     <% if current_owner.user_status&.last_want_registration_date != Date.current && current_owner.user_status.random_gacha_available? %>
-      <%= link_to  draw_random_want_path,
+      <%= link_to draw_random_want_path,
             data: { turbo_method: :post },
-            class: "flex items-center justify-center
+            class: "flex flex-col items-center justify-center
+                    gap-0.5
                     rounded-xl bg-[#E3C88F]
                     px-3 py-3
                     font-bold text-[#4F5A4C]
                     hover:opacity-80" do %>
-        🎲 やりたいことガチャ
-      <% end %>
-    <% else %>
-      <%= link_to  random_want_path,
-            class: "flex items-center justify-center
-                    rounded-xl bg-[#E3C88F]
-                    px-3 py-3
-                    font-bold text-[#4F5A4C]
-                    hover:opacity-80" do %>
-        🎲 やりたいことガチャ
-      <% end %>
-    <% end %>
 
+        <span class="flex items-center justify-center gap-1.5">
+          <%= render "shared/icons/capsule", icon_class: "w-4 h-4 shrink-0" %>
+          <span class="whitespace-nowrap">やりたいことガチャ</span>
+        </span>
+
+        <% unless user_signed_in? %>
+          <span class="text-[10px] font-normal leading-none">
+            （残り <%= current_owner.remaining_gacha_usages %> /
+            <%= GuestUser::GACHA_USAGE_LIMIT %> 回）
+          </span>
+        <% end %>
+      <% end %>
+
+    <% else %>
+
+      <%= link_to random_want_path,
+            class: "flex flex-col items-center justify-center
+                    gap-0.5
+                    rounded-xl bg-[#E3C88F]
+                    px-3 py-3
+                    font-bold text-[#4F5A4C]
+                    hover:opacity-80" do %>
+
+
+        <span class="flex items-center justify-center gap-1.5">
+          <%= render "shared/icons/capsule", icon_class: "w-4 h-4 shrink-0" %>
+          <span class="whitespace-nowrap">やりたいことガチャ</span>
+        </span>
+
+        <% unless user_signed_in? %>
+          <span class="text-[10px] font-normal leading-none">
+            （残り <%= current_owner.remaining_gacha_usages %> /
+            <%= GuestUser::GACHA_USAGE_LIMIT %> 回）
+          </span>
+        <% end %>
+      <% end %>
+
+    <% end %>
   </div>
 </div>
