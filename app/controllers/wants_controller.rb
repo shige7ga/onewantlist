@@ -1,6 +1,6 @@
 class WantsController < ApplicationController
   before_action :check_today_want_registration, only: %i[ new create ]
-  before_action :check_guest_registration_limit, only: %i[ new create ]
+  before_action :check_guest_registration_limit, only: %i[ create ]
   before_action :set_want, only: %i[ show edit update destroy ]
 
   def show
