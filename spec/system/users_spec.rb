@@ -4,6 +4,7 @@ RSpec.describe "Users", type: :system do
   include LoginMacros
 
   let!(:user) { create(:user) }
+  let!(:user_status) { create(:user_status, owner: user) }
   let!(:want) { create(:want, owner: user, content: "富士山に登る") }
   let!(:random_want) { create(:random_want, content: "早朝にウォーキングする") }
 

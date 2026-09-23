@@ -5,6 +5,7 @@ RSpec.describe "RandomWants", type: :system do
 
   context "ログイン時" do
     let!(:user) { create(:user) }
+    let!(:user_status) { create(:user_status, owner: user) }
     let!(:random_want) { create(:random_want, content: "早朝にウォーキングする") }
 
     before do
