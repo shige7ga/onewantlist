@@ -2,7 +2,7 @@ require "rails_helper"
 
 RSpec.describe "RandomWants", type: :request do
   let(:user) { create(:user) }
-  let(:user_status) { user.user_status }
+  let!(:user_status) { create(:user_status, owner: user) }
 
   let!(:random_want) do
     create(:random_want, content: "行ったことのないカフェに行く")

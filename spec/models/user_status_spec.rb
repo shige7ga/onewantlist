@@ -271,10 +271,12 @@ RSpec.describe UserStatus, type: :model do
     end
   end
 
-  describe "Userとの関連" do
-    it "User作成時にUserStatusが紐づく" do
+  describe "UserStatusとの関連" do
+    it "UserStatusを紐づけられる" do
       user = create(:user)
-      expect(user.user_status).to be_present
+      user_status = create(:user_status, owner: user)
+
+      expect(user.user_status).to eq(user_status)
     end
   end
 
@@ -297,7 +299,7 @@ RSpec.describe UserStatus, type: :model do
 
   describe "#record_daily_login!" do
     let(:user) { create(:user) }
-    let(:user_status) { user.user_status }
+    let(:user_status) { create(:user_status, owner: user) }
 
     context "最終ログイン日が昨日の場合" do
       before do
@@ -513,7 +515,7 @@ RSpec.describe UserStatus, type: :model do
 
   describe "#record_random_wants_limit!" do
     let(:user) { create(:user) }
-    let(:user_status) { user.user_status }
+    let(:user_status) { create(:user_status, owner: user) }
 
     context "最終アクション日が昨日の場合" do
       before do
@@ -743,7 +745,7 @@ RSpec.describe UserStatus, type: :model do
 
   describe "#record_want_registration!" do
     let(:user) { create(:user) }
-    let(:user_status) { user.user_status }
+    let(:user_status) { create(:user_status, owner: user) }
 
     context "今日まだやりたいことを登録していない場合" do
       before do
@@ -903,7 +905,7 @@ RSpec.describe UserStatus, type: :model do
 
   describe "#record_signup!" do
     let(:user) { create(:user) }
-    let(:user_status) { user.user_status }
+    let(:user_status) { create(:user_status, owner: user) }
 
     before do
       user_status.update!(
@@ -972,7 +974,7 @@ RSpec.describe UserStatus, type: :model do
 
   describe "#required_exp_for_next_level" do
     let(:user) { create(:user) }
-    let(:user_status) { user.user_status }
+    let(:user_status) { create(:user_status, owner: user) }
 
     context "Lv1の場合" do
       before do
@@ -1027,7 +1029,7 @@ RSpec.describe UserStatus, type: :model do
 
   describe "#exp_to_next_level" do
     let(:user) { create(:user) }
-    let(:user_status) { user.user_status }
+    let(:user_status) { create(:user_status, owner: user) }
 
     context "Lv1で3EXP獲得している場合" do
       before do
@@ -1058,7 +1060,7 @@ RSpec.describe UserStatus, type: :model do
 
   describe "#current_level_exp" do
     let(:user) { create(:user) }
-    let(:user_status) { user.user_status }
+    let(:user_status) { create(:user_status, owner: user) }
 
     context "Lv2で累計13EXP獲得している場合" do
       before do

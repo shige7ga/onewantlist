@@ -2,6 +2,7 @@ require 'rails_helper'
 
 RSpec.describe "Top", type: :request do
   let(:user) { create(:user) }
+  let!(:user_status) { create(:user_status, owner: user) }
 
   describe "GET /" do
     context "ログイン時" do

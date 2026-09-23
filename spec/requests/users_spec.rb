@@ -3,6 +3,7 @@ require 'rails_helper'
 RSpec.describe "Users", type: :request do
   describe "GET /mypage" do
     let(:user) { create(:user) }
+    let!(:user_status) { create(:user_status, owner: user) }
 
     context "ログイン時" do
       before do
@@ -11,6 +12,7 @@ RSpec.describe "Users", type: :request do
 
       let!(:my_want) { create(:want, owner: user, content: "映画を見る") }
       let!(:other_user) { create(:user, email: "other@test") }
+      let!(:other_user_status) { create(:user_status, owner: other_user) }
       let!(:other_want) { create(:want, owner: other_user, content: "富士山に登る") }
 
       it "正常にレスポンスが返る" do
