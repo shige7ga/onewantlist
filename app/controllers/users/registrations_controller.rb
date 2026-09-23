@@ -11,11 +11,27 @@ class Users::RegistrationsController < Devise::RegistrationsController
 
   # POST /resource
   def create
-    super do |resource|
-      if resource.persisted?
-        add_status_events(resource.user_status.record_signup!)
+    guest_user = current_guest
+
+    # ユーザー登録前はゲストが必ず存在する仕様の為
+    raise ActiveRecord::RecordNotFound, "GuestUser not found" unless guest_user
+
+    signup_events = []
+    registration_succeeded = false
+
+    ApplicationRecord.transaction do
+      super do |resource|
+        next unless resource.persisted?
+        user_status = transfer_guest_data!(guest_user, resource)
+        signup_events = user_status.record_signup!
+        guest_user.reload.destroy!
+        registration_succeeded = true
       end
     end
+
+    return unless registration_succeeded
+    add_status_events(signup_events)
+    cookies.delete(:guest_token)
   end
 
   # GET /resource/edit
@@ -67,5 +83,27 @@ class Users::RegistrationsController < Devise::RegistrationsController
   # アカウント削除後の遷移先を定義
   def after_sign_out_path_for(resource)
     new_user_registration_path
+  end
+
+  private
+
+  def transfer_guest_data!(guest_user, user)
+    user_status = guest_user.user_status
+
+    user_status.update!(
+      owner: user,
+      last_login_date: Date.current,
+      login_count: 1,
+      login_streak: 1,
+      longest_login_streak: 1
+    )
+
+    guest_user.wants.update_all(
+      owner_type: "User",
+      owner_id: user.id,
+      updated_at: Time.current
+    )
+
+    user_status
   end
 end
