@@ -215,6 +215,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@fontsource/zen-maru-gothic@npm:^5.3.0":
+  version: 5.3.0
+  resolution: "@fontsource/zen-maru-gothic@npm:5.3.0"
+  checksum: 10c0/c094d4520460d31b02d01640044569816158d6d08a940655ad35d4c2354a6992deec7e534f3d42f2d835c9ee7ec7f51a8acfa64b5afdbd55af88fbdb3c86c601
+  languageName: node
+  linkType: hard
+
 "@hotwired/stimulus@npm:^3.2.2":
   version: 3.2.2
   resolution: "@hotwired/stimulus@npm:3.2.2"
@@ -643,6 +650,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "app@workspace:."
   dependencies:
+    "@fontsource/zen-maru-gothic": "npm:^5.3.0"
     "@hotwired/stimulus": "npm:^3.2.2"
     "@hotwired/turbo-rails": "npm:^8.0.23"
     "@tailwindcss/cli": "npm:^4.3.3"

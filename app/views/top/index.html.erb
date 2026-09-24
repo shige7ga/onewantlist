@@ -1,29 +1,513 @@
-<div class="hero min-h-screen bg-[#F6F5EE]">
-  <div class="hero-content text-center">
-    <div class="max-w-xl">
-      <h1 class="mb-4 text-5xl font-bold text-[#4F5A4C]">
-        わんわんとリスト
-      </h1>
+<main class="bg-[#F6F5EE] text-[#4F5A4C]">
 
-      <p class="text-lg text-gray-600">
-        1日1つだけ「やりたいこと」を登録して、<br>
-        小さな一歩を積み重ねよう。
-      </p>
+  <%# ==============================
+      ファーストビュー
+  ============================== %>
+  <section class="relative flex min-h-[100svh] items-center overflow-hidden px-5 py-12">
+    <div class="mx-auto w-full max-w-5xl">
 
-      <div class="mt-6 flex justify-center gap-3">
-        <%= link_to "ゲストページ",
-                    guest_user_path,
-                    class: "btn border-[#A8BFA0] bg-[#A8BFA0] text-[#4F5A4C] hover:bg-[#A8BFA0]/80" %>
+      <div class="mx-auto max-w-2xl text-center">
+
+        <%# アプリ名 %>
+        <p class="mb-2 text-sm font-medium tracking-[0.2em] text-[#4F5A4C]/60">
+          One Want List
+        </p>
+
+        <h1 class="text-4xl font-bold tracking-tight sm:text-5xl">
+          わんわんとリスト
+        </h1>
+
+        <%# メインコピー %>
+        <div class="mt-5">
+          <p class="mt-3 leading-8 text-[#4F5A4C]/75">
+            1日ひとつだけ、やりたいことを残す。<br>
+            がんばりすぎず、自分の気持ちと向き合うために。
+          </p>
+        </div>
+
+        <%# ==============================
+            キャラクター + メインCTA
+        ============================== %>
+
+        <div class="mt-5 flex flex-col items-center gap-6">
+
+          <%# ==============================
+              ワン太
+          ============================== %>
+          <div class="flex items-center justify-center gap-3">
+            <div class="animate-bounce
+                    [animation-delay:0.3s]
+                    [animation-duration:2s]">
+
+              <%= image_tag "wanta.png",
+                          alt: "ワン太",
+                          class: "h-24 w-24 object-contain" %>
+
+            </div>
+
+            <div class="relative rounded-3xl bg-white px-5 py-3 shadow-sm">
+
+              <p class="text-sm font-medium sm:text-base">
+                「ひとつずつでいいんだね。」
+              </p>
+
+              <%# ワン太方向への三角 %>
+              <div class="absolute -left-2 top-1/2
+                          h-4 w-4 -translate-y-1/2 rotate-45
+                          bg-white">
+              </div>
+
+            </div>
+
+          </div>
+
+
+          <%# ==============================
+              メインCTA
+          ============================== %>
+          <div class="w-full max-w-sm text-center">
+
+            <%= link_to "体験してみる",
+                        guest_user_path,
+                        class: "btn h-auto min-h-0 w-full rounded-full
+                                border-none
+                                bg-[#A8BFA0]
+                                px-8 py-4
+                                text-base font-bold text-[#354133]
+                                shadow-sm
+                                hover:bg-[#96AE8E]" %>
+
+            <p class="mt-3 text-sm text-[#4F5A4C]/60">
+              登録なしで試せます
+            </p>
+
+          </div>
+
+
+          <%# ==============================
+              リス丸
+          ============================== %>
+          <div class="flex flex-row-reverse items-center justify-center gap-3">
+
+            <div class="animate-bounce [animation-duration:2s]">
+
+              <%= image_tag "risumaru.png",
+                            alt: "リス丸",
+                            class: "h-12 w-12 object-contain" %>
+
+            </div>
+
+            <div class="relative rounded-3xl bg-[#FFF9E9] px-5 py-3 shadow-sm">
+
+              <p class="text-sm font-medium sm:text-base">
+                「ここから試せるんだって！」
+              </p>
+
+              <%# リス丸方向への三角 %>
+              <div class="absolute -right-2 top-1/2
+                          h-4 w-4 -translate-y-1/2 rotate-45
+                          bg-[#FFF9E9]">
+              </div>
+
+            </div>
+
+          </div>
+
+        </div>
+
+        <%# 会員導線 %>
+        <div class="mt-7 flex items-center justify-center gap-4 text-sm">
+          <%= link_to t("devise.registrations.new.title"),
+                      new_user_registration_path,
+                      class: "font-medium underline decoration-[#A8BFA0] underline-offset-4 hover:text-[#74866F]" %>
+
+          <span class="text-[#4F5A4C]/25">|</span>
+
+          <%= link_to t("devise.sessions.new.login"),
+                      new_user_session_path,
+                      class: "font-medium underline decoration-[#A8BFA0] underline-offset-4 hover:text-[#74866F]" %>
+        </div>
+
       </div>
 
-      <div class="mt-6 flex justify-center gap-3">
-        <%= link_to t("devise.registrations.new.title"),
-                    new_user_registration_path,
-                    class: "btn border-[#A8BFA0] bg-[#A8BFA0] text-[#4F5A4C] hover:bg-[#A8BFA0]/80" %>
-        <%= link_to t("devise.sessions.new.login"),
-                    new_user_session_path,
-                    class: "btn btn-outline border-[#A8BFA0] text-[#4F5A4C] hover:border-[#A8BFA0] hover:bg-[#A8BFA0]/30" %>
+      <%# スクロール案内 %>
+      <div class="mt-16 text-center text-sm text-[#4F5A4C]/45">
+        <p>わんわんとリストって？</p>
+        <p class="mt-1 text-xl">⌄</p>
+      </div>
+
+    </div>
+  </section>
+
+
+  <%# ==============================
+      できること
+  ============================== %>
+  <section class="px-5 py-20 bg-[#A8BFA0]/10">
+    <div class="mx-auto max-w-5xl">
+
+      <div class="text-center">
+        <p class="text-sm font-bold text-[#8CA184]">
+          HOW IT WORKS
+        </p>
+
+        <h2 class="mt-3 text-2xl font-bold sm:text-3xl">
+          まずは、ひとつから。
+        </h2>
+      </div>
+
+      <div class="mt-10 grid gap-5 md:grid-cols-3">
+
+        <article class="rounded-3xl border border-[#A8BFA0]/20 bg-white/60 p-7">
+          <div class="text-3xl">✏️</div>
+
+          <h3 class="mt-4 text-lg font-bold">
+            やりたいことを残す
+          </h3>
+
+          <p class="mt-3 leading-7 text-[#4F5A4C]/70">
+            今日やりたいことを、
+            1日ひとつだけ登録。
+            たくさんのTodoを作る必要はありません。
+          </p>
+        </article>
+
+        <article class="rounded-3xl border border-[#E3C88F]/30 bg-[#FFF9E9] p-7">
+          <div class="text-3xl">🎲</div>
+
+          <h3 class="mt-4 text-lg font-bold">
+            思いつかない日はガチャ
+          </h3>
+
+          <p class="mt-3 leading-7 text-[#4F5A4C]/70">
+            「何しよう？」と迷った日は、
+            ガチャからやりたいことを探してみる。
+          </p>
+
+          <p class="mt-4 text-sm font-medium">
+            🐿️「こんなのどう？」
+          </p>
+        </article>
+
+        <article class="rounded-3xl border border-[#A8BFA0]/20 bg-white/60 p-7">
+          <div class="text-3xl">🌱</div>
+
+          <h3 class="mt-4 text-lg font-bold">
+            少しずつ続ける
+          </h3>
+
+          <p class="mt-3 leading-7 text-[#4F5A4C]/70">
+            小さな行動も経験値として記録。
+            頑張るためではなく、
+            積み重ねを楽しむための仕組みです。
+          </p>
+        </article>
+
       </div>
     </div>
-  </div>
-</div>
+  </section>
+
+  <%# ==============================
+      1日ひとつの理由
+  ============================== %>
+  <section class="px-5 py-20 sm:py-24">
+    <div class="mx-auto max-w-3xl">
+
+      <div class="relative overflow-hidden rounded-[2.5rem]
+                  border border-[#A8BFA0]/20
+                  bg-white/60
+                  px-6 py-12
+                  shadow-sm
+                  sm:px-12">
+
+        <%# 背景のワン太 %>
+        <div
+          class="pointer-events-none absolute -bottom-7 -right-5
+                select-none text-9xl opacity-[0.06]"
+          aria-hidden="true"
+        >
+          🐶
+        </div>
+
+        <div class="relative z-10 mx-auto max-w-xl text-center">
+
+          <%# セクションラベル %>
+          <span class="inline-block rounded-full
+                      bg-[#E3C88F]/30
+                      px-4 py-1.5
+                      text-xs font-bold tracking-[0.15em]
+                      text-[#4F5A4C]/75">
+            PHILOSOPHY
+          </span>
+
+          <%# タイトル %>
+          <h2 class="mt-5 text-2xl font-bold leading-relaxed
+                    text-[#4F5A4C] sm:text-3xl">
+            がんばりすぎないから、<br>
+            続けられる。
+          </h2>
+
+          <%# 区切り線 %>
+          <div class="mx-auto my-6 h-1 w-12 rounded-full bg-[#E3C88F]"></div>
+
+          <%# 本文 %>
+          <div class="space-y-5 text-sm font-medium leading-7
+                      text-[#4F5A4C]/70 sm:text-base sm:leading-8">
+
+            <p>
+              「やりたいことリストを書こう」と思っても、<br class="hidden sm:block">
+              一度にたくさん考えようとすると、
+              だんだん疲れてしまいますよね。
+            </p>
+
+            <p>
+              そして、いつの間にか
+              <strong class="font-bold text-[#4F5A4C]">
+                自分の「やりたい」を考えること自体
+              </strong>
+              から、
+              少し離れてしまうこともあります。
+            </p>
+
+            <p>
+              だから、わんわんとリストでは
+              <strong class="font-bold text-[#71866B]">
+                1日にひとつだけ。
+              </strong>
+            </p>
+
+            <p>
+              たくさん書かなくていい。<br>
+              一度に全部見つけなくていい。
+            </p>
+
+            <p>
+              その日にふと浮かんだ
+              <strong class="font-bold text-[#4F5A4C]">
+                小さな「やりたい」
+              </strong>
+              を、
+              ひとつだけ残していく。
+            </p>
+
+            <p>
+              無理のないペースで、ゆっくりと。<br>
+              でも、自分の気持ちと向き合うことは、
+              少しずつ続けていく。
+            </p>
+
+            <p class="pt-1 font-bold text-[#4F5A4C]">
+              自分の「やりたい」を、<br class="sm:hidden">
+              ひとつずつ大切に拾っていこう。
+            </p>
+
+          </div>
+
+          <%# ワン太の一言 %>
+          <div class="mt-9 flex items-center justify-center gap-3
+                      border-t border-[#A8BFA0]/15 pt-7">
+
+            <span class="shrink-0 text-3xl" aria-hidden="true">
+              🐶
+            </span>
+
+            <div class="relative rounded-2xl
+                        border border-[#A8BFA0]/20
+                        bg-[#F6F5EE]
+                        px-4 py-3">
+
+              <%# 吹き出しの三角 %>
+              <div class="absolute -left-1.5 top-1/2
+                          h-3 w-3 -translate-y-1/2 rotate-45
+                          border-b border-l border-[#A8BFA0]/20
+                          bg-[#F6F5EE]">
+              </div>
+
+              <p class="text-left text-xs font-bold leading-6
+                        text-[#4F5A4C] sm:text-sm">
+                「焦らなくて大丈夫。<br class="sm:hidden">
+                今日もひとつ、見つけられたら十分だよ。」
+              </p>
+
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <%# ==============================
+      作った理由
+  ============================== %>
+  <section class="border-y border-[#A8BFA0]/15 bg-[#A8BFA0]/10 px-5 py-20 sm:py-24">
+    <div class="mx-auto max-w-3xl">
+
+      <div class="text-center">
+
+        <%# セクションラベル %>
+        <span class="inline-block rounded-full
+                    border border-[#A8BFA0]/20
+                    bg-white
+                    px-4 py-1.5
+                    text-xs font-bold tracking-[0.15em]
+                    text-[#71866B]">
+          STORY
+        </span>
+
+        <%# タイトル %>
+        <h2 class="mt-5 text-2xl font-bold leading-relaxed
+                  text-[#4F5A4C] sm:text-3xl">
+          何ができるかより、<br>
+          <span class="text-[#71866B]">
+            何がしたいか。
+          </span>
+        </h2>
+
+        <%# 本文カード %>
+        <div class="mx-auto mt-8 max-w-xl
+                    rounded-[2rem]
+                    border border-[#A8BFA0]/15
+                    bg-white/70
+                    px-6 py-8
+                    text-left
+                    shadow-sm
+                    sm:px-8 sm:py-10 sm:text-center">
+
+          <div class="space-y-5
+                      text-sm font-medium leading-7
+                      text-[#4F5A4C]/70
+                      sm:text-base sm:leading-8">
+
+            <p>
+              AIやテクノロジーが発展して、
+              <strong class="font-bold text-[#4F5A4C]">
+                「どうすればできるか」
+              </strong>
+              は、これからもっと簡単に見つかるようになります。
+            </p>
+
+            <p>
+              何でもできるようになるからこそ、<br class="hidden sm:block">
+              <strong class="font-bold text-[#4F5A4C]">
+                「自分は何をしたいんだろう？」
+              </strong>
+              と、分からなくなることもあります。
+            </p>
+
+            <p>
+              だから、1日に一度だけ、
+              自分の気持ちに目を向ける場所を
+              作りたいと思いました。
+            </p>
+
+          </div>
+
+          <%# 最後のメッセージ %>
+          <div class="mt-7 border-t border-[#A8BFA0]/20 pt-7 text-center">
+
+            <p class="font-bold leading-7 text-[#4F5A4C] sm:text-lg sm:leading-8">
+              あなたの「やりたい」という気持ちを、<br class="hidden sm:block">
+              大切にするために。
+            </p>
+
+            <p class="mt-2 font-bold text-[#71866B]">
+              そして、がんばりすぎずに。
+            </p>
+
+          </div>
+
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+
+  <%# ==============================
+      最後のCTA
+  ============================== %>
+  <section class="relative px-5 py-20 text-center sm:py-24">
+    <div class="mx-auto max-w-2xl">
+
+      <%# ==============================
+          ワン太 + リス丸
+      ============================== %>
+      <div class="mb-7 flex items-end justify-center gap-6 sm:gap-8">
+
+        <%# ワン太 %>
+        <div class="animate-bounce [animation-duration:2s]">
+          <%= image_tag "wanta_joy.png",
+                        alt: "楽しむワン太",
+                        class: "h-18 w-18 object-contain drop-shadow-sm sm:h-24 sm:w-24" %>
+        </div>
+
+        <%# リス丸 %>
+        <div class="animate-bounce
+                    [animation-delay:0.3s]
+                    [animation-duration:2.2s]">
+
+          <%= image_tag "risumaru.png",
+                        alt: "リス丸",
+                        class: "h-10 w-10 object-contain drop-shadow-sm sm:h-12 sm:w-12" %>
+        </div>
+
+      </div>
+
+
+      <%# ==============================
+          メッセージ
+      ============================== %>
+      <h2 class="text-2xl font-bold leading-relaxed
+                text-[#4F5A4C]
+                sm:text-4xl">
+        今日の「やりたい」を、<br>
+        ひとつだけ。
+      </h2>
+
+      <p class="mt-4 text-sm font-medium
+                text-[#4F5A4C]/65
+                sm:text-base">
+
+        まずは気軽に使ってみてください。
+
+      </p>
+
+
+      <%# ==============================
+          CTA
+      ============================== %>
+      <div class="mt-8 flex flex-col items-center">
+
+        <%= link_to guest_user_path,
+                    class: "group
+                            flex w-full max-w-sm
+                            items-center justify-center gap-2
+                            rounded-3xl
+                            border-none
+                            bg-[#E3C88F]
+                            px-10 py-4
+                            text-lg font-bold
+                            text-[#4F5A4C]
+                            shadow-md
+                            transition-all duration-300
+                            hover:-translate-y-0.5
+                            hover:bg-[#D6B974]
+                            hover:shadow-lg" do %>
+
+          <span>
+            体験してみる
+          </span>
+
+        <% end %>
+
+        <p class="mt-3 text-xs font-medium text-[#4F5A4C]/55">
+          登録なしで試せます
+        </p>
+
+      </div>
+
+    </div>
+  </section>
+
+</main>
