@@ -8,3 +8,7 @@
 body {
   font-family: "Zen Maru Gothic", sans-serif;
 }
+
+.side-menu-button {
+  @apply rounded-xl px-2 py-1 transition-colors hover:bg-[#A8BFA0]/20;
+}
