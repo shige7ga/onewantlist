@@ -1,29 +1,671 @@
-<div class="hero min-h-screen bg-[#F6F5EE]">
-  <div class="hero-content text-center">
-    <div class="max-w-xl">
-      <h1 class="mb-4 text-5xl font-bold text-[#4F5A4C]">
-        わんわんとリスト
-      </h1>
+<main class="bg-[#F6F5EE] text-[#4F5A4C]">
 
-      <p class="text-lg text-gray-600">
-        1日1つだけ「やりたいこと」を登録して、<br>
-        小さな一歩を積み重ねよう。
-      </p>
+  <%# ==========================================================
+      PC：スマホ風ファーストビューエリア
+      ・スマホでは通常の全幅表示
+      ・PCでは中央にスマホ風画面を表示
+      ・PC背景には cloud.svg を配置
+  ========================================================== %>
+  <div class="relative overflow-hidden bg-[#E6E8E1] lg:pt-4 lg:pb-6">
 
-      <div class="mt-6 flex justify-center gap-3">
-        <%= link_to "ゲストページ",
+    <%# ========================================================
+        PC背景：雲
+        ・スマホでは非表示
+        ・pointer-events-none で操作を邪魔しない
+        ・absolute で背景として自由配置
+    ======================================================== %>
+    <%= image_tag "cloud.svg",
+                  alt: "",
+                  aria: { hidden: true },
+                  class: "cloud-drift-slow pointer-events-none absolute left-[4%] top-[10%] hidden w-36 select-none opacity-30 lg:block" %>
+
+    <%= image_tag "cloud.svg",
+                  alt: "",
+                  aria: { hidden: true },
+                  class: "cloud-drift-slower pointer-events-none absolute right-[5%] top-[28%] hidden w-44 select-none opacity-20 lg:block" %>
+
+    <%= image_tag "cloud.svg",
+                  alt: "",
+                  aria: { hidden: true },
+                  class: "cloud-drift-reverse pointer-events-none absolute bottom-[8%] left-[10%] hidden w-28 select-none opacity-20 lg:block" %>
+
+
+    <%# ========================================================
+        HERO + PC用サイドナビの基準となる領域
+        ・relative → PC用NAVのabsolute配置基準
+        ・z-10 → 雲より手前に表示
+    ======================================================== %>
+    <div class="relative z-10 mx-auto max-w-6xl">
+
+      <%# ======================================================
+          スマホ風画面
+          ・スマホ：w-full
+          ・PC：430px幅、角丸、影
+      ====================================================== %>
+      <div class="mx-auto w-full bg-[#F6F5EE] lg:w-[430px] lg:overflow-hidden lg:rounded-[2.5rem] lg:shadow-xl">
+
+        <%# ====================================================
+            ファーストビュー
+        ==================================================== %>
+        <section class="relative flex min-h-[100svh] items-center lg:items-start px-5 py-12 lg:min-h-[calc(100dvh-4rem)] lg:min-h-0 lg:py-6">
+
+          <div class="mx-auto w-full max-w-5xl">
+            <div class="mx-auto max-w-2xl text-center">
+
+              <%# ------------------------------------------------
+                  アプリ名
+              ------------------------------------------------ %>
+              <p class="mb-2 text-sm font-medium tracking-[0.2em] text-[#4F5A4C]/60 lg:mt-6">
+                One Want List
+              </p>
+
+              <h1 class="text-4xl font-bold tracking-tight sm:text-5xl">
+                わんわんとリスト
+              </h1>
+
+              <%# ------------------------------------------------
+                  メインコピー
+              ------------------------------------------------ %>
+              <div class="mt-5">
+                <p class="mt-3 leading-8 text-[#4F5A4C]/75">
+                  1日ひとつだけ、やりたいことを残す。<br>
+                  がんばりすぎず、自分の気持ちと向き合うために。
+                </p>
+              </div>
+
+              <%# ==================================================
+                  キャラクター + メインCTA
+              ================================================== %>
+              <div class="mt-5 flex flex-col items-center gap-6">
+
+                <%# ------------------------------------------------
+                    ワン太
+                ------------------------------------------------ %>
+                <div class="flex items-center justify-center gap-3">
+                  <div class="animate-bounce [animation-delay:0.3s] [animation-duration:2s]">
+
+                    <%= image_tag "wanta.png",
+                                  alt: "ワン太",
+                                  class: "h-24 w-24 object-contain" %>
+
+                  </div>
+
+
+                  <%# ワン太の吹き出し %>
+                  <div class="relative rounded-3xl bg-white px-5 py-3 shadow-sm">
+
+                    <p class="text-sm font-medium sm:text-base">
+                      「ひとつずつでいいんだね。」
+                    </p>
+
+                    <%# ワン太方向への三角 %>
+
+                    <div class="absolute -left-2 top-1/2 h-4 w-4 -translate-y-1/2 rotate-45 bg-white"></div>
+
+                  </div>
+                </div>
+
+
+                <%# ------------------------------------------------
+                    メインCTA
+                ------------------------------------------------ %>
+                <div class="w-full max-w-sm text-center">
+
+                  <%= link_to "体験してみる",
+                              guest_user_path,
+                              class: "btn h-auto min-h-0 w-full rounded-full border-none bg-[#A8BFA0] px-8 py-4 text-base font-bold text-[#354133] shadow-sm hover:bg-[#96AE8E]" %>
+
+                </div>
+
+
+                <%# ------------------------------------------------
+                    リス丸
+                ------------------------------------------------ %>
+                <div class="flex flex-row-reverse items-center justify-center gap-3">
+
+                  <div class="animate-bounce [animation-duration:2s]">
+
+                    <%= image_tag "risumaru.png",
+                                  alt: "リス丸",
+                                  class: "h-12 w-12 object-contain" %>
+
+                  </div>
+
+
+                  <%# リス丸の吹き出し %>
+                  <div class="relative mt-5 rounded-3xl bg-[#FFF9E9] px-5 py-3 shadow-sm">
+
+                    <p class="text-sm font-medium sm:text-base">
+                      「登録なしでも試せるんだって！」
+                    </p>
+
+                    <%# リス丸方向への三角 %>
+                    <div class="absolute -right-2 top-1/2 h-4 w-4 -translate-y-1/2 rotate-45 bg-[#FFF9E9]"></div>
+
+                  </div>
+                </div>
+              </div>
+
+              <%# ==================================================
+                  会員登録 / ログイン導線
+              ================================================== %>
+              <div class="mt-7 flex items-center justify-center gap-4 text-sm">
+
+                <%= link_to t("devise.registrations.new.title"),
+                            new_user_registration_path,
+                            class: "font-medium underline decoration-[#A8BFA0] underline-offset-4 hover:text-[#74866F]" %>
+
+                <span class="text-[#4F5A4C]/25">|</span>
+
+                <%= link_to t("devise.sessions.new.login"),
+                            new_user_session_path,
+                            class: "font-medium underline decoration-[#A8BFA0] underline-offset-4 hover:text-[#74866F]" %>
+
+              </div>
+            </div>
+
+            <%# ==================================================
+                スクロール案内
+            ================================================== %>
+            <div class="mt-8 text-center text-sm text-[#4F5A4C]/45">
+
+              <p>わんわんとリストって？</p>
+              <p class="mt-1 text-xl">⌄</p>
+
+            </div>
+          </div>
+        </section>
+      </div>
+
+      <%# ========================================================
+          PC用サイドナビ
+          ・スマホでは非表示
+          ・absoluteなのでHEROと一緒にスクロールする
+          ・fixedではないため画面には残り続けない
+      ======================================================== %>
+      <nav class="absolute left-[calc(50%+250px)] top-1/2 hidden -translate-y-1/2 flex-col gap-3 lg:flex">
+
+        <%= link_to "体験してみる",
                     guest_user_path,
-                    class: "btn border-[#A8BFA0] bg-[#A8BFA0] text-[#4F5A4C] hover:bg-[#A8BFA0]/80" %>
-      </div>
+                    class: "side-menu-button" %>
 
-      <div class="mt-6 flex justify-center gap-3">
-        <%= link_to t("devise.registrations.new.title"),
+        <%= link_to "ユーザー登録",
                     new_user_registration_path,
-                    class: "btn border-[#A8BFA0] bg-[#A8BFA0] text-[#4F5A4C] hover:bg-[#A8BFA0]/80" %>
-        <%= link_to t("devise.sessions.new.login"),
+                    class: "side-menu-button" %>
+
+        <%= link_to "ログイン",
                     new_user_session_path,
-                    class: "btn btn-outline border-[#A8BFA0] text-[#4F5A4C] hover:border-[#A8BFA0] hover:bg-[#A8BFA0]/30" %>
-      </div>
+                    class: "side-menu-button" %>
+
+
+        <%# 区切り線 %>
+        <div class="my-2 h-px bg-[#4F5A4C]/15"></div>
+
+
+        <%# ページ内リンク %>
+
+        <%= link_to "できること",
+                    "#features",
+                    class: "side-menu-button" %>
+
+        <%= link_to "なんで1日ひとつ？",
+                    "#philosophy",
+                    class: "side-menu-button" %>
+
+        <%= link_to "ストーリー",
+                    "#story",
+                    class: "side-menu-button" %>
+
+      </nav>
+
     </div>
   </div>
-</div>
+
+  <%# ==========================================================
+      ここから通常のLP
+      ・PCでもスマホ幅にはしない
+      ・従来の max-w-5xl / max-w-3xl を使用
+  ========================================================== %>
+
+  <%# ==========================================================
+      できること
+  ========================================================== %>
+
+  <section id="features" class="scroll-mt-10 bg-[#A8BFA0]/10 px-5 py-20">
+
+    <div class="mx-auto max-w-5xl">
+
+      <div class="text-center">
+
+        <p class="text-sm font-bold text-[#8CA184]">
+          FEATURES
+        </p>
+
+        <h2 class="mt-3 text-2xl font-bold sm:text-3xl">
+          「わんわんとリスト」でできること
+        </h2>
+
+        <p class="mx-auto mt-4 max-w-2xl leading-7 text-[#4F5A4C]/70">
+          やりたいことを残したり、ガチャから見つけたり。<br class="hidden sm:block">
+          毎日の小さな行動を、自分のペースで積み重ねていける。
+        </p>
+
+      </div>
+
+
+      <%# --------------------------------------------------------
+          機能カード
+      -------------------------------------------------------- %>
+
+      <div class="mt-10 grid gap-5 xl:grid-cols-3">
+
+
+        <%# ======================================================
+            1日ひとつ、やりたいことを残す
+        ====================================================== %>
+
+        <article class="rounded-3xl border border-[#A8BFA0]/20 bg-white/60 p-7 xl:text-center">
+
+          <div class="text-3xl">
+            ✏️
+          </div>
+
+          <h3 class="mt-4 text-lg font-bold">
+            「1日ひとつ」<br class="hidden xl:block">
+            やりたいことを残す
+          </h3>
+
+          <p class="mt-4 leading-7 text-[#4F5A4C]/70">
+            やってみたいこと、行ってみたい場所、挑戦してみたいこと。
+            あなたの「やりたい」を、1日ひとつだけ残せる。
+          </p>
+
+          <p class="mt-4 leading-7 text-[#4F5A4C]/70">
+            あえて1日ひとつにすることで、頑張りすぎず、
+            自分の気持ちと向き合うハードルを下げて、続けやすくする。
+          </p>
+
+        </article>
+
+
+        <%# ======================================================
+            ガチャから見つける
+        ====================================================== %>
+
+        <article class="rounded-3xl border border-[#E3C88F]/30 bg-[#FFF9E9] p-7 xl:text-center">
+
+          <div class="text-3xl">
+            🎲
+          </div>
+
+          <h3 class="mt-4 text-lg font-bold">
+            「ガチャ」から見つける
+          </h3>
+
+          <p class="mt-4 leading-7 text-[#4F5A4C]/70">
+            「今日は何を登録しよう？」と迷った日は、ガチャを回してみる。
+            気になるものがあれば、そのまま「やりたいこと」として残せる。
+          </p>
+
+          <p class="mt-4 leading-7 text-[#4F5A4C]/70">
+            思いつかない日は、無理に考えなくてもいい。
+            思いがけない提案から、新しい「やってみたい」が見つかるかも。
+          </p>
+
+        </article>
+
+
+        <%# ======================================================
+            続けた記録が残る
+        ====================================================== %>
+
+        <article class="rounded-3xl border border-[#A8BFA0]/20 bg-white/60 p-7 xl:text-center">
+
+          <div class="text-3xl">
+            🌱
+          </div>
+
+          <h3 class="mt-4 text-lg font-bold">
+            小さな「続けた」が<br class="hidden xl:block">
+            記録に残る
+          </h3>
+
+          <p class="mt-4 leading-7 text-[#4F5A4C]/70">
+            ログインや、やりたいことの登録で経験値がたまり、
+            少しずつレベルアップしていく。
+          </p>
+
+          <p class="mt-4 leading-7 text-[#4F5A4C]/70">
+            「今日もひとつ残せた」「今日も続けられた」。
+            そんな小さな積み重ねを、自分のペースで続けてきた記録として残せる。
+          </p>
+
+        </article>
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <%# ==========================================================
+      なんで1日ひとつ？
+      PHILOSOPHY
+  ========================================================== %>
+  <section id="philosophy" class="scroll-mt-10 px-5 py-20 sm:py-24">
+
+    <div class="mx-auto max-w-3xl">
+
+      <div class="relative overflow-hidden rounded-[2.5rem] border border-[#A8BFA0]/20 bg-white/60 px-6 py-12 shadow-sm sm:px-12">
+
+
+        <%# 背景のワン太とリス丸 %>
+
+        <div class="pointer-events-none absolute -bottom-7 -right-5 select-none text-9xl opacity-[0.15]" aria-hidden="true">
+          <%= image_tag "wanta_risumaru.png",
+                        alt: "ワン太とリス丸",
+                        class: "h-60 w-60 object-contain" %>
+        </div>
+
+
+        <div class="relative z-10 mx-auto max-w-xl text-center">
+
+
+          <%# セクションラベル %>
+
+          <span class="inline-block rounded-full bg-[#E3C88F]/30 px-4 py-1.5 text-xs font-bold tracking-[0.15em] text-[#4F5A4C]/75">
+            PHILOSOPHY
+          </span>
+
+
+          <%# タイトル %>
+
+          <h2 class="mt-5 text-2xl font-bold leading-relaxed text-[#4F5A4C] sm:text-3xl">
+            がんばりすぎないから、<br>
+            続けられる。
+          </h2>
+
+
+          <%# 区切り線 %>
+
+          <div class="mx-auto my-6 h-1 w-12 rounded-full bg-[#E3C88F]"></div>
+
+
+          <%# 本文 %>
+
+          <div class="space-y-5 text-sm font-medium leading-7 text-[#4F5A4C]/70 sm:text-base sm:leading-8">
+
+            <p>
+              やりたいことリストを書こうと思ったとき、<br>
+              最初はやる気でも、一度にたくさん考えようとすると、だんだん疲れてしまう。
+            </p>
+
+            <p>
+              ちゃんと考えよう。<br>
+              できるだけたくさん書こう。<br>
+              思いつく限り、書きためよう。
+            </p>
+
+            <p>
+              頑張り屋さんのあなたは、<br>
+              ついつい時間をかけて取り組んじゃう。<br>
+              でも、頑張りすぎると、ハードルが上がってしまう。
+            </p>
+
+            <p>
+              「今日はそこまで考える余裕がないな」
+            </p>
+
+            <p>
+              そう感じる日が増えて、少しずつ<br>
+              自分の気持ちを考える時間から離れてしまう。
+            </p>
+
+            <p>
+              だから、わんわんとリストでは、<br>
+              登録できる「やりたいこと」を、
+              <strong class="font-bold text-[#71866B]">
+                あえて1日ひとつだけ
+              </strong>
+              にした。
+            </p>
+
+            <p>
+              たくさん書かなくていい。<br>
+              全部見つけなくていい。
+            </p>
+
+            <p>
+              その日にふと浮かんだ、
+              <strong class="font-bold text-[#4F5A4C]">
+                小さな「やりたい」
+              </strong>
+              をひとつ残せたら、それでいい。
+            </p>
+
+            <p>
+              ハードルが低いから、取り組みやすくなる。<br>
+              そして、また明日からも続けやすい。
+            </p>
+
+            <p class="pt-1 text-lg font-bold text-[#71866B]">
+              がんばりすぎないから、続けられる。
+            </p>
+
+            <p>
+              そうやって自分の「やりたい」を拾い続けていたら、<br class="hidden sm:block">
+              いつの日か、あなたの人生にとって<br>
+              大切な「やりたい」に出会えるかもしれない。
+            </p>
+
+            <p class="pt-1 font-bold text-[#4F5A4C]">
+              あなたの「やりたい」を、<br class="sm:hidden">
+              ひとつずつ大切に拾っていこう。
+            </p>
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <%# ==========================================================
+      作った理由
+      STORY
+  ========================================================== %>
+  <section id="story" class="scroll-mt-10 bg-[#A8BFA0]/10 px-5 py-20 sm:py-24">
+    <div class="mx-auto max-w-3xl">
+
+      <div class="relative overflow-hidden rounded-[2.5rem] border border-[#A8BFA0]/20 bg-white/60 px-6 py-12 shadow-sm sm:px-12">
+
+        <%# 背景のワン太とリス丸 %>
+        <div class="pointer-events-none absolute -bottom-5 -left-3 select-none text-9xl opacity-[0.15]" aria-hidden="true">
+          <%= image_tag "wanta_risumaru_joy.png",
+                        alt: "喜ぶワン太とリス丸",
+                        class: "h-60 w-60 object-contain" %>
+        </div>
+
+        <div class="relative z-10 mx-auto max-w-xl text-center">
+
+          <%# セクションラベル %>
+          <span class="inline-block rounded-full bg-[#E3C88F]/30 px-4 py-1.5 text-xs font-bold tracking-[0.15em] text-[#4F5A4C]/75">
+            STORY
+          </span>
+
+          <%# タイトル %>
+          <h2 class="mt-5 text-2xl font-bold leading-relaxed text-[#4F5A4C] sm:text-3xl">
+            何ができるかより、<br>
+            <span class="text-[#71866B]">
+              何をしたいか。
+            </span>
+          </h2>
+
+          <%# 区切り線 %>
+          <div class="mx-auto my-6 h-1 w-12 rounded-full bg-[#E3C88F]"></div>
+
+          <%# ----------------------------------------------------
+              本文
+          ---------------------------------------------------- %>
+          <div class="space-y-5 text-sm font-medium leading-7 text-[#4F5A4C]/70 sm:text-base sm:leading-8">
+            <p>
+              AIやテクノロジーが発展して、<br>
+              <strong class="font-bold text-[#4F5A4C]">
+                「どうすればできるか」
+              </strong>
+              は、<br>
+              以前よりずっと簡単に見つけられるようになった。
+            </p>
+
+            <p>
+              知らないことは調べられる。AIにも聞ける。<br>
+              これから先、できることはもっと増えていく。
+            </p>
+
+            <p>
+              でも、できることが増えたからこそ、<br>
+              <strong class="font-bold text-[#4F5A4C]">
+                「じゃあ、自分は何をしたいんだろう？」
+              </strong><br>
+              そんなふうに迷うことも増える。
+            </p>
+
+            <p>
+              毎日やることも、見るものも、考えることもたくさんある。<br class="hidden sm:block">
+              気づけば、自分が何をやりたいのか考える時間は後回し。
+            </p>
+
+            <p>
+              日々を過ごしているうちに、<br class="hidden sm:block">
+              いつの間にか同じ毎日の繰り返しになって、<br class="hidden sm:block">
+              時間の速さに驚くこともある。
+            </p>
+
+            <p>
+              だからこそ、自分の
+              <strong class="font-bold text-[#71866B]">
+                「やりたい」
+              </strong>
+              と向き合って、<br class="hidden sm:block">
+              言葉にして残しておくことを大切にしたい。
+            </p>
+
+            <p>
+              「ここに行ってみたい」<br>
+              「こんなことをやってみたい」<br>
+              「いつか挑戦してみたい」
+            </p>
+
+            <p>
+              そんな小さな気持ちも、言葉にして残しておけば、<br class="hidden sm:block">
+              忘れずに、自分の中に持ち続けることができる。
+            </p>
+
+            <p class="font-bold text-[#4F5A4C]">
+              まずは、自分が何をしたいと思っているのかを知ることから。
+            </p>
+
+            <p>
+              だから、わんわんとリストを、<br class="hidden sm:block">
+              1日に一度だけ、自分の気持ちに目を向ける場所にした。
+            </p>
+
+            <p>
+              ほんの少しの時間でいい。<br>
+              「やりたい」を、ひとつだけ残す。
+            </p>
+
+            <p>
+              そんな時間を積み重ねるうちに、<br class="hidden sm:block">
+              本当に大切にしたい「やりたい」が見えてくるかもしれない。
+            </p>
+
+            <p>
+              できることが増えていく時代だからこそ、<br class="hidden sm:block">
+              その中で
+              <strong class="font-bold text-[#4F5A4C]">
+                「自分は何をしたいのか」
+              </strong>
+              を大切にしたい。
+            </p>
+
+            <p class="font-bold leading-7 text-[#4F5A4C] sm:text-lg sm:leading-8">
+              何ができるかより、<br class="sm:hidden">
+              <span class="text-[#71866B]">
+                何をしたいか。
+              </span>
+            </p>
+
+            <p class="mt-3 font-bold leading-7 text-[#4F5A4C]">
+              あなた自身の「やりたい」という気持ちを、<br class="hidden sm:block">
+              大切にするために。
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <%# ==========================================================
+      最後のCTA
+  ========================================================== %>
+  <section class="relative px-5 py-20 text-center sm:py-24">
+    <div class="mx-auto max-w-2xl">
+
+      <%# ========================================================
+          ワン太 + リス丸
+      ======================================================== %>
+      <div class="mb-7 flex items-end justify-center gap-6 sm:gap-8">
+
+        <%# ワン太 %>
+        <div class="animate-bounce [animation-duration:2s]">
+
+          <%= image_tag "wanta_joy.png",
+                        alt: "楽しむワン太",
+                        class: "h-18 w-18 object-contain drop-shadow-sm sm:h-24 sm:w-24" %>
+        </div>
+
+        <%# リス丸 %>
+        <div class="animate-bounce [animation-delay:0.3s] [animation-duration:2.2s]">
+
+          <%= image_tag "risumaru.png",
+                        alt: "リス丸",
+                        class: "h-10 w-10 object-contain drop-shadow-sm sm:h-12 sm:w-12" %>
+
+        </div>
+      </div>
+
+
+      <%# ========================================================
+          メッセージ
+      ======================================================== %>
+      <h2 class="text-2xl font-bold leading-relaxed text-[#4F5A4C] sm:text-4xl">
+        今日の「やりたい」を、<br>
+        ひとつだけ。
+      </h2>
+
+      <p class="mt-4 text-sm font-medium text-[#4F5A4C]/65 sm:text-base">
+        まずは気軽に使ってみてください。
+      </p>
+
+      <%# ========================================================
+          CTA
+      ======================================================== %>
+      <div class="mt-8 flex flex-col items-center">
+
+        <%= link_to guest_user_path,
+                    class: "group flex w-full max-w-sm items-center justify-center gap-2 rounded-3xl border-none bg-[#E3C88F] px-10 py-4 text-lg font-bold text-[#4F5A4C] shadow-md transition-all duration-300 hover:-translate-y-0.5 hover:bg-[#D6B974] hover:shadow-lg" do %>
+
+          <span>
+            体験してみる
+          </span>
+        <% end %>
+
+        <p class="mt-3 text-xs font-medium text-[#4F5A4C]/55">
+          登録なしで試せます
+        </p>
+      </div>
+    </div>
+  </section>
+</main>
