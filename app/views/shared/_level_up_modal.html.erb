@@ -1,0 +1,23 @@
+<div
+  data-controller="level-up-modal"
+  data-level-up-modal-delay-value="1500"
+  data-level-up-modal-duration-value="8000"
+  class="fixed inset-0 z-50 hidden items-center justify-center bg-black/30 px-5"
+  role="dialog"
+  aria-modal="true"
+>
+  <div class="relative w-full max-w-sm rounded-3xl bg-[#F6F5EE] p-6 text-center shadow-xl">
+
+    <button
+      type="button"
+      data-action="level-up-modal#close"
+      class="absolute right-4 top-4"
+      aria-label="閉じる"
+    >
+      ×
+    </button>
+
+    <%= render content_partial, event: event %>
+
+  </div>
+</div>
