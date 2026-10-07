@@ -504,10 +504,11 @@ RSpec.describe UserStatus, type: :model do
         events = user_status.record_daily_login!
 
         expect(events).to include(
-          {
+          hash_including(
             type: "lv_up",
+            source: "daily_login",
             level: 2
-          }
+          )
         )
       end
     end
@@ -734,10 +735,11 @@ RSpec.describe UserStatus, type: :model do
         events = user_status.record_random_wants_limit!
 
         expect(events).to include(
-          {
+          hash_including(
             type: "lv_up",
+            source: "daily_action",
             level: 2
-          }
+          )
         )
       end
     end
@@ -894,10 +896,11 @@ RSpec.describe UserStatus, type: :model do
         events = user_status.record_want_registration!
 
         expect(events).to include(
-          {
+          hash_including(
             type: "lv_up",
+            source: "daily_action",
             level: 2
-          }
+          )
         )
       end
     end
@@ -945,10 +948,11 @@ RSpec.describe UserStatus, type: :model do
       events = user_status.record_signup!
 
       expect(events).to include(
-        {
+        hash_including(
           type: "lv_up",
+          source: "signup",
           level: 2
-        }
+        )
       )
     end
 

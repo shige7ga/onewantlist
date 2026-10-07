@@ -33,7 +33,7 @@ RSpec.describe "Users::Registrations", type: :request do
       it "ユーザー登録時のステータス更新が行われる" do
         post user_registration_path, params: valid_params
         user_status = User.last.user_status
-        expect(user_status.level).to eq(2)
+        expect(user_status.level).to eq(3)
       end
     end
 
