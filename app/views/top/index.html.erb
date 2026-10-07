@@ -1,3 +1,19 @@
+<% events = status_events.map(&:with_indifferent_access) %>
+
+<%
+  first_visit_level_up_event =
+    events.find do |event|
+      event[:type] == "lv_up" &&
+        event[:source] == "first_visit"
+    end
+%>
+
+<% if first_visit_level_up_event %>
+  <%= render "shared/level_up_modal",
+            event: first_visit_level_up_event,
+            content_partial: "shared/level_up/first_visit_content" %>
+<% end %>
+
 <main class="bg-[#F6F5EE] text-[#4F5A4C]">
 
   <%# ==========================================================
