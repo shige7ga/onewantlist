@@ -47,6 +47,8 @@ class ApplicationController < ActionController::Base
     @current_guest = GuestUser.create!
     @current_guest.create_user_status!
 
+    add_status_events(@current_guest.user_status.record_first_visit!)
+
     cookies.encrypted[:guest_token] = {
       value: @current_guest.token,
       expires: 30.days.from_now,
