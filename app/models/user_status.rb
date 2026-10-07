@@ -36,6 +36,9 @@ class UserStatus < ApplicationRecord
   # 1日のガチャ回数制限
   RANDOM_GACHA_LIMIT = 10
 
+  # 初回アクセスによる経験値UP
+  FIRST_VISIT_EXP = 10
+
   # ログインによる経験値UP関連
   DAILY_LOGIN_EXP = 10
   LOGIN_COUNT_BONUS_INTERVAL = 10
@@ -65,6 +68,11 @@ class UserStatus < ApplicationRecord
   # ユーザー登録時のステータス更新記録
   def record_signup!
     process_exp_events!([ signup_exp_event ])
+  end
+
+  # 初回アクセス時のステータス更新
+  def record_first_visit!
+    process_exp_events!([ first_visit_exp_event ])
   end
 
   # ログイン時のステータス更新記録
@@ -118,7 +126,7 @@ class UserStatus < ApplicationRecord
 
       while new_exp >= total_exp_for_next_level(new_lv)
         new_lv += 1
-        events << { type: "lv_up", level: new_lv }
+        events << { type: "lv_up", source: event[:source], level: new_lv }
       end
     end
 
@@ -128,6 +136,10 @@ class UserStatus < ApplicationRecord
 
   def signup_exp_event
     { type: "exp_up", source: "signup", exp: required_exp_for_next_level }
+  end
+
+  def first_visit_exp_event
+    { type: "exp_up", source: "first_visit", exp: FIRST_VISIT_EXP }
   end
 
   def process_daily_login!
