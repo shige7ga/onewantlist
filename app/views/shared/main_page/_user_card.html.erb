@@ -8,9 +8,9 @@
       </h2>
 
       <%# ステータス詳細画面の実装後にリンクへ変更 %>
-      <span class="text-xs text-[#7D9876]">
-        詳細を見る ›
-      </span>
+      <%= link_to "詳細を見る ›",
+            status_path,
+            class: "text-xs font-semibold text-[#7D9876] hover:underline" %>
     </div>
 
     <% if user_status.present? %>

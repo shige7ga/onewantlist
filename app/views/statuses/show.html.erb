@@ -1,0 +1,158 @@
+<div class="min-h-screen bg-[#F6F5EE] px-4 py-6 pb-12 sm:px-6">
+
+  <div class="mx-auto w-full max-w-2xl space-y-6">
+
+    <%# マイページへの戻るリンク %>
+    <%= link_to(
+      user_signed_in? ? mypage_path : guest_user_path,
+      class: "inline-flex items-center gap-2 text-sm font-semibold text-[#4F5A4C] hover:opacity-70"
+    ) do %>
+      <span>←</span>
+      <span>マイページに戻る</span>
+    <% end %>
+
+    <h1 class="text-2xl font-bold text-[#4F5A4C]">
+      マイステータス
+    </h1>
+
+    <%# ユーザー情報 %>
+    <section class="card bg-white shadow-md">
+      <div class="card-body p-5">
+        <div class="flex items-center justify-between gap-4">
+          <div class="min-w-0 flex-1">
+
+            <p class="text-sm font-semibold text-[#4F5A4C]/70">
+              ユーザー名
+            </p>
+
+            <p class="mt-1 break-words text-lg font-bold text-[#4F5A4C]">
+              <%= user_signed_in? ? @owner.name : "ゲストユーザー" %>
+            </p>
+
+          </div>
+
+          <%# ログインユーザーのみ編集ボタンを表示 %>
+          <% if user_signed_in? %>
+
+            <%= link_to edit_user_registration_path,
+                        class: "btn h-auto min-h-0 shrink-0 border-none bg-[#A8BFA0] px-4 py-3 text-[#4F5A4C] shadow-none hover:bg-[#E3C88F]" do %>
+
+              <span>✎ 編集する</span>
+            <% end %>
+          <% end %>
+        </div>
+      </div>
+    </section>
+
+    <%# レベル・経験値 %>
+    <section class="card bg-white shadow-md">
+      <div class="card-body items-center gap-4 text-center">
+
+        <h2 class="text-sm font-semibold text-[#4F5A4C]/70">
+          あなたの積み重ねの記録
+        </h2>
+
+        <p class="text-3xl font-bold text-[#4F5A4C]">
+          Lv. <%= @user_status.level %>
+        </p>
+
+        <% current_exp = @user_status.current_level_exp %>
+        <% required_exp = @user_status.required_exp_for_next_level %>
+        <% progress = (current_exp.to_f / required_exp * 100).clamp(0, 100) %>
+
+        <div class="w-full space-y-2">
+
+          <div
+            class="h-3 w-full overflow-hidden rounded-full bg-[#A8BFA0]/20"
+            role="progressbar"
+            aria-label="次のレベルまでの経験値"
+            aria-valuenow="<%= current_exp %>"
+            aria-valuemin="0"
+            aria-valuemax="<%= required_exp %>"
+          >
+            <div
+              class="h-full rounded-full bg-[#8EAD86]"
+              style="width: <%= progress %>%"
+            ></div>
+          </div>
+
+          <div class="flex justify-between text-xs text-[#4F5A4C]/70">
+            <span>
+              <%= current_exp %> / <%= required_exp %> EXP
+            </span>
+
+            <span>
+              あと <%= @user_status.exp_to_next_level %> EXP
+            </span>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <%# ログインの記録 %>
+    <section class="card bg-white shadow-md">
+      <div class="card-body gap-4">
+
+        <h2 class="text-lg font-bold text-[#4F5A4C]">
+          ログインの記録
+        </h2>
+
+        <div class="grid grid-cols-3 gap-2 text-center">
+
+          <% [
+            ["累計", @user_status.login_count, "回"],
+            ["連続", @user_status.login_streak, "日"],
+            ["最長", @user_status.longest_login_streak, "日"]
+          ].each do |label, value, unit| %>
+
+            <div class="rounded-xl bg-[#F6F5EE] p-3">
+              <p class="text-xs text-[#4F5A4C]/70">
+                <%= label %>
+              </p>
+
+              <p class="mt-2 text-lg font-bold text-[#4F5A4C]">
+                <%= value || 0 %><%= unit %>
+              </p>
+            </div>
+
+          <% end %>
+
+        </div>
+      </div>
+    </section>
+
+    <%# アクションの記録 %>
+    <section class="card bg-white shadow-md">
+      <div class="card-body gap-4">
+
+        <h2 class="text-lg font-bold text-[#4F5A4C]">
+          アクションの記録
+        </h2>
+
+        <div class="grid grid-cols-3 gap-2 text-center">
+
+          <% [
+            ["累計", @user_status.action_count, "回"],
+            ["連続", @user_status.action_streak, "日"],
+            ["最長", @user_status.longest_action_streak, "日"]
+          ].each do |label, value, unit| %>
+
+            <div class="rounded-xl bg-[#F6F5EE] p-3">
+              <p class="text-xs text-[#4F5A4C]/70">
+                <%= label %>
+              </p>
+
+              <p class="mt-2 text-lg font-bold text-[#4F5A4C]">
+                <%= value || 0 %><%= unit %>
+              </p>
+            </div>
+
+          <% end %>
+
+        </div>
+      </div>
+    </section>
+
+  </div>
+</div>
