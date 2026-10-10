@@ -1,16 +1,30 @@
-<div class="min-h-screen bg-[#F6F5EE] p-6 pb-32">
-  <div class="w-full max-w-md">
+<div class="min-h-screen bg-[#F6F5EE] px-4 py-6 pb-32 sm:px-6">
+  <div class="mx-auto w-full max-w-6xl">
+
     <%# フラッシュメッセージ %>
     <%= render "shared/flash", flash: flash %>
 
     <%# 経験値UP・レベルアップなど %>
     <%= render "shared/event_message", events: status_events %>
 
-    <%= render "shared/main_page/user_card", user: user, user_status: user_status %>
+    <%# マイページコンテンツ %>
+    <div class="grid grid-cols-1 items-start gap-6 lg:grid-cols-10">
 
-    <%# やりたいこと一覧 %>
-    <%= render "wants/index", wants: wants %>
+      <%# ユーザーステータス %>
+      <aside class="min-w-0 lg:col-span-3 lg:col-start-8 lg:row-start-1">
+        <%= render "shared/main_page/user_card",
+                    user: user,
+                    user_status: user_status %>
+      </aside>
+
+      <%# やりたいこと一覧 %>
+      <main class="min-w-0 lg:col-span-7 lg:col-start-1 lg:row-start-1">
+        <%= render "wants/index", wants: wants %>
+      </main>
+
+    </div>
   </div>
 
+  <%# 画面下部の固定アクションバー %>
   <%= render "shared/main_page/want_action_bar" %>
 </div>
