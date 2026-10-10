@@ -15,6 +15,7 @@ RSpec.describe "Statuses", type: :request do
 
     context "ログインユーザーの場合" do
       let(:user) { create(:user) }
+      let!(:user_status) { create(:user_status, owner: user) }
 
       before do
         sign_in user
