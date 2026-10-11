@@ -26,39 +26,107 @@
         </div>
 
         <div class="min-w-0 flex-1">
-          <%# 現在のレベル %>
-          <p class="text-lg font-bold text-[#4F5A4C]">
-            Lv. <%= user_status.level %>
-          </p>
 
-          <%# 経験値ゲージ %>
-          <% required_exp = user_status.required_exp_for_next_level %>
+          <%# 現在の経験値情報 %>
           <% current_exp = user_status.current_level_exp %>
-          <% progress = (current_exp.to_f / required_exp * 100).clamp(0, 100) %>
+          <% required_exp = user_status.required_exp_for_next_level %>
+
+          <%# アニメーションデータを取得 %>
+          <% animation = user_status.exp_gauge_animation(events) %>
+
+          <%# アニメーションがあれば更新前の値を初期表示 %>
+          <% start_level = animation ? animation[:start_level] : user_status.level %>
+          <% start_exp = animation ? animation[:start_exp] : current_exp %>
+          <% requirements = animation ? animation[:requirements] : [required_exp] %>
+
+          <% initial_required = requirements.first %>
+          <% initial_progress = (start_exp.to_f / initial_required * 100).clamp(0, 100) %>
 
           <div
-            class="mt-1 h-2.5 w-full overflow-hidden
-                   rounded-full bg-[#A8BFA0]/20"
-            role="progressbar"
-            aria-label="次のレベルまでの経験値"
-            aria-valuenow="<%= current_exp %>"
-            aria-valuemin="0"
-            aria-valuemax="<%= required_exp %>"
+            data-controller="exp-gauge"
+            data-exp-gauge-play-value="<%= animation.present? %>"
+            data-exp-gauge-start-level-value="<%= start_level %>"
+            data-exp-gauge-start-exp-value="<%= start_exp %>"
+            data-exp-gauge-requirements-value="<%= requirements.to_json %>"
+            data-exp-gauge-final-level-value="<%= user_status.level %>"
+            data-exp-gauge-final-exp-value="<%= current_exp %>"
           >
 
+            <%# レベルと獲得経験値 %>
+            <div class="flex items-center justify-between gap-2">
+
+              <p
+                data-exp-gauge-target="level"
+                class="text-lg font-bold text-[#4F5A4C]"
+              >
+                Lv. <%= start_level %>
+              </p>
+
+              <% gain_messages = exp_gain_messages(events) %>
+
+              <div
+                data-exp-gauge-target="earned"
+                class="<%= 'hidden' unless animation %> text-right text-xs font-bold text-[#7D9876]"
+                role="status"
+              >
+                <% gain_messages.each do |message| %>
+                  <p><%= message %></p>
+                <% end %>
+              </div>
+
+            </div>
+
+            <%# レベルアップ表示 %>
+            <p
+              data-exp-gauge-target="levelUp"
+              class="hidden text-xs font-bold text-[#7D9876]"
+              role="status"
+            >
+              🎉 LEVEL UP!
+            </p>
+
+            <%# 経験値ゲージ %>
             <div
-              class="h-full rounded-full bg-[#8EAD86] transition-all"
-              style="width: <%= progress %>%"
-            ></div>
+              data-exp-gauge-target="progress"
+              class="mt-1 h-2.5 w-full overflow-hidden
+                    rounded-full bg-[#A8BFA0]/20"
+              role="progressbar"
+              aria-label="次のレベルまでの経験値"
+              aria-valuenow="<%= start_exp %>"
+              aria-valuemin="0"
+              aria-valuemax="<%= initial_required %>"
+            >
+              <div
+                data-exp-gauge-target="bar"
+                class="h-full rounded-full bg-[#8EAD86]"
+                style="width: <%= initial_progress %>%"
+              ></div>
+            </div>
 
+            <%# 現在EXP / 必要EXP / 残りEXP %>
+            <div class="mt-1 flex flex-wrap justify-between gap-x-2 text-xs text-[#4F5A4C]/70">
+
+              <span>
+                <span data-exp-gauge-target="current">
+                  <%= start_exp %>
+                </span>
+                /
+                <span data-exp-gauge-target="required">
+                  <%= initial_required %>
+                </span>
+                EXP
+              </span>
+
+              <span>
+                あと
+                <span data-exp-gauge-target="remaining">
+                  <%= initial_required - start_exp %>
+                </span>
+                EXP
+              </span>
+
+            </div>
           </div>
-
-          <%# 次のレベルまでの残りEXP %>
-          <p class="mt-1 text-xs text-[#4F5A4C]/70">
-            次のレベルまで
-            <%= user_status.exp_to_next_level %> EXP
-          </p>
-
         </div>
       </div>
 
