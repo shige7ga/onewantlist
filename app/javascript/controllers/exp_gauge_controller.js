@@ -2,9 +2,7 @@ import { Controller } from "@hotwired/stimulus"
 
 export default class extends Controller {
   static targets = [
-    "bar", "progress", "level",
-    "current", "required", "remaining",
-    "levelUp", "earned"
+    "bar", "progress", "level", "current", "required", "remaining", "earned"
   ]
 
   static values = {
@@ -94,16 +92,26 @@ export default class extends Controller {
       // ゲージが今回の目標に到達
       if (progress >= 1) {
 
-        // 最終レベルまで到達したら終了
+        // 最終レベルならアニメーション終了
         if (this.stepIndex === this.requirements.length - 1) {
           this.finish()
           return
         }
 
-        // レベルアップ演出へ
-        this.phase = "levelUp"
-        this.phaseStartedAt = time
-        this.levelUpTarget.classList.remove("hidden")
+        // 次のレベル
+        this.pendingLevel = this.startLevelValue + this.stepIndex + 1
+
+        // モーダルを待つ状態に変更
+        this.phase = "waitingForModal"
+        this.frameId = null
+
+        // モーダル側へ通知
+        this.dispatch("level-up", {
+          target: window,
+          detail: { level: this.pendingLevel }
+        })
+
+        return
       }
 
     } else if (this.phase === "levelUp") {
@@ -147,6 +155,50 @@ export default class extends Controller {
     )
   }
 
+  // モーダルが閉じたらゲージのアニメーションを再開
+  resume(event) {
+
+    // モーダル待機中でなければ何もしない
+    if (this.phase !== "waitingForModal") return
+
+    // 対象レベルが一致しなければ何もしない
+    if (event.detail.level !== this.pendingLevel) return
+
+    // 次のレベルへ進む
+    this.stepIndex += 1
+    this.phase = "fill"
+    this.phaseStartedAt = null
+
+    // 新しいレベルでは0EXPから開始
+    this.fromExp = 0
+
+    const isLast =
+      this.stepIndex === this.requirements.length - 1
+
+    // 次に伸ばすEXPを決める
+    this.toExp = isLast
+      ? this.finalExpValue
+      : this.requirements[this.stepIndex]
+
+    // 新しいレベルとゲージを表示
+    this.render(
+      this.startLevelValue + this.stepIndex,
+      0,
+      this.requirements[this.stepIndex]
+    )
+
+    // 残りEXPが0なら終了
+    if (isLast && this.finalExpValue === 0) {
+      this.finish()
+      return
+    }
+
+    // アニメーション再開
+    this.frameId = requestAnimationFrame(
+      (time) => this.tick(time)
+    )
+  }
+
   // ゲージと数値を画面に反映
   render(level, exp, required) {
     const displayedExp = Math.round(exp)
@@ -180,8 +232,6 @@ export default class extends Controller {
       this.finalExpValue,
       this.requirements[this.requirements.length - 1]
     )
-
-    this.levelUpTarget.classList.add("hidden")
 
     // 再生済みにする
     this.playValue = false

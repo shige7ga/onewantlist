@@ -44,6 +44,7 @@
 
           <div
             data-controller="exp-gauge"
+            data-action="level-up-modal:closed@window->exp-gauge#resume"
             data-exp-gauge-play-value="<%= animation.present? %>"
             data-exp-gauge-start-level-value="<%= start_level %>"
             data-exp-gauge-start-exp-value="<%= start_exp %>"
@@ -75,15 +76,6 @@
               </div>
 
             </div>
-
-            <%# レベルアップ表示 %>
-            <p
-              data-exp-gauge-target="levelUp"
-              class="hidden text-xs font-bold text-[#7D9876]"
-              role="status"
-            >
-              🎉 LEVEL UP!
-            </p>
 
             <%# 経験値ゲージ %>
             <div
