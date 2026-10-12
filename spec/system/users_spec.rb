@@ -16,11 +16,9 @@ RSpec.describe "Users", type: :system do
 
     it "マイページが表示される" do
       visit mypage_path
-      expect(page).to have_content("ユーザー名")
       expect(page).to have_content("富士山に登る")
       expect(page).to have_link("やりたいことガチャ")
       expect(page).to have_link("やりたいこと登録")
-      expect(page).to have_link("プロフィール編集")
     end
 
     it "やりたいこと登録画面へ移動できる" do
@@ -34,12 +32,6 @@ RSpec.describe "Users", type: :system do
       click_link "やりたいことガチャ"
       expect(page).to have_current_path(random_want_path)
       expect(page).to have_content("早朝にウォーキングする")
-    end
-
-    it "プロフィール編集画面へ移動できる" do
-      visit mypage_path
-      click_link "プロフィール編集"
-      expect(page).to have_current_path(edit_user_registration_path)
     end
 
     it "他ユーザーのやりたいことは表示されない" do

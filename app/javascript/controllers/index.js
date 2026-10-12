@@ -4,6 +4,9 @@
 
 import { application } from "./application"
 
+import ExpGaugeController from "./exp_gauge_controller"
+application.register("exp-gauge", ExpGaugeController)
+
 import FlashController from "./flash_controller"
 application.register("flash", FlashController)
 
