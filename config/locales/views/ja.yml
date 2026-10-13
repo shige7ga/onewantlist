@@ -20,7 +20,7 @@ ja:
       edit_btn: プロフィール編集
   wants:
     index:
-      title: やりたいことリスト
+      title: やりたいこと一覧
     show:
       title: やりたいこと詳細
       edit_btn: 編集
