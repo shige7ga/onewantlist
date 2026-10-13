@@ -1,8 +1,6 @@
 require 'rails_helper'
 
 RSpec.describe "Top", type: :system do
-  include LoginMacros
-
   context "未ログイン時" do
     it "トップページが表示される" do
       visit root_path
