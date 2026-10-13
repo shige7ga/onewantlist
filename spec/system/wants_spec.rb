@@ -1,8 +1,6 @@
 require "rails_helper"
 
 RSpec.describe "Wants", type: :system do
-  include LoginMacros
-
   context "ログイン時" do
     let!(:user) { create(:user) }
     let!(:user_status) { create(:user_status, owner: user) }

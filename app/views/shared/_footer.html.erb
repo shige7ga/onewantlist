@@ -1,0 +1,27 @@
+<footer
+  class="border-t border-[#A8BFA0]/30 bg-[#F6F5EE] px-4 py-8 text-center <%= 'pb-28' if current_page?(mypage_path) || current_page?(guest_user_path) %>"
+>
+  <nav
+    class="mx-auto flex max-w-4xl flex-wrap justify-center gap-x-5 gap-y-2"
+    aria-label="フッター"
+  >
+
+    <%# リンク先が完成するまで準備中として表示 %>
+    <% [
+      "利用規約",
+      "プライバシーポリシー",
+      "お問い合わせ"
+    ].each do |label| %>
+
+      <span class="text-xs text-[#4F5A4C]/50">
+        <%= label %>（準備中）
+      </span>
+
+    <% end %>
+
+  </nav>
+
+  <p class="mt-5 text-xs text-[#4F5A4C]/50">
+    &copy; <%= Time.current.year %> わんわんとリスト
+  </p>
+</footer>

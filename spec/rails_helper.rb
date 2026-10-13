@@ -54,6 +54,9 @@ RSpec.configure do |config|
     end
   end
 
+  # System Specでログインヘルパーを使用可能にする
+  config.include LoginMacros, type: :system
+
   # Remove this line if you're not using ActiveRecord or ActiveRecord fixtures
   config.fixture_paths = [
     Rails.root.join('spec/fixtures')
