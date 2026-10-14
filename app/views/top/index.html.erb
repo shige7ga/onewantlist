@@ -11,7 +11,9 @@
 <% if first_visit_level_up_event %>
   <%= render "shared/level_up_modal",
             event: first_visit_level_up_event,
-            content_partial: "shared/level_up/first_visit_content" %>
+            content_partial: "shared/level_up/first_visit_content",
+            delay: 800,
+            hero_intro_lock: true %>
 <% end %>
 
 <main class="bg-[#F6F5EE] text-[#4F5A4C]">
@@ -63,7 +65,7 @@
         <%# ====================================================
             ファーストビュー
         ==================================================== %>
-        <section class="relative flex min-h-[100svh] items-center lg:items-start px-5 py-12 lg:min-h-[calc(100dvh-4rem)] lg:min-h-0 lg:py-6">
+        <section class="hero-intro relative flex min-h-[100svh] items-center lg:items-start px-5 py-12 lg:min-h-[calc(100dvh-4rem)] lg:min-h-0 lg:py-6">
 
           <div class="mx-auto w-full max-w-5xl">
             <div class="mx-auto max-w-2xl text-center">
@@ -98,58 +100,48 @@
                     ワン太
                 ------------------------------------------------ %>
                 <div class="flex items-center justify-center gap-3">
-                  <div class="animate-bounce [animation-delay:0.3s] [animation-duration:2s]">
-
+                  <div class="animate-intro-character motion-reduce:animate-none">
                     <%= image_tag "wanta.png",
                                   alt: "ワン太",
                                   class: "h-24 w-24 object-contain" %>
-
                   </div>
 
 
                   <%# ワン太の吹き出し %>
-                  <div class="relative rounded-3xl bg-white px-5 py-3 shadow-sm">
+                  <div class="relative animate-intro-speech [animation-delay:500ms] motion-reduce:animate-none rounded-3xl bg-white px-5 py-3 shadow-sm">
 
                     <p class="text-sm font-medium sm:text-base">
                       「ひとつずつでいいんだね。」
                     </p>
 
                     <%# ワン太方向への三角 %>
-
                     <div class="absolute -left-2 top-1/2 h-4 w-4 -translate-y-1/2 rotate-45 bg-white"></div>
 
                   </div>
                 </div>
 
-
                 <%# ------------------------------------------------
                     メインCTA
                 ------------------------------------------------ %>
-                <div class="w-full max-w-sm text-center">
-
-                  <%= link_to "体験してみる",
+                <div class="w-full max-w-sm animate-intro-cta [animation-delay:1900ms] motion-reduce:animate-none text-center">
+                  <%= link_to "さっそく体験してみる →",
                               guest_user_path,
                               class: "btn h-auto min-h-0 w-full rounded-full border-none bg-[#A8BFA0] px-8 py-4 text-base font-bold text-[#354133] shadow-sm hover:bg-[#96AE8E]" %>
-
                 </div>
-
 
                 <%# ------------------------------------------------
                     リス丸
                 ------------------------------------------------ %>
                 <div class="flex flex-row-reverse items-center justify-center gap-3">
 
-                  <div class="animate-bounce [animation-duration:2s]">
-
+                  <div class="animate-intro-character [animation-delay:1000ms] motion-reduce:animate-none">
                     <%= image_tag "risumaru.png",
                                   alt: "リス丸",
                                   class: "h-12 w-12 object-contain" %>
-
                   </div>
 
-
                   <%# リス丸の吹き出し %>
-                  <div class="relative mt-5 rounded-3xl bg-[#FFF9E9] px-5 py-3 shadow-sm">
+                  <div class="relative animate-intro-speech [animation-delay:1400ms] motion-reduce:animate-none mt-5 rounded-3xl bg-[#FFF9E9] px-5 py-3 shadow-sm">
 
                     <p class="text-sm font-medium sm:text-base">
                       「登録なしでも試せるんだって！」
@@ -184,10 +176,8 @@
                 スクロール案内
             ================================================== %>
             <div class="mt-8 text-center text-sm text-[#4F5A4C]/45">
-
               <p>わんわんとリストって？</p>
               <p class="mt-1 text-xl">⌄</p>
-
             </div>
           </div>
         </section>
@@ -205,7 +195,7 @@
                     guest_user_path,
                     class: "side-menu-button" %>
 
-        <%= link_to "ユーザー登録",
+        <%= link_to "無料登録",
                     new_user_registration_path,
                     class: "side-menu-button" %>
 
@@ -246,11 +236,8 @@
   <%# ==========================================================
       できること
   ========================================================== %>
-
   <section id="features" class="scroll-mt-10 bg-[#A8BFA0]/10 px-5 py-20">
-
     <div class="mx-auto max-w-5xl">
-
       <div class="text-center">
 
         <p class="text-sm font-bold text-[#8CA184]">
@@ -269,17 +256,14 @@
       </div>
 
 
-      <%# --------------------------------------------------------
+      <%# ------------------------------------------------
           機能カード
-      -------------------------------------------------------- %>
-
+      ---------------------------------------------------- %>
       <div class="mt-10 grid gap-5 xl:grid-cols-3">
-
 
         <%# ======================================================
             1日ひとつ、やりたいことを残す
         ====================================================== %>
-
         <article class="rounded-3xl border border-[#A8BFA0]/20 bg-white/60 p-7 xl:text-center">
 
           <div class="text-3xl">

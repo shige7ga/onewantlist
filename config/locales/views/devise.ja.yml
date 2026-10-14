@@ -5,7 +5,7 @@ ja:
       updated: ユーザー情報を編集しました
       destroyed: アカウントを削除しました
       new:
-        title: ユーザー登録
+        title: 無料登録
         to_login_page: ※ユーザー登録済みの方はこちら
       edit:
         title: プロフィール編集
