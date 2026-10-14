@@ -9,6 +9,128 @@ body {
   font-family: "Zen Maru Gothic", sans-serif;
 }
 
+/* PCサイドナビ：クレヨン風マーカー */
 .side-menu-button {
-  @apply rounded-xl px-2 py-1 transition-colors hover:bg-[#A8BFA0]/20;
+  @apply relative isolate w-fit px-2 py-1;
+}
+
+/* 文字の下にマーカーを描画 */
+.side-menu-button::before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+
+  /* マーカーの位置と太さ */
+  left: 0.35rem;
+  right: 0.35rem;
+  bottom: 0.35rem;
+  height: 0.7em;
+
+  /* クレヨンのかすれと淡い緑色 */
+  background:
+    repeating-linear-gradient(
+      168deg,
+      transparent 0 3px,
+      rgb(246 245 238 / 30%) 3px 4px,
+      transparent 4px 7px
+    ),
+    linear-gradient(
+      90deg,
+      #C9D8C3,
+      #B9CEB2 45%,
+      #C7D6C0
+    );
+
+  /* 少し不揃いな塗り跡 */
+  clip-path: polygon(
+    0 30%, 8% 15%, 20% 22%, 35% 5%,
+    50% 16%, 68% 8%, 85% 20%, 100% 10%,
+    98% 85%, 83% 100%, 60% 90%,
+    40% 100%, 18% 88%, 2% 100%
+  );
+
+  /* 左から右へ描画 */
+  transform: scaleX(0) rotate(-1deg);
+  transform-origin: left center;
+
+  opacity: 0.9;
+  pointer-events: none;
+
+  /* ホバー解除時は即座に消す */
+  transition: none;
+}
+
+/* ホバー・キーボードフォーカス時 */
+.side-menu-button:hover::before,
+.side-menu-button:focus-visible::before {
+  transform: scaleX(1) rotate(-1deg);
+
+  /* ホバー開始時のみアニメーション */
+  transition: transform 300ms ease-out;
+}
+
+/* キーボード操作時のフォーカス表示 */
+.side-menu-button:focus-visible {
+  outline: 2px solid #4F5A4C;
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* 動きを減らす設定への配慮 */
+@media (prefers-reduced-motion: reduce) {
+  .side-menu-button::before {
+    transition: none;
+  }
+}
+
+/* トップページのアニメーション */
+@theme {
+  --animate-intro-character: intro-character 500ms ease-out 1 both;
+  --animate-intro-speech: intro-speech 400ms ease-out 1 both;
+  --animate-intro-cta: intro-cta 600ms ease-in-out 1 both;
+
+  /* キャラクターが下からふわっと登場 */
+  @keyframes intro-character {
+    from {
+      opacity: 0;
+      transform: translateY(12px) scale(0.95);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+  }
+
+  /* 吹き出しがふわっと登場 */
+  @keyframes intro-speech {
+    from {
+      opacity: 0;
+      transform: scale(0.9);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+
+  /* CTAが一度だけ大きくなる */
+  @keyframes intro-cta {
+    0%, 100% {
+      transform: scale(1);
+    }
+    50% {
+      transform: scale(1.035);
+    }
+  }
+}
+
+/* 初回モーダルが閉じるまでアニメーションを停止 */
+body:has([data-hero-intro-lock="true"])
+  .hero-intro
+  :is(
+    .animate-intro-character,
+    .animate-intro-speech,
+    .animate-intro-cta
+  ) {
+  animation-play-state: paused;
 }

@@ -6,7 +6,7 @@ export default class extends Controller {
     auto: { type: Boolean, default: true },
     level: Number,
     delay: { type: Number, default: 1500 },
-    duration: { type: Number, default: 8000 }
+    duration: { type: Number, default: 6000 }
   }
 
   connect() {
@@ -77,6 +77,9 @@ export default class extends Controller {
 
     clearTimeout(this.closeTimer)
     this.closeTimer = null
+
+    // トップ画面のアニメーション待機を解除
+    this.element.removeAttribute("data-hero-intro-lock")
   }
 
   // Turboに保存する前に非表示にする

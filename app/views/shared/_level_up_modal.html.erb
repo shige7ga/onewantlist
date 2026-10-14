@@ -1,9 +1,12 @@
 <div
   data-controller="level-up-modal"
+  <% if local_assigns[:hero_intro_lock] %>
+    data-hero-intro-lock="true"
+  <% end %>
   data-level-up-modal-auto-value="<%= local_assigns.fetch(:auto, true) %>"
   data-level-up-modal-level-value="<%= event[:level] %>"
-  data-level-up-modal-delay-value="1500"
-  data-level-up-modal-duration-value="8000"
+  data-level-up-modal-delay-value="<%= local_assigns.fetch(:delay, 1500) %>"
+  data-level-up-modal-duration-value="6000"
   data-action="exp-gauge:level-up@window->level-up-modal#show"
   class="fixed inset-0 z-[60] hidden items-center justify-center bg-black/30 px-5"
   role="dialog"
