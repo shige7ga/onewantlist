@@ -123,7 +123,7 @@
                 <div class="w-full max-w-sm animate-intro-cta [animation-delay:1900ms] motion-reduce:animate-none text-center">
                   <%= link_to "さっそく体験してみる →",
                               guest_user_path,
-                              class: "btn h-auto min-h-0 w-full rounded-full border-none bg-[#A8BFA0] px-8 py-4 text-base font-bold text-[#354133] shadow-sm transition-all duration-200 ease-out hover:bg-[#96AE8E] hover:shadow-lg motion-safe:hover:-translate-y-0.5 motion-safe:hover:scale-[1.02] motion-safe:active:translate-y-0 motion-safe:active:scale-[0.97] active:shadow-sm focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#4F5A4C]" %>
+                              class: "guest-cta-button" %>
                 </div>
 
                 <%# ------------------------------------------------
@@ -186,34 +186,28 @@
           ・absoluteなのでHEROと一緒にスクロールする
           ・fixedではないため画面には残り続けない
       ======================================================== %>
-      <nav class="absolute left-[calc(50%+250px)] top-1/2 hidden -translate-y-1/2 flex-col gap-3 lg:flex">
+      <nav
+        aria-label="アプリのご案内"
+        class="absolute left-[calc(50%+250px)] top-1/2 hidden -translate-y-1/2 flex-col gap-3 lg:flex"
+      >
 
-        <%= link_to "体験してみる",
-                    guest_user_path,
-                    class: "side-menu-button" %>
-
-        <%= link_to "無料登録",
-                    new_user_registration_path,
-                    class: "side-menu-button" %>
-
-        <%= link_to "ログイン",
-                    new_user_session_path,
-                    class: "side-menu-button" %>
-
-        <%# 区切り線 %>
-        <div class="my-2 h-px bg-[#4F5A4C]/15"></div>
-
-        <%# ページ内リンク %>
-        <%= link_to "できること",
+        <%= link_to "このアプリでできること",
                     "#features",
                     class: "side-menu-button" %>
 
-        <%= link_to "なんで1日ひとつ？",
+        <%= link_to "なんで1日ひとつだけ？",
                     "#philosophy",
                     class: "side-menu-button" %>
 
-        <%= link_to "ストーリー",
+        <%= link_to "このアプリが生まれた理由",
                     "#story",
+                    class: "side-menu-button" %>
+
+        <span class="side-menu-button">はじめての方へ(準備中)</span>
+
+        <%# 将来的に追加予定 %>
+        <%# link_to "はじめての方へ",
+                    guide_path,
                     class: "side-menu-button" %>
 
       </nav>
@@ -619,14 +613,10 @@
       <%# ========================================================
           CTA
       ======================================================== %>
-      <div class="mt-8 flex flex-col items-center">
-        <%= link_to guest_user_path,
-                    class: "group flex w-full max-w-sm items-center justify-center gap-2 rounded-3xl border-none bg-[#E3C88F] px-10 py-4 text-lg font-bold text-[#4F5A4C] shadow-md transition-all duration-300 hover:-translate-y-0.5 hover:bg-[#D6B974] hover:shadow-lg" do %>
-
-          <span>
-            体験してみる
-          </span>
-        <% end %>
+      <div class="mt-7 flex flex-col items-center">
+        <%= link_to "体験してみる →",
+                    guest_user_path,
+                    class: "guest-cta-button max-w-sm" %>
 
         <p class="mt-3 text-xs font-medium text-[#4F5A4C]/55">
           登録なしで試せます

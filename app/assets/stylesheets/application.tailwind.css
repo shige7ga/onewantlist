@@ -9,7 +9,59 @@ body {
   font-family: "Zen Maru Gothic", sans-serif;
 }
 
-/* PCサイドナビ：クレヨン風マーカー */
+/* トップページのアニメーション */
+@theme {
+  --animate-intro-character: intro-character 500ms ease-out 1 both;
+  --animate-intro-speech: intro-speech 400ms ease-out 1 both;
+  --animate-intro-cta: intro-cta 600ms ease-in-out 1 both;
+
+  /* キャラクターが下からふわっと登場 */
+  @keyframes intro-character {
+    from {
+      opacity: 0;
+      transform: translateY(12px) scale(0.95);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+  }
+
+  /* 吹き出しがふわっと登場 */
+  @keyframes intro-speech {
+    from {
+      opacity: 0;
+      transform: scale(0.9);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+
+  /* CTAが一度だけ大きくなる */
+  @keyframes intro-cta {
+    0%, 100% {
+      transform: scale(1);
+    }
+    50% {
+      transform: scale(1.035);
+    }
+  }
+}
+
+/* 初回モーダルが閉じるまでアニメーションを停止 */
+body:has([data-hero-intro-lock="true"])
+  .hero-intro
+  :is(
+    .animate-intro-character,
+    .animate-intro-speech,
+    .animate-intro-cta
+  ) {
+  animation-play-state: paused;
+}
+
+/* PCサイドナビ：マーカー風 */
 .side-menu-button {
   @apply relative isolate w-fit px-2 py-1;
 }
@@ -31,7 +83,7 @@ body {
     repeating-linear-gradient(
       168deg,
       transparent 0 3px,
-      rgb(246 245 238 / 30%) 3px 4px,
+      rgba(245, 246, 238, 30%) 3px 4px,
       transparent 4px 7px
     ),
     linear-gradient(
@@ -83,54 +135,20 @@ body {
   }
 }
 
-/* トップページのアニメーション */
-@theme {
-  --animate-intro-character: intro-character 500ms ease-out 1 both;
-  --animate-intro-speech: intro-speech 400ms ease-out 1 both;
-  --animate-intro-cta: intro-cta 600ms ease-in-out 1 both;
-
-  /* キャラクターが下からふわっと登場 */
-  @keyframes intro-character {
-    from {
-      opacity: 0;
-      transform: translateY(12px) scale(0.95);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0) scale(1);
-    }
+/* トップ画面のCTAボタン用 */
+@layer components {
+  .guest-cta-button {
+    @apply btn h-auto min-h-0 w-full rounded-full border-none
+           bg-[#A8BFA0] px-8 py-4 text-base font-bold text-[#354133]
+           shadow-sm transition-all duration-200 ease-out
+           hover:bg-[#96AE8E] hover:shadow-lg
+           motion-safe:hover:-translate-y-0.5
+           motion-safe:hover:scale-[1.02]
+           motion-safe:active:translate-y-0
+           motion-safe:active:scale-[0.97]
+           active:shadow-sm
+           focus-visible:outline-2
+           focus-visible:outline-offset-4
+           focus-visible:outline-[#4F5A4C];
   }
-
-  /* 吹き出しがふわっと登場 */
-  @keyframes intro-speech {
-    from {
-      opacity: 0;
-      transform: scale(0.9);
-    }
-    to {
-      opacity: 1;
-      transform: scale(1);
-    }
-  }
-
-  /* CTAが一度だけ大きくなる */
-  @keyframes intro-cta {
-    0%, 100% {
-      transform: scale(1);
-    }
-    50% {
-      transform: scale(1.035);
-    }
-  }
-}
-
-/* 初回モーダルが閉じるまでアニメーションを停止 */
-body:has([data-hero-intro-lock="true"])
-  .hero-intro
-  :is(
-    .animate-intro-character,
-    .animate-intro-speech,
-    .animate-intro-cta
-  ) {
-  animation-play-state: paused;
 }
