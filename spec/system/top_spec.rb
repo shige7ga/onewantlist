@@ -6,7 +6,7 @@ RSpec.describe "Top", type: :system do
       visit root_path
 
       expect(page).to have_content("わんわんとリスト")
-      expect(page).to have_link("ユーザー登録")
+      expect(page).to have_link("無料登録")
       expect(page).to have_link("ログイン")
     end
 
@@ -19,7 +19,7 @@ RSpec.describe "Top", type: :system do
 
     it "ユーザー登録画面へ移動できる" do
       visit root_path
-      click_link "ユーザー登録", match: :first
+      click_link "無料登録", match: :first
 
       expect(page).to have_current_path(new_user_registration_path)
     end
