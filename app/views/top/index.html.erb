@@ -103,7 +103,7 @@
                   <div class="animate-intro-character motion-reduce:animate-none">
                     <%= image_tag "wanta.png",
                                   alt: "ワン太",
-                                  class: "h-24 w-24 object-contain" %>
+                                  class: "h-24 w-24 object-contain motion-safe:transition-transform motion-safe:duration-200 motion-safe:ease-out motion-safe:hover:-translate-y-1 motion-safe:hover:-rotate-3" %>
                   </div>
 
 
@@ -126,7 +126,7 @@
                 <div class="w-full max-w-sm animate-intro-cta [animation-delay:1900ms] motion-reduce:animate-none text-center">
                   <%= link_to "さっそく体験してみる →",
                               guest_user_path,
-                              class: "btn h-auto min-h-0 w-full rounded-full border-none bg-[#A8BFA0] px-8 py-4 text-base font-bold text-[#354133] shadow-sm hover:bg-[#96AE8E]" %>
+                              class: "btn h-auto min-h-0 w-full rounded-full border-none bg-[#A8BFA0] px-8 py-4 text-base font-bold text-[#354133] shadow-sm transition-all duration-200 ease-out hover:bg-[#96AE8E] hover:shadow-lg motion-safe:hover:-translate-y-0.5 motion-safe:hover:scale-[1.02] motion-safe:active:translate-y-0 motion-safe:active:scale-[0.97] active:shadow-sm focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#4F5A4C]" %>
                 </div>
 
                 <%# ------------------------------------------------
@@ -137,7 +137,7 @@
                   <div class="animate-intro-character [animation-delay:1000ms] motion-reduce:animate-none">
                     <%= image_tag "risumaru.png",
                                   alt: "リス丸",
-                                  class: "h-12 w-12 object-contain" %>
+                                  class: "h-12 w-12 object-contain motion-safe:transition-transform motion-safe:duration-200 motion-safe:ease-out motion-safe:hover:-translate-y-1 motion-safe:hover:rotate-6" %>
                   </div>
 
                   <%# リス丸の吹き出し %>
@@ -380,20 +380,15 @@
 
 
           <%# タイトル %>
-
           <h2 class="mt-5 text-2xl font-bold leading-relaxed text-[#4F5A4C] sm:text-3xl">
             がんばりすぎないから、<br>
             続けられる。
           </h2>
 
-
           <%# 区切り線 %>
-
           <div class="mx-auto my-6 h-1 w-12 rounded-full bg-[#E3C88F]"></div>
 
-
           <%# 本文 %>
-
           <div class="space-y-5 text-sm font-medium leading-7 text-[#4F5A4C]/70 sm:text-base sm:leading-8">
 
             <p>
@@ -465,7 +460,6 @@
             </p>
 
           </div>
-
         </div>
       </div>
     </div>
@@ -620,7 +614,6 @@
 
         <%# ワン太 %>
         <div class="animate-bounce [animation-duration:2s]">
-
           <%= image_tag "wanta_joy.png",
                         alt: "楽しむワン太",
                         class: "h-18 w-18 object-contain drop-shadow-sm sm:h-24 sm:w-24" %>
@@ -628,11 +621,9 @@
 
         <%# リス丸 %>
         <div class="animate-bounce [animation-delay:0.3s] [animation-duration:2.2s]">
-
           <%= image_tag "risumaru.png",
                         alt: "リス丸",
                         class: "h-10 w-10 object-contain drop-shadow-sm sm:h-12 sm:w-12" %>
-
         </div>
       </div>
 
@@ -653,7 +644,6 @@
           CTA
       ======================================================== %>
       <div class="mt-8 flex flex-col items-center">
-
         <%= link_to guest_user_path,
                     class: "group flex w-full max-w-sm items-center justify-center gap-2 rounded-3xl border-none bg-[#E3C88F] px-10 py-4 text-lg font-bold text-[#4F5A4C] shadow-md transition-all duration-300 hover:-translate-y-0.5 hover:bg-[#D6B974] hover:shadow-lg" do %>
 
