@@ -134,3 +134,21 @@ body:has([data-hero-intro-lock="true"])
   ) {
   animation-play-state: paused;
 }
+
+/* トップ画面のCTAボタン用 */
+@layer components {
+  .guest-cta-button {
+    @apply btn h-auto min-h-0 w-full rounded-full border-none
+           bg-[#A8BFA0] px-8 py-4 text-base font-bold text-[#354133]
+           shadow-sm transition-all duration-200 ease-out
+           hover:bg-[#96AE8E] hover:shadow-lg
+           motion-safe:hover:-translate-y-0.5
+           motion-safe:hover:scale-[1.02]
+           motion-safe:active:translate-y-0
+           motion-safe:active:scale-[0.97]
+           active:shadow-sm
+           focus-visible:outline-2
+           focus-visible:outline-offset-4
+           focus-visible:outline-[#4F5A4C];
+  }
+}
