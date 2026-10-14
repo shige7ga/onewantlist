@@ -186,34 +186,28 @@
           ・absoluteなのでHEROと一緒にスクロールする
           ・fixedではないため画面には残り続けない
       ======================================================== %>
-      <nav class="absolute left-[calc(50%+250px)] top-1/2 hidden -translate-y-1/2 flex-col gap-3 lg:flex">
+      <nav
+        aria-label="アプリのご案内"
+        class="absolute left-[calc(50%+250px)] top-1/2 hidden -translate-y-1/2 flex-col gap-3 lg:flex"
+      >
 
-        <%= link_to "体験してみる",
-                    guest_user_path,
-                    class: "side-menu-button" %>
-
-        <%= link_to "無料登録",
-                    new_user_registration_path,
-                    class: "side-menu-button" %>
-
-        <%= link_to "ログイン",
-                    new_user_session_path,
-                    class: "side-menu-button" %>
-
-        <%# 区切り線 %>
-        <div class="my-2 h-px bg-[#4F5A4C]/15"></div>
-
-        <%# ページ内リンク %>
-        <%= link_to "できること",
+        <%= link_to "このアプリでできること",
                     "#features",
                     class: "side-menu-button" %>
 
-        <%= link_to "なんで1日ひとつ？",
+        <%= link_to "なんで1日ひとつだけ？",
                     "#philosophy",
                     class: "side-menu-button" %>
 
-        <%= link_to "ストーリー",
+        <%= link_to "このアプリが生まれた理由",
                     "#story",
+                    class: "side-menu-button" %>
+
+        <span class="side-menu-button">はじめての方へ(準備中)</span>
+
+        <%# 将来的に追加予定 %>
+        <%# link_to "はじめての方へ",
+                    guide_path,
                     class: "side-menu-button" %>
 
       </nav>
