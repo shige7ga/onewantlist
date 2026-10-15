@@ -1,15 +1,19 @@
 <% flash.each do |type, message| %>
-  <% daisy_class =
+  <% color_class =
     case type
     when "notice"
-      "alert-success"
+      "bg-[#EAF2E7] border-[#A8BFA0] text-[#4F5A4C]"
     when "alert"
-      "alert-error"
+      "bg-[#FAEFEB] border-[#D9A69B] text-[#985F54]"
+    else
+      "bg-[#F6F5EE] border-[#A8BFA0] text-[#4F5A4C]"
     end
   %>
+
   <div
-    class="mb-2 alert  <%= daisy_class %>"
+    class="alert mb-2 border rounded-xl shadow-sm <%= color_class %>"
     data-controller="flash"
+    role="<%= type == 'alert' ? 'alert' : 'status' %>"
   >
     <%= message %>
   </div>
