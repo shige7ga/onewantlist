@@ -1,0 +1,28 @@
+<%# ============================================
+    コンセプト・使い方ガイド切り替えボタン
+============================================ %>
+
+<% if current_page?(about_path) %>
+  <% link_label = "使い方" %>
+  <% link_path = guide_path %>
+<% else %>
+  <% link_label = "コンセプト" %>
+  <% link_path = about_path %>
+<% end %>
+
+<%# ページ切り替えボタン %>
+<div
+  aria-label="ページ切り替え"
+  class="pointer-events-none sticky bottom-6 z-40 -mt-16 flex justify-end pr-4 sm:bottom-8 sm:pr-8"
+>
+
+  <%= link_to link_path,
+              class: "pointer-events-auto inline-flex min-h-12 items-center justify-center gap-2 rounded-full border border-[#96AE8E] bg-[#A8BFA0] px-5 py-3 text-sm font-bold text-[#354133] shadow-lg transition-all duration-200 hover:bg-[#96AE8E] hover:shadow-xl motion-safe:active:scale-[0.97] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#4F5A4C]" do %>
+
+    <%= link_label %>
+
+    <span aria-hidden="true">→</span>
+
+  <% end %>
+
+</div>

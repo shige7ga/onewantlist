@@ -18,8 +18,9 @@ Rails.application.routes.draw do
   root "top#index"
 
   # 静的ページ
-  get "/about",   to: "static_pages#about",   as: :about
-  get "/terms",   to: "static_pages#terms",   as: :terms
+  get "/about", to: "static_pages#about", as: :about
+  get "/guide", to: "static_pages#guide", as: :guide
+  get "/terms", to: "static_pages#terms", as: :terms
   get "/privacy", to: "static_pages#privacy", as: :privacy
   get "/contact", to: "static_pages#contact", as: :contact
 
