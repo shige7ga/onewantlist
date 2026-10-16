@@ -1,24 +1,20 @@
 <footer
   class="border-t border-[#A8BFA0]/30 bg-[#F6F5EE] px-4 py-8 text-center <%= 'pb-28' if current_page?(mypage_path) || current_page?(guest_user_path) %>"
 >
-  <nav
-    class="mx-auto flex max-w-4xl flex-wrap justify-center gap-x-5 gap-y-2"
-    aria-label="フッター"
-  >
+  <nav aria-label="フッター">
+    <ul class="mx-auto flex max-w-4xl list-none flex-wrap justify-center gap-x-5 gap-y-2">
 
-    <%# リンク先が完成するまで準備中として表示 %>
-    <% [
-      "利用規約",
-      "プライバシーポリシー",
-      "お問い合わせ"
-    ].each do |label| %>
+      <% [
+        ["利用規約", terms_path],
+        ["プライバシーポリシー", privacy_path],
+        ["お問い合わせ", contact_path]
+      ].each do |label, path| %>
+        <li>
+          <%= link_to label, path, class: "text-xs text-[#4F5A4C]/50" %>
+        </li>
+      <% end %>
 
-      <span class="text-xs text-[#4F5A4C]/50">
-        <%= label %>（準備中）
-      </span>
-
-    <% end %>
-
+    </ul>
   </nav>
 
   <p class="mt-5 text-xs text-[#4F5A4C]/50">
