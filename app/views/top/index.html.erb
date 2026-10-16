@@ -180,32 +180,75 @@
         </section>
       </div>
 
-      <%# ========================================================
-          PC用サイドナビ
+      <%# ============================================
+          PC用サイドナビ：初めての方へ
           ・スマホでは非表示
-          ・absoluteなのでHEROと一緒にスクロールする
-          ・fixedではないため画面には残り続けない
-      ======================================================== %>
+          ・HEROと一緒にスクロールする
+      ============================================ %>
       <nav
-        aria-label="アプリのご案内"
-        class="absolute left-[calc(50%+250px)] top-1/2 hidden -translate-y-1/2 flex-col gap-3 lg:flex"
+        class="absolute left-[calc(50%+250px)] top-[67%] hidden w-56 -translate-y-1/2 lg:block"
+        aria-label="初めての方へ"
       >
 
-        <%= link_to "このアプリでできること",
-                    "#features",
-                    class: "side-menu-button" %>
+        <%# セクション見出し %>
+        <div class="mb-4 flex items-center gap-3">
 
-        <%= link_to "なんで1日ひとつだけ？",
-                    "#philosophy",
-                    class: "side-menu-button" %>
+          <span class="shrink-0 text-xs font-bold text-[#7D9876]">
+            初めての方へ
+          </span>
 
-        <%= link_to "このアプリが生まれた理由",
-                    "#story",
-                    class: "side-menu-button" %>
+          <span
+            class="h-px flex-1 bg-[#A8BFA0]/60"
+            aria-hidden="true"
+          ></span>
 
-        <%= link_to "初めての方へ",
-                    about_path,
-                    class: "side-menu-button" %>
+        </div>
+
+        <%# ナビゲーションカード %>
+        <div class="flex flex-col gap-3">
+
+          <% [
+            {
+              label: "わんわんとリストって？",
+              description: "なぜ1日ひとつだけなのか",
+              path: about_path
+            },
+            {
+              label: "使い方ガイド",
+              description: "使い方・ルール・FAQ",
+              path: guide_path
+            }
+          ].each do |item| %>
+
+            <%= link_to item[:path],
+                        class: "group block rounded-xl border border-[#A8BFA0]/20 bg-white/85 px-4 py-4 shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:border-[#A8BFA0]/60 hover:bg-white hover:shadow-md focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#4F5A4C]" do %>
+
+              <%# タイトルと矢印 %>
+              <div class="flex items-center justify-between gap-2">
+
+                <span class="text-sm font-bold text-[#4F5A4C]">
+                  <%= item[:label] %>
+                </span>
+
+                <span
+                  class="shrink-0 text-lg text-[#7D9876] transition-transform duration-200 group-hover:translate-x-1"
+                  aria-hidden="true"
+                >
+                  →
+                </span>
+
+              </div>
+
+              <%# 補足説明 %>
+              <p class="mt-2 text-xs text-[#7D9876]">
+                <%= item[:description] %>
+              </p>
+
+            <% end %>
+
+          <% end %>
+
+        </div>
 
       </nav>
     </div>
