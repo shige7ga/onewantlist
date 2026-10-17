@@ -1,0 +1,386 @@
+<%# ============================================
+    RULES：わんわんとリストのルール
+============================================ %>
+<section
+  id="rules"
+  aria-labelledby="rules-title"
+  class="bg-[#F6F5EE] px-5 py-14 sm:py-20"
+>
+  <div class="mx-auto max-w-3xl text-[#4F5A4C]">
+
+    <%# セクション見出し %>
+    <div class="text-center">
+
+      <span class="inline-block rounded-full bg-[#A8BFA0]/30 px-4 py-1 text-xs font-bold tracking-widest">
+        RULES
+      </span>
+
+      <h2
+        id="rules-title"
+        class="mt-4 text-2xl font-bold leading-relaxed sm:text-3xl"
+      >
+        わんわんとリストのルール
+      </h2>
+
+      <div
+        class="mx-auto mt-8 h-px w-16 bg-[#A8BFA0]"
+        aria-hidden="true"
+      ></div>
+
+      <p class="mt-8 text-sm leading-8 sm:text-base">
+        登録できる回数や経験値の仕組みなど、<br>
+        基本的なルールをご紹介します。
+      </p>
+
+    </div>
+
+    <%# 代表的なルールを数字で紹介 %>
+    <div class="mx-auto mt-10 grid max-w-2xl grid-cols-2 gap-3 sm:gap-4">
+
+      <% [
+        ["1つ", "1日のやりたいこと登録"],
+        ["#{UserStatus::RANDOM_GACHA_LIMIT}回", "1日のガチャ回数"],
+        ["+#{UserStatus::DAILY_ACTION_EXP} EXP", "1日のアクション経験値"],
+        ["各3回", "ゲスト体験の上限"]
+      ].each do |value, label| %>
+
+        <div class="rounded-2xl bg-white px-3 py-5 text-center shadow-sm sm:px-5 sm:py-6">
+
+          <p class="text-2xl font-bold text-[#4F5A4C] sm:text-3xl">
+            <%= value %>
+          </p>
+
+          <p class="mt-2 text-xs leading-relaxed text-[#7D9876] sm:text-sm">
+            <%= label %>
+          </p>
+
+        </div>
+
+      <% end %>
+
+    </div>
+
+    <%# ルール詳細 %>
+    <div class="mx-auto mt-10 max-w-2xl space-y-5">
+
+      <%# ----------------------------------------
+          01 登録・ガチャ
+      ---------------------------------------- %>
+      <article class="rounded-2xl bg-white px-5 py-6 shadow-sm sm:px-8 sm:py-8">
+
+        <div class="flex items-center gap-4">
+
+          <span class="flex size-11 shrink-0 items-center justify-center rounded-xl bg-[#E9EFE5] text-lg font-bold text-[#7D9876]">
+            01
+          </span>
+
+          <h3 class="text-base font-bold leading-relaxed sm:text-lg">
+            登録・ガチャのルール
+          </h3>
+
+        </div>
+
+        <div class="mt-5 overflow-x-auto">
+          <table class="w-full text-left text-sm">
+
+            <tbody class="divide-y divide-[#E9EFE5]">
+
+              <tr>
+                <th scope="row" class="py-3 pr-4 font-medium">
+                  やりたいこと登録
+                </th>
+                <td class="py-3 text-right">
+                  1日1件
+                </td>
+              </tr>
+
+              <tr>
+                <th scope="row" class="py-3 pr-4 font-medium">
+                  登録方法
+                </th>
+                <td class="py-3 text-right">
+                  自由入力・ガチャ
+                </td>
+              </tr>
+
+              <tr>
+                <th scope="row" class="py-3 pr-4 font-medium">
+                  ガチャ
+                </th>
+                <td class="py-3 text-right">
+                  1日最大<%= UserStatus::RANDOM_GACHA_LIMIT %>回
+                </td>
+              </tr>
+
+              <tr>
+                <th scope="row" class="py-3 pr-4 font-medium">
+                  利用回数のリセット
+                </th>
+                <td class="py-3 text-right">
+                  日付が変わるとリセット
+                </td>
+              </tr>
+
+            </tbody>
+
+          </table>
+        </div>
+
+        <div class="mt-5 space-y-4 text-sm leading-8 sm:text-base">
+
+          <p>
+            1日にひとつ、やりたいことを登録できます。<br class="hidden sm:block">
+            自分で書いても、ガチャから選んでも、どちらでも大丈夫。
+          </p>
+
+          <p>
+            ガチャは1日に最大<%= UserStatus::RANDOM_GACHA_LIMIT %>回まで回せます。<br class="hidden sm:block">
+            やりたいことを登録したあとは、その日の登録とガチャはおしまいです。
+          </p>
+
+          <p>
+            回数は日付が変わるとリセットされるので、<br class="hidden sm:block">
+            また次の日に楽しめます。
+          </p>
+
+        </div>
+
+      </article>
+
+      <%# ----------------------------------------
+          02 経験値
+      ---------------------------------------- %>
+      <article class="rounded-2xl bg-white px-5 py-6 shadow-sm sm:px-8 sm:py-8">
+
+        <div class="flex items-center gap-4">
+
+          <span class="flex size-11 shrink-0 items-center justify-center rounded-xl bg-[#E9EFE5] text-lg font-bold text-[#7D9876]">
+            02
+          </span>
+
+          <h3 class="text-base font-bold leading-relaxed sm:text-lg">
+            経験値を獲得できるタイミング
+          </h3>
+
+        </div>
+
+        <div class="mt-5 overflow-x-auto">
+          <table class="w-full text-left text-sm">
+
+            <thead>
+              <tr class="border-b border-[#A8BFA0]/40">
+                <th scope="col" class="pb-3 pr-3 font-bold">
+                  行動・条件
+                </th>
+                <th scope="col" class="pb-3 text-right font-bold">
+                  経験値
+                </th>
+              </tr>
+            </thead>
+
+            <tbody class="divide-y divide-[#E9EFE5]">
+
+              <% [
+                ["初めてのアクセス", "+#{UserStatus::FIRST_VISIT_EXP} EXP"],
+                ["新規ユーザー登録", "Lv.UPに必要なEXP"],
+                ["その日初めてのログイン", "+#{UserStatus::DAILY_LOGIN_EXP} EXP"],
+                ["やりたいこと登録、またはガチャ#{UserStatus::RANDOM_GACHA_LIMIT}回到達", "+#{UserStatus::DAILY_ACTION_EXP} EXP"],
+                ["累計ログイン#{UserStatus::LOGIN_COUNT_BONUS_INTERVAL}回ごと", "+#{UserStatus::LOGIN_COUNT_BONUS_EXP} EXP"],
+                ["連続ログイン#{UserStatus::LOGIN_STREAK_BONUS_INTERVAL}日ごと", "+#{UserStatus::LOGIN_STREAK_BONUS_EXP} EXP"],
+                ["累計アクション#{UserStatus::ACTION_COUNT_BONUS_INTERVAL}回ごと", "+#{UserStatus::ACTION_COUNT_BONUS_EXP} EXP"],
+                ["連続アクション#{UserStatus::ACTION_STREAK_BONUS_INTERVAL}日ごと", "+#{UserStatus::ACTION_STREAK_BONUS_EXP} EXP"]
+              ].each do |action, exp| %>
+
+                <tr>
+                  <td class="py-3 pr-3 leading-relaxed">
+                    <%= action %>
+                  </td>
+
+                  <td class="whitespace-nowrap py-3 text-right font-bold text-[#7D9876]">
+                    <%= exp %>
+                  </td>
+                </tr>
+
+              <% end %>
+
+            </tbody>
+
+          </table>
+        </div>
+
+        <%# アクション経験値の補足 %>
+        <div class="mt-6 rounded-xl bg-[#F6F5EE] px-4 py-5 sm:px-6">
+
+          <h4 class="text-sm font-bold sm:text-base">
+            アクション経験値について
+          </h4>
+
+          <div class="mt-3 space-y-4 text-sm leading-8">
+
+            <p>
+              やりたいことを1つ登録するか、ガチャを<%= UserStatus::RANDOM_GACHA_LIMIT %>回実施するか<br class="hidden sm:block">
+              どちらかの条件を満たすと、<%= UserStatus::DAILY_ACTION_EXP %>EXPを獲得できます。
+            </p>
+
+            <p>
+              登録しなかった日でも、ガチャを<%= UserStatus::RANDOM_GACHA_LIMIT %>回実施すれば、同じ経験値を獲得できます。
+            </p>
+
+            <p>
+              これは、やりたいことを見つけようとする行動そのものに<br class="hidden sm:block">
+              価値があると考えているからです。
+            </p>
+
+          </div>
+
+          <p class="mt-4 text-xs font-medium text-[#7D9876]">
+            ※アクション経験値は1日最大<%= UserStatus::DAILY_ACTION_EXP %>EXPです。
+          </p>
+
+        </div>
+
+      </article>
+
+      <%# ----------------------------------------
+          03 レベルアップ・継続記録
+      ---------------------------------------- %>
+      <article class="rounded-2xl bg-white px-5 py-6 shadow-sm sm:px-8 sm:py-8">
+
+        <div class="flex items-center gap-4">
+
+          <span class="flex size-11 shrink-0 items-center justify-center rounded-xl bg-[#E9EFE5] text-lg font-bold text-[#7D9876]">
+            03
+          </span>
+
+          <h3 class="text-base font-bold leading-relaxed sm:text-lg">
+            レベルアップと継続記録
+          </h3>
+
+        </div>
+
+        <div class="mt-5 space-y-5 text-sm leading-8 sm:text-base">
+
+          <div>
+            <h4 class="font-bold">
+              経験値をためてレベルアップ
+            </h4>
+
+            <p class="mt-2">
+              経験値が一定量たまると、レベルアップします。<br class="hidden sm:block">
+              レベルアップに必要な経験値は、その時のレベルによって変わります。
+            </p>
+          </div>
+
+          <div>
+            <h4 class="font-bold">
+              続けた節目にはボーナス経験値
+            </h4>
+
+            <p class="mt-2">
+              累計・連続ログインやアクションの記録が<br class="hidden sm:block">
+              それぞれの節目に達すると、ボーナス経験値を獲得できます。
+            </p>
+
+            <p class="mt-2">
+              複数の条件を同時に満たした場合は、それぞれのボーナスが加算されます。
+            </p>
+          </div>
+
+          <div class="rounded-xl bg-[#F6F5EE] px-4 py-5 sm:px-6">
+
+            <h4 class="font-bold">
+              お休みする日があっても、大丈夫。
+            </h4>
+
+            <p class="mt-2">
+              連続ログインや連続アクションの記録は、途切れることがあります。
+            </p>
+
+            <p class="mt-2">
+              でも、これまで獲得した経験値やレベル、<br class="hidden sm:block">
+              累計の記録が減ることはありません。
+            </p>
+
+            <p class="mt-2">
+              自分のペースで、また続けていきましょう。
+            </p>
+
+          </div>
+
+        </div>
+
+      </article>
+
+      <%# ----------------------------------------
+          04 ゲスト体験
+      ---------------------------------------- %>
+      <article class="rounded-2xl bg-white px-5 py-6 shadow-sm sm:px-8 sm:py-8">
+
+        <div class="flex items-center gap-4">
+
+          <span class="flex size-11 shrink-0 items-center justify-center rounded-xl bg-[#E9EFE5] text-lg font-bold text-[#7D9876]">
+            04
+          </span>
+
+          <h3 class="text-base font-bold leading-relaxed sm:text-lg">
+            ゲスト体験のルール
+          </h3>
+
+        </div>
+
+        <div class="mt-5 overflow-x-auto">
+          <table class="w-full text-left text-sm">
+
+            <tbody class="divide-y divide-[#E9EFE5]">
+
+              <tr>
+                <th scope="row" class="py-3 pr-3 font-medium">
+                  やりたいこと登録
+                </th>
+                <td class="py-3 text-right">
+                  累計3回まで
+                </td>
+              </tr>
+
+              <tr>
+                <th scope="row" class="py-3 pr-3 font-medium">
+                  ガチャ体験
+                </th>
+                <td class="py-3 text-right">
+                  累計3回まで
+                </td>
+              </tr>
+
+              <tr>
+                <th scope="row" class="py-3 pr-3 font-medium">
+                  1回のガチャ体験
+                </th>
+                <td class="py-3 text-right">
+                  最大<%= UserStatus::RANDOM_GACHA_LIMIT %>回
+                </td>
+              </tr>
+
+            </tbody>
+
+          </table>
+        </div>
+
+        <div class="mt-5 space-y-4 text-sm leading-8 sm:text-base">
+
+          <p>
+            会員登録なしでも、やりたいことの登録やガチャを体験できます。<br class="hidden sm:block">
+            やりたいこと登録とガチャ体験は、それぞれ累計3回まで利用できます。
+          </p>
+
+          <p>
+            ガチャは1回の体験につき最大<%= UserStatus::RANDOM_GACHA_LIMIT %>回の抽選が可能です。<br class="hidden sm:block">
+            なお、ゲスト利用中も1日1登録・1日<%= UserStatus::RANDOM_GACHA_LIMIT %>回の<br class="hidden sm:block">
+            基本ルールが適用されます。
+          </p>
+
+        </div>
+
+      </article>
+    </div>
+  </div>
+</section>
