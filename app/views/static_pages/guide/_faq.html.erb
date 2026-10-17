@@ -1,0 +1,105 @@
+<%# ============================================
+    FAQ：よくある質問
+============================================ %>
+<section
+  id="faq"
+  aria-labelledby="faq-title"
+  class="bg-[#E9EFE5] px-5 py-14 sm:py-20"
+>
+  <div class="mx-auto max-w-3xl text-[#4F5A4C]">
+
+    <%# セクション見出し %>
+    <div class="text-center">
+
+      <span class="inline-block rounded-full bg-[#A8BFA0]/40 px-4 py-1 text-xs font-bold tracking-widest">
+        FAQ
+      </span>
+
+      <h2
+        id="faq-title"
+        class="mt-4 text-2xl font-bold leading-relaxed sm:text-3xl"
+      >
+        よくある質問
+      </h2>
+
+      <div
+        class="mx-auto mt-8 h-px w-16 bg-[#A8BFA0]"
+        aria-hidden="true"
+      ></div>
+
+    </div>
+
+    <%# FAQ一覧 %>
+    <% faqs = [
+      {
+        question: "毎日登録しないといけませんか？",
+        answer: "いいえ。毎日続けることを目指すアプリですが、登録できない日があっても大丈夫です。自分のペースで、楽しみながら使ってください。"
+      },
+      {
+        question: "1日に2つ以上登録できますか？",
+        answer: "登録できるのは、1日ひとつまでです。自分で書いても、ガチャから選んでも、どちらでも大丈夫です。"
+      },
+      {
+        question: "ガチャを回したら、必ず登録しないといけませんか？",
+        answer: "いいえ。気になる提案がなければ、登録しなくても大丈夫です。ガチャを#{UserStatus::RANDOM_GACHA_LIMIT}回実施すると、登録しなかった日でもアクション経験値を獲得できます。"
+      },
+      {
+        question: "レベルが下がることはありますか？",
+        answer: "ありません。獲得した経験値やレベルは減りません。ただし、連続ログインや連続アクションの記録は途切れることがあります。"
+      },
+      {
+        question: "会員登録しなくても使えますか？",
+        answer: "はい。ゲストとして一部の機能を体験できます。継続して利用する場合は、無料のユーザー登録をご利用ください。"
+      }
+    ] %>
+
+    <div class="mx-auto mt-10 max-w-2xl space-y-3">
+
+      <% faqs.each do |faq| %>
+
+        <div class="collapse-arrow collapse rounded-2xl border border-[#A8BFA0]/20 bg-white shadow-sm">
+
+          <%# チェック状態で回答を開閉 %>
+          <input
+            type="checkbox"
+            aria-label="<%= faq[:question] %>の回答を開閉"
+          >
+
+          <%# 質問部分 %>
+          <div class="collapse-title flex items-center gap-3 pr-12 text-sm font-bold leading-relaxed sm:text-base">
+
+            <span class="shrink-0 text-[#7D9876]">
+              Q.
+            </span>
+
+            <span>
+              <%= faq[:question] %>
+            </span>
+
+          </div>
+
+          <%# 回答部分 %>
+          <div class="collapse-content">
+
+            <div class="flex gap-3 border-t border-[#E9EFE5] pt-4 text-sm leading-8 sm:text-base">
+
+              <span class="shrink-0 font-bold text-[#7D9876]">
+                A.
+              </span>
+
+              <p>
+                <%= faq[:answer] %>
+              </p>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      <% end %>
+
+    </div>
+
+  </div>
+</section>

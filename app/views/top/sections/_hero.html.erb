@@ -1,0 +1,235 @@
+<%# ==========================================================
+    PC：スマホ風ファーストビューエリア
+    ・スマホでは通常の全幅表示
+    ・PCでは中央にスマホ風画面を表示
+    ・PC背景には cloud.svg を配置
+========================================================== %>
+<div class="relative overflow-hidden bg-[#E6E8E1] lg:pt-4 lg:pb-6">
+
+  <%# ========================================================
+      PC背景：雲
+      ・スマホでは非表示
+      ・pointer-events-none で操作を邪魔しない
+      ・absolute で背景として自由配置
+  ======================================================== %>
+  <%= image_tag "cloud.svg",
+                alt: "",
+                aria: { hidden: true },
+                class: "cloud-drift-slow pointer-events-none absolute left-[4%] top-[10%] hidden w-36 select-none opacity-30 lg:block" %>
+
+  <%= image_tag "cloud.svg",
+                alt: "",
+                aria: { hidden: true },
+                class: "cloud-drift-slower pointer-events-none absolute right-[5%] top-[28%] hidden w-44 select-none opacity-20 lg:block" %>
+
+  <%= image_tag "cloud.svg",
+                alt: "",
+                aria: { hidden: true },
+                class: "cloud-drift-reverse pointer-events-none absolute bottom-[8%] left-[10%] hidden w-28 select-none opacity-20 lg:block" %>
+
+  <%# ========================================================
+      HERO + PC用サイドナビの基準となる領域
+      ・relative → PC用NAVのabsolute配置基準
+      ・z-10 → 雲より手前に表示
+  ======================================================== %>
+  <div class="relative z-10 mx-auto max-w-6xl">
+
+    <%# ======================================================
+        スマホ風画面
+        ・スマホ：w-full
+        ・PC：430px幅、角丸、影
+    ====================================================== %>
+    <div class="mx-auto w-full bg-[#F6F5EE] lg:w-[430px] lg:overflow-hidden lg:rounded-[2.5rem] lg:shadow-xl">
+
+      <%# ====================================================
+          ファーストビュー
+      ==================================================== %>
+      <section class="hero-intro relative flex min-h-[100svh] items-center lg:items-start px-5 py-12 lg:min-h-[calc(100dvh-4rem)] lg:min-h-0 lg:py-6">
+        <div class="mx-auto w-full max-w-5xl">
+          <div class="mx-auto max-w-2xl text-center">
+
+            <%# ------------------------------------------------
+                アプリ名
+            ------------------------------------------------ %>
+            <p class="mb-2 text-sm font-medium tracking-[0.2em] text-[#4F5A4C]/60 lg:mt-6">
+              One Want List
+            </p>
+
+            <h1 class="text-4xl font-bold tracking-tight sm:text-5xl">
+              わんわんとリスト
+            </h1>
+
+            <%# ------------------------------------------------
+                メインコピー
+            ------------------------------------------------ %>
+            <div class="mt-5">
+              <p class="mt-3 leading-8 text-[#4F5A4C]/75">
+                1日ひとつだけ、やりたいことを残す。<br>
+                がんばりすぎず、自分の気持ちと向き合うために。
+              </p>
+            </div>
+
+            <%# ==================================================
+                キャラクター + メインCTA
+            ================================================== %>
+            <div class="mt-5 flex flex-col items-center gap-6">
+
+              <%# ------------------------------------------------
+                  ワン太
+              ------------------------------------------------ %>
+              <div class="flex items-center justify-center gap-3">
+                <div class="animate-intro-character motion-reduce:animate-none">
+                  <%= image_tag "wanta.png",
+                                alt: "ワン太",
+                                class: "h-24 w-24 object-contain motion-safe:transition-transform motion-safe:duration-200 motion-safe:ease-out motion-safe:hover:-translate-y-1 motion-safe:hover:-rotate-3" %>
+                </div>
+
+                <%# ワン太の吹き出し %>
+                <div class="relative animate-intro-speech [animation-delay:500ms] motion-reduce:animate-none rounded-3xl bg-white px-5 py-3 shadow-sm">
+
+                  <p class="text-sm font-medium sm:text-base">
+                    「ひとつずつでいいんだね。」
+                  </p>
+
+                  <%# ワン太方向への三角 %>
+                  <div class="absolute -left-2 top-1/2 h-4 w-4 -translate-y-1/2 rotate-45 bg-white"></div>
+
+                </div>
+              </div>
+
+              <%# ------------------------------------------------
+                  メインCTA
+              ------------------------------------------------ %>
+              <div class="w-full max-w-sm animate-intro-cta [animation-delay:1900ms] motion-reduce:animate-none text-center">
+                <%= link_to "さっそく体験してみる →",
+                            guest_user_path,
+                            class: "guest-cta-button" %>
+              </div>
+
+              <%# ------------------------------------------------
+                  リス丸
+              ------------------------------------------------ %>
+              <div class="flex flex-row-reverse items-center justify-center gap-3">
+
+                <div class="animate-intro-character [animation-delay:1000ms] motion-reduce:animate-none">
+                  <%= image_tag "risumaru.png",
+                                alt: "リス丸",
+                                class: "h-12 w-12 object-contain motion-safe:transition-transform motion-safe:duration-200 motion-safe:ease-out motion-safe:hover:-translate-y-1 motion-safe:hover:rotate-6" %>
+                </div>
+
+                <%# リス丸の吹き出し %>
+                <div class="relative animate-intro-speech [animation-delay:1400ms] motion-reduce:animate-none mt-5 rounded-3xl bg-[#FFF9E9] px-5 py-3 shadow-sm">
+
+                  <p class="text-sm font-medium sm:text-base">
+                    「登録なしでも試せるんだって！」
+                  </p>
+
+                  <%# リス丸方向への三角 %>
+                  <div class="absolute -right-2 top-1/2 h-4 w-4 -translate-y-1/2 rotate-45 bg-[#FFF9E9]"></div>
+
+                </div>
+              </div>
+            </div>
+
+            <%# ==================================================
+                会員登録 / ログイン導線
+            ================================================== %>
+            <div class="mt-7 flex items-center justify-center gap-4 text-sm">
+
+              <%= link_to t("devise.registrations.new.title"),
+                          new_user_registration_path,
+                          class: "font-medium underline decoration-[#A8BFA0] underline-offset-4 hover:text-[#74866F]" %>
+
+              <span class="text-[#4F5A4C]/25">|</span>
+
+              <%= link_to t("devise.sessions.new.login"),
+                          new_user_session_path,
+                          class: "font-medium underline decoration-[#A8BFA0] underline-offset-4 hover:text-[#74866F]" %>
+
+            </div>
+          </div>
+
+          <%# ==================================================
+              スクロール案内
+          ================================================== %>
+          <div class="mt-8 text-center text-sm text-[#4F5A4C]/45">
+            <p>わんわんとリストって？</p>
+            <p class="mt-1 text-xl">⌄</p>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <%# ============================================
+        PC用サイドナビ：初めての方へ
+        ・スマホでは非表示
+        ・HEROと一緒にスクロールする
+    ============================================ %>
+    <nav
+      class="absolute left-[calc(50%+250px)] top-[67%] hidden w-56 -translate-y-1/2 lg:block"
+      aria-label="初めての方へ"
+    >
+
+      <%# セクション見出し %>
+      <div class="mb-4 flex items-center gap-3">
+
+        <span class="shrink-0 text-xs font-bold text-[#7D9876]">
+          初めての方へ
+        </span>
+
+        <span
+          class="h-px flex-1 bg-[#A8BFA0]/60"
+          aria-hidden="true"
+        ></span>
+
+      </div>
+
+      <%# ナビゲーションカード %>
+      <div class="flex flex-col gap-3">
+
+        <% [
+          {
+            label: "わんわんとリストって？",
+            description: "なぜ1日ひとつだけなのか",
+            path: about_path
+          },
+          {
+            label: "使い方ガイド",
+            description: "使い方・ルール・FAQ",
+            path: guide_path
+          }
+        ].each do |item| %>
+
+          <%= link_to item[:path],
+                      class: "group block rounded-xl border border-[#A8BFA0]/20 bg-white/85 px-4 py-4 shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:border-[#A8BFA0]/60 hover:bg-white hover:shadow-md focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#4F5A4C]" do %>
+
+            <%# タイトルと矢印 %>
+            <div class="flex items-center justify-between gap-2">
+
+              <span class="text-sm font-bold text-[#4F5A4C]">
+                <%= item[:label] %>
+              </span>
+
+              <span
+                class="shrink-0 text-lg text-[#7D9876] transition-transform duration-200 group-hover:translate-x-1"
+                aria-hidden="true"
+              >
+                →
+              </span>
+
+            </div>
+
+            <%# 補足説明 %>
+            <p class="mt-2 text-xs text-[#7D9876]">
+              <%= item[:description] %>
+            </p>
+
+          <% end %>
+
+        <% end %>
+
+      </div>
+
+    </nav>
+  </div>
+</div>

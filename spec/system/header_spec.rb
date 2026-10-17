@@ -18,7 +18,7 @@ RSpec.describe "ヘッダー", type: :system do
     let!(:user) { create(:user) }
     let!(:user_status) { create(:user_status, owner: user) }
 
-    it "ユーザー設定とログアウトが表示される" do
+    it "マイメニュー一覧とログアウトが表示される" do
       login(user)
 
       within("header") do
@@ -30,7 +30,7 @@ RSpec.describe "ヘッダー", type: :system do
       expect(page).to have_link("マイページ")
       expect(page).to have_link("マイステータス")
       expect(page).to have_link("ユーザー設定")
-      expect(page).to have_link("ログアウト")
+      expect(page).to have_link("ログアウト", visible: :all)
     end
   end
 end

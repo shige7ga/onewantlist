@@ -1,0 +1,67 @@
+<%# ============================================
+    PHILOSOPHY：1日ひとつだけの理由
+============================================ %>
+<section
+  id="philosophy"
+  aria-labelledby="philosophy-title"
+  class="scroll-mt-10 px-5 py-16 sm:py-20"
+>
+  <div class="mx-auto max-w-3xl">
+
+    <%# カード本体 %>
+    <div class="relative overflow-hidden rounded-[2.5rem] border border-[#A8BFA0]/20 bg-white/60 px-6 py-12 text-center shadow-sm sm:px-12">
+
+      <%# 背景のワン太とリス丸 %>
+      <div
+        class="pointer-events-none absolute -bottom-7 -right-5 select-none opacity-[0.15]"
+        aria-hidden="true"
+      >
+        <%= image_tag "wanta_risumaru.png",
+                      alt: "",
+                      class: "h-60 w-60 object-contain" %>
+      </div>
+
+      <%# コンテンツ：画像より手前に表示 %>
+      <div class="relative z-10">
+
+        <span class="inline-block rounded-full bg-[#E3C88F]/30 px-4 py-1.5 text-xs font-bold tracking-[0.15em]">
+          PHILOSOPHY
+        </span>
+
+        <h2
+          id="philosophy-title"
+          class="mt-5 text-2xl font-bold leading-relaxed sm:text-3xl"
+        >
+          がんばりすぎないから、<br>
+          続けられる。
+        </h2>
+
+        <div class="mx-auto my-6 h-1 w-12 rounded-full bg-[#E3C88F]"></div>
+
+        <div class="space-y-5 text-sm leading-8 text-[#4F5A4C]/75 sm:text-base">
+
+          <p>
+            たくさん書かなくていい。全部見つけなくていい。
+          </p>
+
+          <p>
+            その日にふと浮かんだ、<br>
+            小さな「やりたい」をひとつだけ。
+          </p>
+
+          <p class="font-bold text-[#71866B]">
+            自分のペースで、少しずつ続けていこう。
+          </p>
+
+        </div>
+
+        <%# コンセプトページへのリンク %>
+        <div class="mt-8">
+          <%= link_to "1日ひとつに込めた思い →",
+                      "#{about_path}#concept",
+                      class: "inline-block rounded-full px-5 py-3 text-sm font-bold text-[#71866B] underline decoration-[#A8BFA0] underline-offset-4 transition-colors hover:bg-[#A8BFA0]/10 hover:text-[#4F5A4C] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#4F5A4C]" %>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

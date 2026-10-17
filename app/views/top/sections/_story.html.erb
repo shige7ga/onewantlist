@@ -1,0 +1,73 @@
+<%# ============================================
+    STORY：何ができるかより、何をしたいか
+============================================ %>
+<section
+  id="story"
+  aria-labelledby="story-title"
+  class="scroll-mt-10 bg-[#A8BFA0]/10 px-5 py-16 sm:py-20"
+>
+  <div class="mx-auto max-w-3xl">
+
+    <%# カード本体 %>
+    <div class="relative overflow-hidden rounded-[2.5rem] border border-[#A8BFA0]/20 bg-white/60 px-6 py-12 text-center shadow-sm sm:px-12">
+
+      <%# 背景のワン太とリス丸 %>
+      <div
+        class="pointer-events-none absolute -bottom-5 -left-3 select-none opacity-[0.15]"
+        aria-hidden="true"
+      >
+        <%= image_tag "wanta_risumaru_joy.png",
+                      alt: "",
+                      class: "h-60 w-60 object-contain" %>
+      </div>
+
+      <%# コンテンツ：画像より手前に表示 %>
+      <div class="relative z-10 mx-auto max-w-xl">
+
+        <%# セクションラベル %>
+        <span class="inline-block rounded-full bg-[#E3C88F]/30 px-4 py-1.5 text-xs font-bold tracking-[0.15em]">
+          STORY
+        </span>
+
+        <%# タイトル %>
+        <h2
+          id="story-title"
+          class="mt-5 text-2xl font-bold leading-relaxed sm:text-3xl"
+        >
+          何ができるかより、<br>
+          <span class="text-[#71866B]">
+            何をしたいか。
+          </span>
+        </h2>
+
+        <%# 区切り線 %>
+        <div class="mx-auto my-6 h-1 w-12 rounded-full bg-[#E3C88F]"></div>
+
+        <%# 本文 %>
+        <div class="space-y-5 text-sm leading-8 text-[#4F5A4C]/75 sm:text-base">
+
+          <p>
+            できることが増えていく時代だからこそ、<br class="hidden sm:block">
+            自分が何をしたいのかを大切にしたい。
+          </p>
+
+          <p>
+            わんわんとリストは、<br class="hidden sm:block">
+            がんばりすぎず、自分の「やりたい」と向き合うための場所です。
+          </p>
+
+        </div>
+
+        <%# コンセプトページへのリンク %>
+        <div class="mt-8">
+          <%= link_to "わんわんとリストを作った理由 →",
+                      "#{about_path}#story",
+                      class: "inline-block rounded-full px-5 py-3 text-sm font-bold text-[#71866B] underline decoration-[#A8BFA0] underline-offset-4 transition-colors hover:bg-[#A8BFA0]/10 hover:text-[#4F5A4C] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#4F5A4C]" %>
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+</section>

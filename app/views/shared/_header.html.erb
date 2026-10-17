@@ -23,7 +23,7 @@
       <% unless user_signed_in? %>
         <%= link_to "無料登録",
                     new_user_registration_path,
-                    class: "btn btn-sm border-none bg-[#A8BFA0] text-[#4F5A4C] hover:bg-[#96AE8E]" %>
+                    class: "btn btn-sm border-none bg-[#A8BFA0] text-[#4F5A4C] hover:bg-[#96AE8E] transition-transform duration-200 hover:scale-105" %>
       <% end %>
 
       <%# ハンバーガーメニュー %>
@@ -55,51 +55,77 @@
 
           <% if user_signed_in? %>
 
-            <li>
-              <%= link_to "マイページ",
-                          mypage_path %>
+            <%# ログイン後：マイメニュー %>
+            <li class="menu-title mt-2">
+              <span class="flex items-center gap-2 text-xs text-[#7D9876]">
+                マイメニュー
+                <span class="h-px flex-1 bg-[#A8BFA0]/50"></span>
+              </span>
             </li>
 
-            <li>
-              <%= link_to "マイステータス",
-                          status_path %>
-            </li>
-
-            <li>
-              <%= link_to "ユーザー設定",
-                          edit_user_registration_path %>
-            </li>
+            <% [
+              ["マイページ", mypage_path],
+              ["マイステータス", status_path],
+              ["ユーザー設定", edit_user_registration_path]
+            ].each do |label, path| %>
+              <li>
+                <%= link_to label, path %>
+              </li>
+            <% end %>
 
           <% else %>
 
-            <%# ログイン前 %>
+            <%# ログイン前：アカウント %>
+            <li class="menu-title mt-2">
+              <span class="flex items-center gap-2 text-xs text-[#7D9876]">
+                アカウント
+                <span class="h-px flex-1 bg-[#A8BFA0]/50"></span>
+              </span>
+            </li>
+
             <li>
-              <%= link_to "ログイン",
-                          new_user_session_path %>
+              <%= link_to "ログイン", new_user_session_path %>
             </li>
 
           <% end %>
 
-          <li>
-            <hr class="my-2 border-[#A8BFA0]/30">
+          <%# ============================================
+              共通メニュー
+          ============================================ %>
+
+          <%# 初めての方へ %>
+          <li class="menu-title mt-2">
+            <span class="flex items-center gap-2 text-xs text-[#7D9876]">
+              初めての方へ
+              <span class="h-px flex-1 bg-[#A8BFA0]/50"></span>
+            </span>
           </li>
 
-          <%# 共通メニュー：リンク先は後日作成 %>
           <% [
-            "アプリ案内",
-            "利用規約",
-            "プライバシーポリシー",
-            "お問い合わせ"
-          ].each do |label| %>
-
+            ["わんわんとリストって？", about_path],
+            ["使い方ガイド", guide_path]
+          ].each do |label, path| %>
             <li>
-              <span class="flex cursor-not-allowed justify-between gap-2 opacity-50"
-                    aria-disabled="true">
-                <%= label %>
-                <span class="text-[10px]">準備中</span>
-              </span>
+              <%= link_to label, path %>
             </li>
+          <% end %>
 
+          <%# ご案内・サポート %>
+          <li class="menu-title mt-3">
+            <span class="flex items-center gap-2 text-xs text-[#7D9876]">
+              ご案内・サポート
+              <span class="h-px flex-1 bg-[#A8BFA0]/50"></span>
+            </span>
+          </li>
+
+          <% [
+            ["利用規約", terms_path],
+            ["プライバシーポリシー", privacy_path],
+            ["お問い合わせ", contact_path]
+          ].each do |label, path| %>
+            <li>
+              <%= link_to label, path %>
+            </li>
           <% end %>
 
           <%# ログイン後のみログアウトを表示 %>
