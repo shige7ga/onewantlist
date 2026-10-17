@@ -1,0 +1,52 @@
+<%# ==========================================================
+    最後のCTA
+========================================================== %>
+<section class="relative bg-[#A8BFA0]/10 px-5 py-20 text-center sm:py-24">
+  <div class="mx-auto max-w-2xl">
+
+    <%# ========================================================
+        ワン太 + リス丸
+    ======================================================== %>
+    <div class="mb-7 flex items-end justify-center gap-6 sm:gap-8">
+
+      <%# ワン太 %>
+      <div class="animate-bounce [animation-duration:2s]">
+        <%= image_tag "wanta_joy.png",
+                      alt: "楽しむワン太",
+                      class: "h-18 w-18 object-contain drop-shadow-sm sm:h-24 sm:w-24" %>
+      </div>
+
+      <%# リス丸 %>
+      <div class="animate-bounce [animation-delay:0.3s] [animation-duration:2.2s]">
+        <%= image_tag "risumaru.png",
+                      alt: "リス丸",
+                      class: "h-10 w-10 object-contain drop-shadow-sm sm:h-12 sm:w-12" %>
+      </div>
+    </div>
+
+    <%# ========================================================
+        メッセージ
+    ======================================================== %>
+    <h2 class="text-2xl font-bold leading-relaxed text-[#4F5A4C] sm:text-4xl">
+      今日の「やりたい」を、<br>
+      ひとつだけ。
+    </h2>
+
+    <p class="mt-4 text-sm font-medium text-[#4F5A4C]/65 sm:text-base">
+      まずは気軽に使ってみてください。
+    </p>
+
+    <%# ========================================================
+        CTA
+    ======================================================== %>
+    <div class="mt-7 flex flex-col items-center">
+      <%= link_to "体験してみる →",
+                  guest_user_path,
+                  class: "guest-cta-button max-w-sm" %>
+
+      <p class="mt-3 text-xs font-medium text-[#4F5A4C]/55">
+        登録なしで試せます
+      </p>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,103 @@
+<%# ============================================
+    FEATURES：わんわんとリストでできること
+============================================ %>
+<section
+  id="features"
+  aria-labelledby="features-title"
+  class="scroll-mt-10 bg-[#A8BFA0]/10 px-5 py-16 sm:py-20"
+>
+  <div class="mx-auto max-w-5xl">
+
+    <%# セクション見出し %>
+    <div class="text-center">
+
+      <p class="text-sm font-bold text-[#8CA184]">
+        FEATURES
+      </p>
+
+      <h2
+        id="features-title"
+        class="mt-3 text-2xl font-bold sm:text-3xl"
+      >
+        「わんわんとリスト」でできること
+      </h2>
+
+      <p class="mx-auto mt-4 max-w-2xl leading-7 text-[#4F5A4C]/70">
+        やりたいことを残したり、ガチャから見つけたり。<br>
+        毎日の小さな行動を、自分のペースで積み重ねていける。
+      </p>
+
+    </div>
+
+    <%# 機能カード %>
+    <div class="mt-10 grid gap-5 md:grid-cols-3">
+
+      <%# 1日ひとつ、やりたいことを残す %>
+      <article class="rounded-3xl border border-[#A8BFA0]/20 bg-white/60 p-7 text-center">
+
+        <div class="text-3xl" aria-hidden="true">
+          ✏️
+        </div>
+
+        <h3 class="mt-4 text-lg font-bold">
+          「1日ひとつ」<br>
+          やりたいことを残す
+        </h3>
+
+        <p class="mt-4 leading-7 text-[#4F5A4C]/70">
+          登録できる数を制限することで、がんばりすぎず、
+          自分の気持ちと向き合う習慣を大切にしています。
+        </p>
+
+      </article>
+
+      <%# ガチャから見つける %>
+      <article class="rounded-3xl border border-[#E3C88F]/30 bg-[#FFF9E9] p-7 text-center">
+
+        <div class="text-3xl" aria-hidden="true">
+          🎲
+        </div>
+
+        <h3 class="mt-4 text-lg font-bold">
+          「ガチャ」から見つける
+        </h3>
+
+        <p class="mt-4 leading-7 text-[#4F5A4C]/70">
+          何を登録しようか迷った日は、ガチャを回してみる。
+          思いがけない提案から、新しい「やってみたい」に出会えるかもしれません。
+        </p>
+
+      </article>
+
+      <%# 小さな「続けた」が記録に残る %>
+      <article class="rounded-3xl border border-[#A8BFA0]/20 bg-white/60 p-7 text-center">
+
+        <div class="text-3xl" aria-hidden="true">
+          🌱
+        </div>
+
+        <h3 class="mt-4 text-lg font-bold">
+          小さな「続けた」が<br>
+          記録に残る
+        </h3>
+
+        <p class="mt-4 leading-7 text-[#4F5A4C]/70">
+          アプリを使うことで経験値を獲得し、レベルアップ。
+          日々の積み重ねが、目に見える形で残っていきます。
+        </p>
+
+      </article>
+
+    </div>
+
+    <%# 使い方ガイドへの導線 %>
+    <div class="mt-9 text-center">
+
+      <%= link_to "詳しい使い方を見る →",
+                  guide_path,
+                  class: "inline-block rounded-full px-5 py-3 text-sm font-bold text-[#71866B] underline decoration-[#A8BFA0] underline-offset-4 transition-colors hover:bg-white/70 hover:text-[#4F5A4C] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#4F5A4C]" %>
+
+    </div>
+
+  </div>
+</section>

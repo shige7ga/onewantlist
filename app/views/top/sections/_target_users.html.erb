@@ -1,0 +1,83 @@
+<%# ============================================
+    FOR YOU：こんなあなたに使ってほしい
+============================================ %>
+<section
+  id="target-users"
+  aria-labelledby="target-users-title"
+  class="scroll-mt-10 px-5 py-16 sm:py-20"
+>
+  <div class="mx-auto max-w-3xl">
+
+    <%# セクション見出し %>
+    <div class="text-center">
+
+      <span class="inline-block rounded-full bg-[#E3C88F]/30 px-4 py-1.5 text-xs font-bold tracking-[0.15em]">
+        FOR YOU
+      </span>
+
+      <h2
+        id="target-users-title"
+        class="mt-5 text-2xl font-bold leading-relaxed sm:text-3xl"
+      >
+        こんなあなたに、使ってほしい。
+      </h2>
+
+    </div>
+
+    <%# おすすめの人 %>
+    <div class="mx-auto mt-10 max-w-2xl space-y-4">
+
+      <% [
+        {
+          icon: "🌿",
+          title: "毎日に、ちょっとした変化がほしい方",
+          description: "何か新しいことを始めてみたい。"
+        },
+        {
+          icon: "💭",
+          title: "自分の「やってみたい」を見つけたい方",
+          description: "自分の気持ちと向き合う時間をつくりたい。"
+        },
+        {
+          icon: "🌱",
+          title: "がんばりすぎずに、続けたい方",
+          description: "無理せず、自分のペースで取り組みたい。"
+        }
+      ].each do |item| %>
+
+        <div class="flex items-center gap-4 rounded-2xl bg-white/80 px-5 py-5 shadow-sm sm:px-7">
+
+          <div
+            class="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-[#E9EFE5] text-2xl"
+            aria-hidden="true"
+          >
+            <%= item[:icon] %>
+          </div>
+
+          <div>
+            <h3 class="text-sm font-bold leading-7 sm:text-base">
+              <%= item[:title] %>
+            </h3>
+
+            <p class="mt-1 text-sm leading-7 text-[#4F5A4C]/70">
+              <%= item[:description] %>
+            </p>
+          </div>
+
+        </div>
+
+      <% end %>
+
+    </div>
+
+    <%# コンセプトページへ %>
+    <div class="mt-8 text-center">
+
+      <%= link_to "わんわんとリストが向いている人 →",
+                  "#{about_path}#target-users",
+                  class: "inline-block rounded-full px-5 py-3 text-sm font-bold text-[#71866B] underline decoration-[#A8BFA0] underline-offset-4 transition-colors hover:bg-[#A8BFA0]/10 hover:text-[#4F5A4C] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#4F5A4C]" %>
+
+    </div>
+
+  </div>
+</section>
