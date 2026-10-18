@@ -1,17 +1,17 @@
 <%# ============================================
-    Target Users：こんなあなたに届けたい
+    FOR YOU：こんなあなたに、使ってほしい。
 ============================================ %>
 <section
   id="target-users"
   aria-labelledby="target-users-title"
-  class="bg-[#E9EFE5] px-5 py-14 sm:py-20"
+  class="bg-[#E9EFE5] px-5 py-14 text-[#4F5A4C] sm:py-20"
 >
   <div class="mx-auto max-w-3xl">
 
     <%# セクション見出し %>
     <div class="text-center">
 
-      <span class="inline-block rounded-full bg-[#A8BFA0]/40 px-4 py-1 text-xs font-bold tracking-widest text-[#4F5A4C]">
+      <span class="inline-block rounded-full bg-[#A8BFA0]/40 px-4 py-1 text-xs font-bold tracking-widest">
         FOR YOU
       </span>
 
@@ -27,15 +27,17 @@
         aria-hidden="true"
       ></div>
 
-      <p class="mx-auto mt-8 max-w-[30em] text-left text-sm leading-8 sm:text-base sm:leading-9 md:text-center">
-        わんわんとリストは、<br class="hidden sm:block">
-        すべての人にぴったりのアプリではありません。
+      <p class="mx-auto mt-8 max-w-[30em] leading-8 text-center sm:text-base sm:leading-9">
+        わんわんとリストは、<br>
+        すべての人に適したアプリではありません。
       </p>
 
     </div>
 
-    <%# こんな方におすすめ %>
-    <div class="mx-auto mt-10 max-w-2xl rounded-3xl bg-white px-5 py-8 shadow-sm sm:px-10 sm:py-10">
+    <%# ==========================================
+        こんな方におすすめ
+    ========================================== %>
+    <div class="mx-auto mt-10 max-w-3xl rounded-3xl bg-white px-5 py-8 shadow-sm sm:px-10 sm:py-10">
 
       <h3 class="text-center text-lg font-bold sm:text-xl">
         こんな方におすすめ
@@ -46,56 +48,96 @@
         aria-hidden="true"
       ></div>
 
-      <div class="mt-8 space-y-8">
+      <%# おすすめする3つの人物像 %>
+      <div class="mt-10 space-y-10">
 
-        <%# 01 %>
-        <div class="text-left md:text-center">
+        <% [
+          {
+            icon: "icons/small_step.png",
+            title: "毎日に、少し変化がほしい方",
+            descriptions: [
+              "仕事や日々の生活に追われ、気づけば同じことの繰り返し。",
+              "新しいことを始めたいけれど、何から始めればいいかわからず、なかなか行動に移せない。",
+              "まずは小さなことから、自分の「やりたい」を見つけていきたい。"
+            ]
+          },
+          {
+            icon: "icons/want_notebook.png",
+            title: "やりたいことリストが続かなかった方",
+            descriptions: [
+              "やりたいことを書き出すのは、大切だとわかっている。",
+              "一度は始めてみたけれど、忙しかったり、「今日はいいか」と後回しにしたりして、いつの間にかやめていた。",
+              "今度は無理せず、自分と向き合う時間を少しずつつくりたい。"
+            ]
+          },
+          {
+            icon: "icons/break_time.png",
+            title: "完璧にやろうとして、疲れてしまう方",
+            descriptions: [
+              "やろうと決めたら、ついがんばりすぎてしまう。",
+              "でも、完璧にやろうとして、いつの間にか疲れて、続けることが負担になってしまう。",
+              "もっと気楽に、がんばりすぎずに、自分のペースで取り組んでいきたい。"
+            ]
+          }
+        ].each do |item| %>
 
-          <p class="text-sm font-bold leading-7 sm:text-base">
-            毎日に、ちょっとした変化がほしい方
-          </p>
+          <div class="flex items-start gap-3 sm:gap-5">
 
-          <p class="mt-2 text-sm leading-8">
-            何か新しいことをしてみたいけれど、<br class="hidden sm:block">
-            何から始めたらいいかわからない。
-          </p>
+            <%# トップページと共通のイラスト %>
+            <%= image_tag item[:icon],
+                          alt: "",
+                          loading: "lazy",
+                          class: "mt-1 h-14 w-14 shrink-0 object-contain sm:h-18 sm:w-18" %>
 
-        </div>
+            <%# 見出し・説明文 %>
+            <div class="min-w-0 flex-1">
 
-        <%# 02 %>
-        <div class="text-left md:text-center">
+              <h4 class="text-sm font-bold leading-7 sm:text-base">
+                <%= item[:title] %>
+              </h4>
 
-          <p class="text-sm font-bold leading-7 sm:text-base">
-            自分の「やってみたい」を見つけたい方
-          </p>
+              <p class="mt-2 text-sm leading-7 text-[#4F5A4C]/80 sm:leading-8">
+                <%= safe_join(item[:descriptions], tag.br) %>
+              </p>
 
-          <p class="mt-2 text-sm leading-8">
-            自分と向き合う時間をつくりたい。<br class="hidden sm:block">
-            でも、何をしたいのか、まだはっきりしていない。
-          </p>
+            </div>
 
-        </div>
+          </div>
 
-        <%# 03 %>
-        <div class="text-left md:text-center">
+        <% end %>
 
-          <p class="text-sm font-bold leading-7 sm:text-base">
-            がんばりすぎずに、続けていきたい方
-          </p>
+      </div>
 
-          <p class="mt-2 text-sm leading-8">
-            やりたいことリストを作ってみたけれど、<br class="hidden sm:block">
-            いつの間にか続かなくなってしまった経験がある。
-          </p>
+      <%# 補足：ほかにもおすすめの方 %>
+      <div class="mt-10 border-t border-[#A8BFA0]/40 pt-8">
 
-        </div>
+        <h4 class="text-sm font-bold leading-7 sm:text-base">
+          ほかにも、こんな方におすすめです。
+        </h4>
+
+        <ul class="mt-4 list-disc space-y-0 pl-5 text-sm leading-7 text-[#4F5A4C]/80 sm:leading-8">
+          <li>
+            ノートや手帳を買ったり、アプリをダウンロードしただけで満足してしまったことがある方
+          </li>
+          <li>
+            まじめで、何事にも、ついがんばりすぎてしまう方
+          </li>
+          <li>
+            仕事から帰ると疲れて、スマホを見ているうちに一日が終わってしまい、自分と向き合う時間が取れない方
+          </li>
+          <li>
+            何もしない時間も好きだけど、何か新しいこともしてみたい方
+          </li>
+        </ul>
 
       </div>
 
     </div>
 
-    <%# こんな方には少し物足りないかも %>
-    <div class="mx-auto mt-6 max-w-2xl rounded-3xl bg-[#F6F5EE] px-5 py-8 shadow-sm sm:px-10 sm:py-10">
+    <%# ==========================================
+        こんな方には、少し物足りないかも
+    ========================================== %>
+    <div class="mx-auto mt-6 max-w-3xl rounded-3xl bg-[#F6F5EE] px-5 py-8 shadow-sm sm:px-10 sm:py-10">
 
       <h3 class="text-center text-lg font-bold leading-relaxed sm:text-xl">
         こんな方には、<br class="sm:hidden">
@@ -107,52 +149,85 @@
         aria-hidden="true"
       ></div>
 
-      <div class="mt-8 space-y-8">
+      <%# 適していない可能性がある3つの人物像 %>
+      <div class="mt-10 space-y-9">
 
-        <%# 01 %>
-        <div class="text-left md:text-center">
+        <% [
+          {
+            title: "やりたいことを、どんどん登録したい方",
+            descriptions: [
+              "思いついたことを、その場でたくさん書きとめたい。",
+              "1日ひとつまでしか登録できないため、思い付いたものをたくさん登録したい方には適していないかもしれません。"
+            ]
+          },
+          {
+            title: "目標を細かく管理したい方",
+            descriptions: [
+              "目標を細かなタスクに分け、スケジュールや進捗を詳細に管理したい。",
+              "わんわんとリストは、効率的な目標管理よりも、長期的に、ゆっくりと自分の「やりたい」と向き合うことを大切にしています。"
+            ]
+          },
+          {
+            title: "すでに、自分に合う方法がある方",
+            descriptions: [
+              "ほかのアプリやノートで、無理なく継続できている。",
+              "自分なりのペースや習慣が、すでに身についている。",
+              "「1日ひとつ」という仕組みが、かえって窮屈に感じられるかもしれません。"
+            ]
+          }
+        ].each do |item| %>
 
-          <p class="text-sm font-bold leading-7 sm:text-base">
-            やりたいことを、どんどん登録したい方
-          </p>
+          <div class="border-l-2 border-[#A8BFA0] pl-4 sm:pl-5">
 
-          <p class="mt-2 text-sm leading-8">
-            思いついたことを、一度にたくさん書き留めたい。
-          </p>
+            <h4 class="text-sm font-bold leading-7 sm:text-base">
+              <%= item[:title] %>
+            </h4>
 
-        </div>
+            <p class="mt-2 text-sm leading-7 text-[#4F5A4C]/80 sm:leading-8">
+              <%= safe_join(item[:descriptions], tag.br) %>
+            </p>
 
-        <%# 02 %>
-        <div class="text-left md:text-center">
+          </div>
 
-          <p class="text-sm font-bold leading-7 sm:text-base">
-            すでに、自分に合う方法がある方
-          </p>
-
-          <p class="mt-2 text-sm leading-8">
-            ほかのアプリやノートで、無理なく継続できている。
-          </p>
-
-        </div>
-
-        <%# 03 %>
-        <div class="text-left md:text-center">
-
-          <p class="text-sm font-bold leading-7 sm:text-base">
-            目標を細かく管理したい方
-          </p>
-
-          <p class="mt-2 text-sm leading-8">
-            タスクやスケジュールを管理して、効率よく目標達成を目指したい。
-          </p>
-
-        </div>
+        <% end %>
 
       </div>
 
+      <%# 補足：ほかにも適していない可能性がある方 %>
+      <div class="mt-10 border-t border-[#A8BFA0]/40 pt-8">
+
+        <h4 class="text-sm font-bold leading-7 sm:text-base">
+          ほかにも、こんな方には合わないかもしれません。
+        </h4>
+
+        <ul class="mt-4 list-disc space-y-0 pl-5 text-sm leading-7 text-[#4F5A4C]/80 sm:leading-8">
+          <li>
+            やりたいことや目標が明確で、自分なりに行動できている方
+          </li>
+          <li>
+            書き出すよりも、思いついたらすぐ行動するほうが合っている方
+          </li>
+          <li>
+            ほかのやりたいことリストアプリを、無理なく続けられている方
+          </li>
+          <li>
+            ノートや手帳に書く習慣が、すでに身についている方
+          </li>
+        </ul>
+
+        <div class="mt-8 space-y-3 text-sm leading-8 text-[#4F5A4C]/80">
+          <p>
+            すでに自分に合った方法があるなら、無理に変える必要はありません。<br>
+            大切なのは、自分に合った方法で、自分の「やりたい」と向き合うことだと思います。
+          </p>
+         </div>
+
+      </div>
     </div>
 
-    <%# 締めのメッセージ %>
+    <%# ==========================================
+        締めのメッセージ
+    ========================================== %>
     <div class="mt-12 text-center">
 
       <div
