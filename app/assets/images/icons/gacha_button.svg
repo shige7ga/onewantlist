@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" fill="none">
+  <path
+    fill="#4F5A4C"
+    fill-rule="evenodd"
+    d="
+      M50 2
+      A48 48 0 1 1 50 98
+      A48 48 0 1 1 50 2 Z
+      M12 50 A38 38 0 0 1 88 50 Z
+      M13 62 H25 C30 76 39 85 51 88 C34 90 19 79 13 62 Z
+    "
+  />
+</svg>
