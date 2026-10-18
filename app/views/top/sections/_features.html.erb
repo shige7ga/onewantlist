@@ -35,9 +35,9 @@
       <%# 1日ひとつ、やりたいことを残す %>
       <article class="rounded-3xl border border-[#A8BFA0]/20 bg-white/60 p-7 text-center">
 
-        <div class="text-3xl" aria-hidden="true">
-          ✏️
-        </div>
+        <%= image_tag "icons/pencil.png",
+              alt: "",
+              class: "mx-auto h-9 w-9 object-contain" %>
 
         <h3 class="mt-4 text-lg font-bold">
           「1日ひとつ」<br>
@@ -54,11 +54,11 @@
       <%# ガチャから見つける %>
       <article class="rounded-3xl border border-[#E3C88F]/30 bg-[#FFF9E9] p-7 text-center">
 
-        <div class="text-3xl" aria-hidden="true">
-          🎲
-        </div>
+        <%= image_tag "icons/capsule.png",
+              alt: "",
+              class: "mx-auto h-13 w-13 object-contain" %>
 
-        <h3 class="mt-4 text-lg font-bold">
+        <h3 class="mt-3 text-lg font-bold">
           「ガチャ」から見つける
         </h3>
 
@@ -72,9 +72,9 @@
       <%# 小さな「続けた」が記録に残る %>
       <article class="rounded-3xl border border-[#A8BFA0]/20 bg-white/60 p-7 text-center">
 
-        <div class="text-3xl" aria-hidden="true">
-          🌱
-        </div>
+        <%= image_tag "icons/seedling.png",
+              alt: "",
+              class: "mx-auto h-10 w-10 object-contain" %>
 
         <h3 class="mt-4 text-lg font-bold">
           小さな「続けた」が<br>
