@@ -6,7 +6,7 @@
   aria-labelledby="target-users-title"
   class="scroll-mt-10 px-5 py-16 sm:py-20"
 >
-  <div class="mx-auto max-w-3xl">
+  <div class="mx-auto max-w-3xl lg:max-w-4xl">
 
     <%# セクション見出し %>
     <div class="text-center">
@@ -25,49 +25,46 @@
     </div>
 
     <%# おすすめの人 %>
-    <div class="mx-auto mt-10 max-w-2xl space-y-4">
+    <div class="mx-auto mt-10 max-w-[740px] space-y-4">
 
       <% [
         {
-          icon: "🌿",
-          title: "毎日に、ちょっとした変化がほしい方",
-          description: "何か新しいことを始めてみたい。"
+          icon: "icons/small_step.png",
+          title: "毎日に、少し変化がほしい方",
+          description: "同じような毎日に、小さな変化がほしい。自分の「やりたい」をゆっくり見つけたい。"
         },
         {
-          icon: "💭",
-          title: "自分の「やってみたい」を見つけたい方",
-          description: "自分の気持ちと向き合う時間をつくりたい。"
+          icon: "icons/want_notebook.png",
+          title: "やりたいことリストが続かなかった方",
+          description: "書くだけで終わったり、途中でやめてしまったり。今度は無理なく、少しずつ続けたい。"
         },
         {
-          icon: "🌱",
-          title: "がんばりすぎずに、続けたい方",
-          description: "無理せず、自分のペースで取り組みたい。"
+          icon: "icons/break_time.png",
+          title: "完璧にやろうとして、疲れてしまう方",
+          description: "ついがんばりすぎて、疲れて途中でやめてしまう。もっと気楽に、自分のペースで取り組みたい。"
         }
       ].each do |item| %>
 
         <div class="flex items-center gap-4 rounded-2xl bg-white/80 px-5 py-5 shadow-sm sm:px-7">
 
-          <div
-            class="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-[#E9EFE5] text-2xl"
-            aria-hidden="true"
-          >
-            <%= item[:icon] %>
-          </div>
+          <%# イラストアイコン %>
+          <%= image_tag item[:icon],
+                alt: "",
+                aria: { hidden: true },
+                class: "h-14 w-14 shrink-0 object-contain" %>
 
-          <div>
-            <h3 class="text-sm font-bold leading-7 sm:text-base">
+          <%# 見出し・説明文 %>
+          <div class="min-w-0">
+            <h3 class="text-sm font-bold leading-7 sm:text-base md:text-lg">
               <%= item[:title] %>
             </h3>
-
-            <p class="mt-1 text-sm leading-7 text-[#4F5A4C]/70">
+            <p class="mt-1 text-sm leading-7 text-[#4F5A4C]/70 md:whitespace-nowrap md:text-[13px]">
               <%= item[:description] %>
             </p>
           </div>
 
         </div>
-
       <% end %>
-
     </div>
 
     <%# コンセプトページへ %>
