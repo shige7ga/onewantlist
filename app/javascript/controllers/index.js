@@ -10,6 +10,9 @@ application.register("exp-gauge", ExpGaugeController)
 import FlashController from "./flash_controller"
 application.register("flash", FlashController)
 
+import GuestLimitModalController from "./guest_limit_modal_controller"
+application.register("guest-limit-modal", GuestLimitModalController)
+
 import HelloController from "./hello_controller"
 application.register("hello", HelloController)
 

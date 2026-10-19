@@ -19,6 +19,12 @@ export default class extends Controller {
     this.frameId = null
     this.earnedTimer = null
 
+    // EXP演出の完了通知に使用
+    this.shouldNotifyFinish = this.playValue
+    this.gaugeFinished = false
+    this.earnedMessageFinished = false
+    this.finishedNotified = false
+
     this.requirements = this.requirementsValue
 
     // Turboのキャッシュ対策
@@ -224,7 +230,7 @@ export default class extends Controller {
   }
 
   // アニメーションを終了して最終状態を表示
-  finish() {
+  finish({ notify = true } = {}) {
     this.stop()
 
     this.render(
@@ -233,18 +239,37 @@ export default class extends Controller {
       this.requirements[this.requirements.length - 1]
     )
 
-    // 再生済みにする
     this.playValue = false
+
+    if (notify && this.shouldNotifyFinish) {
+      this.gaugeFinished = true
+      this.notifyIfFinished()
+    }
+  }
+
+  // ゲージと獲得EXPメッセージの両方が終わったら通知
+  notifyIfFinished() {
+    if (!this.shouldNotifyFinish) return
+    if (!this.gaugeFinished) return
+    if (!this.earnedMessageFinished) return
+    if (this.finishedNotified) return
+
+    this.finishedNotified = true
+
+    this.dispatch("finished", {
+      target: window
+    })
   }
 
   // EXP獲得メッセージを一定時間表示
   showEarnedFor(duration) {
     clearTimeout(this.earnedTimer)
-
     this.earnedTarget.classList.remove("hidden")
 
     this.earnedTimer = setTimeout(() => {
       this.hideEarned()
+      this.earnedMessageFinished = true
+      this.notifyIfFinished()
     }, duration)
   }
 
@@ -259,7 +284,7 @@ export default class extends Controller {
   // Turboがページをキャッシュする前に実行
   beforeCache() {
     if (this.requirements.length > 0) {
-      this.finish()
+      this.finish({ notify: false })
     }
 
     this.hideEarned()

@@ -1,6 +1,6 @@
 class WantsController < ApplicationController
+  before_action :check_guest_registration_limit, only: %i[ new create ]
   before_action :check_today_want_registration, only: %i[ new create ]
-  before_action :check_guest_registration_limit, only: %i[ create ]
   before_action :set_want, only: %i[ show edit update destroy ]
 
   def show
@@ -58,7 +58,12 @@ class WantsController < ApplicationController
 
   def check_guest_registration_limit
     return if user_signed_in?
-    return if registration_source == :gacha
+
+    # ガチャ経由の登録は自由登録の上限に含めない
+    if action_name == "create" && registration_source == :gacha
+      return
+    end
+
     return if current_owner.direct_registration_available?
 
     redirect_to new_user_registration_path, alert: "ゲスト利用制限に達しました。ユーザー登録して使ってみましょう。"
