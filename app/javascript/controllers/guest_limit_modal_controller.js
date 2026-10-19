@@ -1,11 +1,12 @@
 import { Controller } from "@hotwired/stimulus"
 
 export default class extends Controller {
-  static targets = ["dialog", "title", "message"]
+  static targets = ["dialog", "title"]
 
   static values = {
     auto: Boolean,
-    waitForExp: Boolean
+    waitForExp: Boolean,
+    titles: Object
   }
 
   connect() {
@@ -61,26 +62,10 @@ export default class extends Controller {
   show(type) {
     if (this.dialogTarget.open) return
 
-    const messages = {
-      direct: {
-        title: "やりたいこと登録のおためしが終了しました",
-        message: "自由登録のおためし回数に達しました。"
-      },
-      gacha: {
-        title: "ガチャのおためしが終了しました",
-        message: "ガチャのおためし回数に達しました。"
-      },
-      all: {
-        title: "ゲスト体験、ありがとう！",
-        message: "自由登録とガチャのおためし回数が終了しました。"
-      }
-    }
+    // Rails Helperから渡されたタイトルを取得
+    const title = this.titlesValue[type] || this.titlesValue.all
 
-    const content = messages[type] || messages.all
-
-    this.titleTarget.textContent = content.title
-    this.messageTarget.textContent = content.message
-
+    this.titleTarget.textContent = title
     this.dialogTarget.showModal()
   }
 
