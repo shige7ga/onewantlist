@@ -1,14 +1,15 @@
 class RandomWantsController < ApplicationController
-  before_action :clear_stale_gacha_result, only: %i[ show ]
-  before_action :check_guest_gacha_usage_limit, only: %i[ show draw ]
-  before_action :check_today_want_registration, only: %i[ show draw ]
-  before_action :check_random_want, only: %i[ show ]
+  before_action :clear_stale_gacha_result, only: %i[ show edit ]
+  before_action :check_guest_gacha_usage_limit, only: %i[ show edit draw ]
+  before_action :check_today_want_registration, only: %i[ show edit draw ]
+  before_action :check_random_want, only: %i[ show edit ]
   before_action :check_today_gacha_limit, only: %i[ draw ]
+  before_action :set_gacha_result, only: %i[ show edit ]
 
   def show
-    random_want = RandomWant.find(session[:random_want_id])
-    @want = current_owner.wants.build(content: random_want.content)
-    @user_status = current_owner_status
+  end
+
+  def edit
   end
 
   def draw
@@ -27,6 +28,12 @@ class RandomWantsController < ApplicationController
   end
 
   private
+
+  def set_gacha_result
+    random_want = RandomWant.find(session[:random_want_id])
+    @want = current_owner.wants.build(content: random_want.content)
+    @user_status = current_owner_status
+  end
 
   def clear_stale_gacha_result
     return if current_owner_status.random_gacha_date == Date.current
