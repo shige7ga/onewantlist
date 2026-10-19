@@ -1,3 +1,14 @@
+<%# 今回獲得した経験値イベント %>
+<% events = status_events.map(&:with_indifferent_access) %>
+
+<%# レベルアップモーダル %>
+<% events.select { |event| event[:type] == "lv_up" }.each do |event| %>
+  <%= render "shared/level_up_modal",
+              event: event,
+              content_partial: "shared/level_up/default_content",
+              auto: true %>
+<% end %>
+
 <div class="flex min-h-[calc(100vh-4rem)] items-center justify-center bg-[#F6F5EE] px-4 py-10">
   <div class="card w-full max-w-lg rounded-3xl bg-white shadow-xl">
     <div class="card-body gap-6">
@@ -9,30 +20,17 @@
         </h2>
       </div>
 
-      <%= render "shared/flash", flash: flash %>
-
-      <%# 今回獲得した経験値イベント %>
-      <% events = status_events.map(&:with_indifferent_access) %>
-
-      <%# レベルアップモーダル %>
-      <% events.select { |event| event[:type] == "lv_up" }.each do |event| %>
-        <%= render "shared/level_up_modal",
-                    event: event,
-                    content_partial: "shared/level_up/default_content",
-                    auto: true %>
-      <% end %>
-
       <%# ガチャ結果表示 %>
-      <div class="rounded-2xl border border-[#A8BFA0]/50 bg-[#F6F5EE] px-5 py-10 text-center shadow-sm">
+      <div class="rounded-2xl border border-[#A8BFA0]/50 bg-[#F6F5EE] px-5 py-5 text-center shadow-sm">
 
-        <p class="mb-5 text-2xl">
-          ✨
-        </p>
+        <%# カプセルアイコン %>
+        <div class="flex justify-center">
+          <%= image_tag "icons/capsule.png",
+                        alt: "",
+                        class: "h-14 w-14 object-contain" %>
+        </div>
 
-        <p class="whitespace-pre-wrap break-words text-xl font-bold leading-9 text-[#4F5A4C] sm:text-2xl sm:leading-10">
-          <%= @want.content %>
-        </p>
-
+        <p class="whitespace-pre-line pt-2 break-words text-center text-xl font-bold leading-9 text-[#4F5A4C] sm:text-2xl sm:leading-10"><%= @want.content %></p>
       </div>
 
       <%# 操作ボタン %>
