@@ -1,5 +1,5 @@
 class RandomWantsController < ApplicationController
-  before_action :clear_stale_gacha_result, only: %i[ show ]
+  before_action :clear_stale_gacha_result, only: %i[ show edit ]
   before_action :check_guest_gacha_usage_limit, only: %i[ show edit draw ]
   before_action :check_today_want_registration, only: %i[ show edit draw ]
   before_action :check_random_want, only: %i[ show edit ]
