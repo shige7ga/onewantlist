@@ -15,7 +15,7 @@ export default class extends Controller {
     this.closeTimer = null
 
     // Turboキャッシュ対策
-    this.beforeCacheHandler = () => this.beforeCacheHandler()
+    this.beforeCacheHandler = () => this.beforeCache()
 
     document.addEventListener(
       "turbo:before-cache",
@@ -47,7 +47,7 @@ export default class extends Controller {
     this.element.setAttribute("aria-hidden", "false")
 
     // 指定時間が経過したら閉じる
-    this.closeTimeer = setTimeout(() => {
+    this.closeTimer = setTimeout(() => {
       this.close()
     }, this.durationValue)
   }

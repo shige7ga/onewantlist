@@ -1,11 +1,31 @@
-<div class="min-h-screen bg-[#F6F5EE] px-4 py-6 pb-32 sm:px-6">
+<%# 今回獲得したEXPイベントを取得 %>
+<% events = status_events.map(&:with_indifferent_access) %>
+
+<%# ゲスト向けのモーダル設定 %>
+<% guest_page = !user_signed_in? %>
+
+<%# 自動表示：両方の体験が完全に終了した場合 %>
+<% auto_show_limit = guest_page && user.experience_finished? %>
+
+<%# EXP演出の実行有無を判定 %>
+<% wait_for_exp = guest_page && user_status.exp_gauge_animation(events).present? %>
+
+<div
+  class="min-h-screen bg-[#F6F5EE] px-4 py-6 pb-32 sm:px-6"
+
+  <% if guest_page %>
+    data-controller="guest-limit-modal"
+    data-guest-limit-modal-auto-value="<%= auto_show_limit %>"
+    data-guest-limit-modal-wait-for-exp-value="<%= wait_for_exp %>"
+    data-action="exp-gauge:finished@window->guest-limit-modal#expFinished"
+    data-guest-limit-modal-titles-value="<%= guest_limit_modal_titles.to_json %>"
+  <% end %>
+>
+
   <div class="mx-auto w-full max-w-6xl">
 
     <%# フラッシュメッセージ %>
     <%= render "shared/flash", flash: flash %>
-
-    <%# 今回獲得した経験値イベントを取得（Sessionから削除） %>
-    <% events = status_events.map(&:with_indifferent_access) %>
 
     <%# 通常レベルアップ用モーダル %>
     <% events.select { |event| event[:type] == "lv_up" }.each do |event| %>
@@ -18,7 +38,6 @@
     <%# マイページコンテンツ %>
     <div class="grid grid-cols-1 items-start gap-6 lg:grid-cols-10">
 
-      <%# ユーザーステータス %>
       <aside class="min-w-0 lg:col-span-3 lg:col-start-8 lg:row-start-1">
         <%= render "shared/main_page/user_card",
                     user: user,
@@ -26,7 +45,6 @@
                     events: events %>
       </aside>
 
-      <%# やりたいこと一覧 %>
       <main class="min-w-0 lg:col-span-7 lg:col-start-1 lg:row-start-1">
         <%= render "wants/index", wants: wants %>
       </main>
@@ -34,6 +52,12 @@
     </div>
   </div>
 
-  <%# 画面下部の固定アクションバー %>
+  <%# 下部アクションバー %>
   <%= render "shared/main_page/want_action_bar" %>
+
+  <%# ゲスト専用モーダル %>
+  <% if guest_page %>
+    <%= render "shared/guest_limit_modal" %>
+  <% end %>
+
 </div>
