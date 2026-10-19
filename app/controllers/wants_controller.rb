@@ -20,7 +20,12 @@ class WantsController < ApplicationController
       redirect_to owner_home_path, notice: t("defaults.flash_message.created", item: Want.model_name.human)
     else
       flash.now[:alert] = t("defaults.flash_message.not_created", item: Want.model_name.human)
-      render :new, status: :unprocessable_entity
+
+      if params[:registration_source] == "gacha"
+        render "random_wants/edit", status: :unprocessable_entity
+      else
+        render :new, status: :unprocessable_entity
+      end
     end
   end
 

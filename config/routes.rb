@@ -5,7 +5,7 @@ Rails.application.routes.draw do
   }
 
   resources :wants, except: [ :index ]
-  resource :random_want, only: [ :show ] do
+  resource :random_want, only: %i[ show edit ] do
     post :draw
   end
 

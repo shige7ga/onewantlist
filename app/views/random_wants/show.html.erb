@@ -1,15 +1,20 @@
-<div class="flex min-h-[calc(100vh-4rem)] items-center justify-center bg-[#F6F5EE] px-4">
-  <div class="card w-full max-w-md bg-white shadow-xl">
-    <div class="card-body">
-      <h2 class="card-title justify-center text-2xl font-bold text-[#4F5A4C]">
-        やりたいことガチャ結果
-      </h2>
+<div class="flex min-h-[calc(100vh-4rem)] items-center justify-center bg-[#F6F5EE] px-4 py-10">
+  <div class="card w-full max-w-lg rounded-3xl bg-white shadow-xl">
+    <div class="card-body gap-6">
+
+      <%# タイトル %>
+      <div class="text-center">
+        <h2 class="text-2xl font-bold text-[#4F5A4C]">
+          やりたいことガチャ結果
+        </h2>
+      </div>
+
       <%= render "shared/flash", flash: flash %>
 
-      <%# 今回獲得した経験値イベントを取得（Sessionから削除） %>
+      <%# 今回獲得した経験値イベント %>
       <% events = status_events.map(&:with_indifferent_access) %>
 
-      <%# 通常レベルアップ用モーダル %>
+      <%# レベルアップモーダル %>
       <% events.select { |event| event[:type] == "lv_up" }.each do |event| %>
         <%= render "shared/level_up_modal",
                     event: event,
@@ -17,36 +22,58 @@
                     auto: true %>
       <% end %>
 
-      <%= form_with(model: @want, html: { class: "space-y-4" }) do |f| %>
-        <%= hidden_field_tag :registration_source, "gacha" %>
-        <div>
-          <%= f.text_area :content,
-                          autofocus: true,
-                          rows: 8,
-                          class: "textarea textarea-bordered w-full border-[#A8BFA0] bg-[#F6F5EE] text-[#4F5A4C] focus:border-[#4F5A4C] focus:outline-none" %>
-        </div>
+      <%# ガチャ結果表示 %>
+      <div class="rounded-2xl border border-[#A8BFA0]/50 bg-[#F6F5EE] px-5 py-10 text-center shadow-sm">
 
-        <div class="flex gap-3">
-          <%= link_to draw_random_want_path,
-                      data: { turbo_method: :post },
-                      class: [
-                        "btn h-12 flex-1 flex-col gap-0.5 border-none px-2 py-2",
-                        @user_status.random_gacha_available? ?
-                          "bg-[#E3C88F] text-[#4F5A4C] hover:bg-[#D7B96F]" :
-                          "pointer-events-none bg-gray-300 text-gray-500"
-                      ] do %>
-            <span class="whitespace-nowrap">
-              再度ガチャを回す
-            </span>
+        <p class="mb-5 text-2xl">
+          ✨
+        </p>
 
-            <span class="whitespace-nowrap text-[10px] font-normal leading-none">
-              （残り<%= UserStatus::RANDOM_GACHA_LIMIT - @user_status.random_gacha_count %>/<%= UserStatus::RANDOM_GACHA_LIMIT %>回）
-            </span>
-          <% end %>
+        <p class="whitespace-pre-wrap break-words text-xl font-bold leading-9 text-[#4F5A4C] sm:text-2xl sm:leading-10">
+          <%= @want.content %>
+        </p>
 
-          <%= f.submit class: "btn h-12 flex-1 border-none bg-[#A8BFA0] text-[#4F5A4C] hover:bg-[#E3C88F]" %>
-        </div>
-      <% end %>
+      </div>
+
+      <%# 操作ボタン %>
+      <div class="space-y-3">
+
+        <%# そのまま登録する %>
+        <%= form_with model: @want,
+                      url: wants_path,
+                      method: :post,
+                      html: { class: "w-full" } do |f| %>
+
+          <%= hidden_field_tag :registration_source, "gacha" %>
+          <%= f.hidden_field :content %>
+
+          <%= f.submit "この内容で登録する",
+                       class: "btn h-12 w-full rounded-full border-none bg-[#A8BFA0] font-bold text-[#354133] hover:bg-[#96AE8E]" %>
+        <% end %>
+
+        <%# 再度ガチャを回す %>
+        <%= button_to draw_random_want_path,
+                      method: :post,
+                      disabled: !@user_status.random_gacha_available?,
+                      form: { class: "w-full" },
+                      class: "btn h-14 w-full flex-col gap-0.5 rounded-full border-none bg-[#E3C88F] text-[#4F5A4C] hover:bg-[#D7B96F] disabled:bg-gray-200 disabled:text-gray-500" do %>
+
+          <span class="font-bold">
+            再度ガチャを回す
+          </span>
+
+          <span class="text-[10px] font-normal">
+            （残り<%= UserStatus::RANDOM_GACHA_LIMIT - @user_status.random_gacha_count %>/<%= UserStatus::RANDOM_GACHA_LIMIT %>回）
+          </span>
+
+        <% end %>
+
+        <%# 編集画面へ移動 %>
+        <%= link_to "内容を編集する",
+                    edit_random_want_path,
+                    class: "btn h-12 w-full rounded-full border border-[#A8BFA0] bg-white text-[#4F5A4C] hover:bg-[#F6F5EE]" %>
+
+      </div>
     </div>
   </div>
 </div>
