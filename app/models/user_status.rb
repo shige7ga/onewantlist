@@ -95,17 +95,17 @@ class UserStatus < ApplicationRecord
 
   # 次Lvまでに必要なEXP
   def required_exp_for_next_level
-    required_exp_for(level)
+    Experience::LevelCalculator.required_exp_for(level)
   end
 
   # 次のLvまでの残りEXP
   def exp_to_next_level
-    total_exp_for_next_level(level) - experience
+    Experience::LevelCalculator.total_exp_for_next_level(level) - experience
   end
 
   # 現在Lvになってから獲得したEXP
   def current_level_exp
-    experience - total_exp_for_current_level(level)
+    experience - Experience::LevelCalculator.total_exp_for_current_level(level)
   end
 
   # 経験値ゲージのアニメーション用データ
@@ -131,15 +131,14 @@ class UserStatus < ApplicationRecord
     return nil if start_level < 1 || start_total_exp < 0
 
     # 更新前のレベル内EXP
-    start_exp =
-      start_total_exp - total_exp_for_current_level(start_level)
+    start_exp = start_total_exp - Experience::LevelCalculator.total_exp_for_current_level(start_level)
 
     return nil if start_exp < 0
-    return nil if start_exp >= required_exp_for(start_level)
+    return nil if start_exp >= Experience::LevelCalculator.required_exp_for(start_level)
 
     # アニメーション中に必要なレベル別のEXP
     requirements = (start_level..level).map do |lv|
-      required_exp_for(lv)
+      Experience::LevelCalculator.required_exp_for(lv)
     end
 
     {
@@ -166,7 +165,7 @@ class UserStatus < ApplicationRecord
       new_exp += event[:exp]
       events << event
 
-      while new_exp >= total_exp_for_next_level(new_lv)
+      while new_exp >= Experience::LevelCalculator.total_exp_for_next_level(new_lv)
         new_lv += 1
         events << { type: "lv_up", source: event[:source], level: new_lv }
       end
@@ -260,27 +259,5 @@ class UserStatus < ApplicationRecord
   def action_streak_exp_event
     return unless action_streak % ACTION_STREAK_BONUS_INTERVAL == 0
     { type: "exp_up", source: "action_streak", exp: ACTION_STREAK_BONUS_EXP }
-  end
-
-  # 指定Lvから次Lvへ上がるために必要なEXP
-  def required_exp_for(lv)
-    case lv
-    when 1..57
-      (10 * 1.05**(lv - 1)).floor
-    when 58..100
-      100 + lv
-    else
-      200
-    end
-  end
-
-  # 次Lvに到達するために必要な累計EXP
-  def total_exp_for_next_level(current_lv)
-    (1..current_lv).sum { |lv| required_exp_for(lv) }
-  end
-
-  # 現在Lvに到達した時点の累計EXP
-  def total_exp_for_current_level(current_lv)
-    (1...current_lv).sum { |lv| required_exp_for(lv) }
   end
 end
