@@ -22,7 +22,7 @@ RSpec.describe Experience::GaugePresenter do
           start_level: 1,
           start_exp: 3,
           earned_exp: 4,
-          requirements: [10]
+          requirements: [ 10 ]
         )
       end
     end
@@ -42,7 +42,7 @@ RSpec.describe Experience::GaugePresenter do
           start_level: 1,
           start_exp: 3,
           earned_exp: 10,
-          requirements: [10, 10]
+          requirements: [ 10, 10 ]
         )
       end
     end
@@ -63,7 +63,7 @@ RSpec.describe Experience::GaugePresenter do
           start_level: 1,
           start_exp: 3,
           earned_exp: 20,
-          requirements: [10, 10, 11]
+          requirements: [ 10, 10, 11 ]
         )
       end
     end
