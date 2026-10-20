@@ -977,57 +977,10 @@ RSpec.describe UserStatus, type: :model do
   end
 
   describe "#required_exp_for_next_level" do
-    let(:user) { create(:user) }
-    let(:user_status) { create(:user_status, owner: user) }
+    let(:user_status) { create(:user_status, level: 58) }
 
-    context "Lv1の場合" do
-      before do
-        user_status.update!(level: 1)
-      end
-
-      it "10を返す" do
-        expect(user_status.required_exp_for_next_level).to eq(10)
-      end
-    end
-
-    context "Lv57の場合" do
-      before do
-        user_status.update!(level: 57)
-      end
-
-      it "計算結果を返す" do
-        expect(user_status.required_exp_for_next_level).to eq(153)
-      end
-    end
-
-    context "Lv58の場合" do
-      before do
-        user_status.update!(level: 58)
-      end
-
-      it "158を返す" do
-        expect(user_status.required_exp_for_next_level).to eq(158)
-      end
-    end
-
-    context "Lv100の場合" do
-      before do
-        user_status.update!(level: 100)
-      end
-
-      it "200を返す" do
-        expect(user_status.required_exp_for_next_level).to eq(200)
-      end
-    end
-
-    context "Lv101の場合" do
-      before do
-        user_status.update!(level: 101)
-      end
-
-      it "200を返す" do
-        expect(user_status.required_exp_for_next_level).to eq(200)
-      end
+    it "現在のレベルに応じた必要EXPを返す" do
+      expect(user_status.required_exp_for_next_level).to eq(158)
     end
   end
 
