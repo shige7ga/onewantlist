@@ -125,22 +125,10 @@ class UserStatus < ApplicationRecord
 
   # 経験値UP・レベルUP共通処理
   def process_exp_events!(exp_events)
-    events = []
-    new_exp = experience
-    new_lv = level
-
-    exp_events.each do |event|
-      new_exp += event[:exp]
-      events << event
-
-      while new_exp >= Experience::LevelCalculator.total_exp_for_next_level(new_lv)
-        new_lv += 1
-        events << { type: "lv_up", source: event[:source], level: new_lv }
-      end
-    end
-
-    update!(experience: new_exp, level: new_lv)
-    events
+    Experience::Grant.new(
+      user_status: self,
+      exp_events: exp_events
+    ).call
   end
 
   def signup_exp_event
