@@ -67,5 +67,132 @@ RSpec.describe UserStatuses::RecordDailyLogin do
       expect(events).to eq([])
       expect(user_status.reload.login_count).to eq(2)
     end
+
+
+    it "最長連続ログイン記録を更新する" do
+      user_status.update!(
+        login_streak: 4,
+        longest_login_streak: 4
+      )
+
+      service.call
+
+      expect(user_status.reload).to have_attributes(
+        login_streak: 5,
+        longest_login_streak: 5
+      )
+    end
+
+    it "過去の最長連続ログイン記録を維持する" do
+      user_status.update!(
+        login_streak: 2,
+        longest_login_streak: 10
+      )
+
+      service.call
+
+      expect(user_status.reload).to have_attributes(
+        login_streak: 3,
+        longest_login_streak: 10
+      )
+    end
+
+    it "最終ログイン日が今日なら何も更新しない" do
+      user_status.update!(last_login_date: Date.current)
+
+      expect(service.call).to eq([])
+
+      expect(user_status.reload).to have_attributes(
+        login_count: 1,
+        login_streak: 1,
+        experience: 0
+      )
+    end
+
+    it "ログインが途切れても最長記録は維持する" do
+      user_status.update!(
+        last_login_date: 2.days.ago.to_date,
+        login_streak: 5,
+        longest_login_streak: 10
+      )
+
+      service.call
+
+      expect(user_status.reload).to have_attributes(
+        login_streak: 1,
+        longest_login_streak: 10
+      )
+    end
+
+    it "累計10回で累計ボーナスのみ付与する" do
+      user_status.update!(
+        login_count: 9,
+        login_streak: 1
+      )
+
+      events = service.call
+
+      sources = events
+        .select { |event| event[:type] == "exp_up" }
+        .map { |event| event[:source] }
+
+      expect(sources).to eq(%w[daily_login login_count])
+      expect(user_status.reload.experience).to eq(20)
+    end
+
+    it "連続10日で連続ボーナスのみ付与する" do
+      user_status.update!(
+        login_count: 1,
+        login_streak: 9,
+        longest_login_streak: 9
+      )
+
+      events = service.call
+
+      sources = events
+        .select { |event| event[:type] == "exp_up" }
+        .map { |event| event[:source] }
+
+      expect(sources).to eq(%w[daily_login login_streak])
+      expect(user_status.reload.experience).to eq(20)
+    end
+
+    it "通常ログインでEXPを付与しレベルアップイベントを返す" do
+      events = service.call
+
+      expect(user_status.reload).to have_attributes(
+        experience: UserStatus::DAILY_LOGIN_EXP,
+        level: 2
+      )
+
+      expect(events).to include(
+        {
+          type: "exp_up",
+          source: "daily_login",
+          exp: UserStatus::DAILY_LOGIN_EXP
+        },
+        {
+          type: "lv_up",
+          source: "daily_login",
+          level: 2
+        }
+      )
+    end
+
+    it "EXP付与に失敗した場合はログイン記録を戻す" do
+      allow(Experience::Grant).to receive(:new)
+        .and_raise(StandardError, "EXP付与失敗")
+
+      expect {
+        service.call
+      }.to raise_error(StandardError, "EXP付与失敗")
+
+      expect(user_status.reload).to have_attributes(
+        last_login_date: Date.yesterday,
+        login_count: 1,
+        login_streak: 1,
+        experience: 0
+      )
+    end
   end
 end

@@ -297,612 +297,88 @@ RSpec.describe UserStatus, type: :model do
     end
   end
 
-  describe "#record_daily_login!" do
-    let(:user) { create(:user) }
-    let(:user_status) { create(:user_status, owner: user) }
-
-    context "最終ログイン日が昨日の場合" do
-      before do
-        user_status.update!(last_login_date: Date.yesterday)
-      end
-
-      it "last_login_dateを今日に更新する" do
-        expect {
-          user_status.record_daily_login!
-        }.to change {
-          user_status.reload.last_login_date
-        }
-        .from(Date.yesterday)
-        .to(Date.current)
-      end
-
-      it "login_countが1増える" do
-        expect {
-          user_status.record_daily_login!
-        }.to change {
-          user_status.reload.login_count
-        }.by(1)
-      end
-
-      it "login_streakが1増える" do
-        expect {
-          user_status.record_daily_login!
-        }.to change {
-          user_status.reload.login_streak
-        }.by(1)
-      end
-
-      it "longest_login_streakとlogin_streakが同じ場合、longest_login_streakが1増える" do
-        user_status.update!(login_streak: 1, longest_login_streak: 1)
-        expect {
-          user_status.record_daily_login!
-        }.to change {
-          user_status.reload.longest_login_streak
-        }.by(1)
-      end
-
-      it "longest_login_streakよりlogin_streakが小さい場合、longest_login_streakは変更なし" do
-        user_status.update!(login_streak: 1, longest_login_streak: 10)
-        expect {
-          user_status.record_daily_login!
-        }.not_to change {
-          user_status.reload.longest_login_streak
-        }
-      end
+  describe "#reset_action_streak_if_expired!" do
+    let(:user_status) do
+      create(
+        :user_status,
+        action_streak: 5,
+        longest_action_streak: 10
+      )
     end
 
-    context "最終ログイン日が今日の場合" do
-      before do
-        user_status.update!(last_login_date: Date.current)
-      end
+    it "一昨日以前なら連続記録を0にリセットする" do
+      user_status.update!(
+        last_action_date: 2.days.ago.to_date
+      )
 
-      it "last_login_dateを変更しない" do
-        expect {
-          user_status.record_daily_login!
-        }.not_to change {
-          user_status.reload.last_login_date
-        }
-      end
+      user_status.reset_action_streak_if_expired!
 
-      it "login_countを変更しない" do
-        expect {
-          user_status.record_daily_login!
-        }.not_to change {
-          user_status.reload.login_count
-        }
-      end
-
-      it "login_streakを変更しない" do
-        expect {
-          user_status.record_daily_login!
-        }.not_to change {
-          user_status.reload.login_streak
-        }
-      end
-
-      it "空の配列を返す" do
-        expect(user_status.record_daily_login!).to eq([])
-      end
+      expect(user_status.reload).to have_attributes(
+        action_streak: 0,
+        longest_action_streak: 10
+      )
     end
 
-    context "最終ログイン日が一昨日以前の場合" do
-      before do
-        user_status.update!(
-          last_login_date: 2.days.ago.to_date,
-          login_streak: 5,
-          longest_login_streak: 10
-        )
-      end
+    it "昨日なら連続記録を維持する" do
+      user_status.update!(
+        last_action_date: Date.yesterday
+      )
 
-      it "login_streakを1にリセットする" do
-        expect {
-          user_status.record_daily_login!
-        }.to change {
-          user_status.reload.login_streak
-        }.from(5).to(1)
-      end
-
-      it "longest_login_streakは変更しない" do
-        expect {
-          user_status.record_daily_login!
-        }.not_to change {
-          user_status.reload.longest_login_streak
-        }
-      end
+      expect {
+        user_status.reset_action_streak_if_expired!
+      }.not_to change { user_status.reload.action_streak }
     end
 
-    context "通常のログインの場合" do
-      before do
-        user_status.update!(
-          last_login_date: Date.yesterday,
-          login_count: 1,
-          login_streak: 1,
-          longest_login_streak: 1
-        )
-      end
+    it "最終アクション日がnilなら変更しない" do
+      user_status.update!(last_action_date: nil)
 
-      it "ログインEXPが加算される" do
-        expect {
-          user_status.record_daily_login!
-        }.to change {
-          user_status.reload.experience
-        }.by(UserStatus::DAILY_LOGIN_EXP)
-      end
-
-      it "ログインEXPイベントを返す" do
-        events = user_status.record_daily_login!
-
-        expect(events).to include(
-          {
-            type: "exp_up",
-            source: "daily_login",
-            exp: UserStatus::DAILY_LOGIN_EXP
-          }
-        )
-      end
-    end
-
-    context "累計ログイン回数がボーナス条件に到達する場合" do
-      before do
-        user_status.update!(
-          last_login_date: Date.yesterday,
-          login_count: UserStatus::LOGIN_COUNT_BONUS_INTERVAL - 1,
-          login_streak: 1
-        )
-      end
-
-      it "ログイン回数ボーナスイベントを返す" do
-        events = user_status.record_daily_login!
-
-        expect(events).to include({
-            type: "exp_up",
-            source: "login_count",
-            exp: UserStatus::LOGIN_COUNT_BONUS_EXP
-        })
-      end
-    end
-
-    context "連続ログイン回数がボーナス条件に到達する場合" do
-      before do
-        user_status.update!(
-          last_login_date: Date.yesterday,
-          login_count: 1,
-          login_streak: UserStatus::LOGIN_STREAK_BONUS_INTERVAL - 1,
-          longest_login_streak: UserStatus::LOGIN_STREAK_BONUS_INTERVAL - 1
-        )
-      end
-
-      it "連続ログインボーナスイベントを返す" do
-        events = user_status.record_daily_login!
-
-        expect(events).to include({
-            type: "exp_up",
-            source: "login_streak",
-            exp: UserStatus::LOGIN_STREAK_BONUS_EXP
-        })
-      end
-    end
-
-    context "ログインEXPによって必要EXPに到達する場合" do
-      before do
-        user_status.update!(
-          level: 1,
-          experience: 0,
-          last_login_date: Date.yesterday
-        )
-      end
-
-      it "レベルが上がる" do
-        expect {
-          user_status.record_daily_login!
-        }.to change {
-          user_status.reload.level
-        }.from(1).to(2)
-      end
-
-      it "レベルアップイベントを返す" do
-        events = user_status.record_daily_login!
-
-        expect(events).to include(
-          hash_including(
-            type: "lv_up",
-            source: "daily_login",
-            level: 2
-          )
-        )
-      end
+      expect {
+        user_status.reset_action_streak_if_expired!
+      }.not_to change { user_status.reload.action_streak }
     end
   end
 
-  describe "#record_random_wants_limit!" do
-    let(:user) { create(:user) }
-    let(:user_status) { create(:user_status, owner: user) }
+  describe "日次記録Serviceへの委譲" do
+    let(:user_status) { create(:user_status) }
+    let(:events) { [ { type: "exp_up", exp: 10 } ] }
 
-    context "最終アクション日が昨日の場合" do
-      before do
-        user_status.update!(
-          last_action_date: Date.yesterday
-        )
-      end
+    it "日次ログイン処理をRecordDailyLoginに委譲する" do
+      service = instance_double(
+        UserStatuses::RecordDailyLogin,
+        call: events
+      )
 
-      it "last_action_dateを今日に更新する" do
-        expect {
-          user_status.record_random_wants_limit!
-        }.to change {
-          user_status.reload.last_action_date
-        }.from(Date.yesterday).to(Date.current)
-      end
+      expect(UserStatuses::RecordDailyLogin).to receive(:new)
+        .with(user_status: user_status)
+        .and_return(service)
 
-      it "action_countが1増える" do
-        expect {
-          user_status.record_random_wants_limit!
-        }.to change {
-          user_status.reload.action_count
-        }.by(1)
-      end
-
-      it "action_streakが1増える" do
-        expect {
-          user_status.record_random_wants_limit!
-        }.to change {
-          user_status.reload.action_streak
-        }.by(1)
-      end
-
-      it "longest_action_streakとaction_streakが同じ場合、longest_action_streakが1増える" do
-        user_status.update!(
-          action_streak: 1,
-          longest_action_streak: 1
-        )
-
-        expect {
-          user_status.record_random_wants_limit!
-        }.to change {
-          user_status.reload.longest_action_streak
-        }.by(1)
-      end
-
-      it "longest_action_streakよりaction_streakが小さい場合、longest_action_streakは変更しない" do
-        user_status.update!(
-          action_streak: 1,
-          longest_action_streak: 10
-        )
-
-        expect {
-          user_status.record_random_wants_limit!
-        }.not_to change {
-          user_status.reload.longest_action_streak
-        }
-      end
+      expect(user_status.record_daily_login!).to eq(events)
     end
 
-    context "最終アクション日が今日の場合" do
-      before do
-        user_status.update!(
-          last_action_date: Date.current
-        )
-      end
+    it "やりたいこと登録をRecordDailyActionに委譲する" do
+      service = instance_double(
+        UserStatuses::RecordDailyAction,
+        call: events
+      )
 
-      it "last_action_dateを変更しない" do
-        expect {
-          user_status.record_random_wants_limit!
-        }.not_to change {
-          user_status.reload.last_action_date
-        }
-      end
+      expect(UserStatuses::RecordDailyAction).to receive(:new)
+        .with(user_status: user_status, want_registration: true)
+        .and_return(service)
 
-      it "action_countを変更しない" do
-        expect {
-          user_status.record_random_wants_limit!
-        }.not_to change {
-          user_status.reload.action_count
-        }
-      end
-
-      it "action_streakを変更しない" do
-        expect {
-          user_status.record_random_wants_limit!
-        }.not_to change {
-          user_status.reload.action_streak
-        }
-      end
-
-      it "空の配列を返す" do
-        expect(user_status.record_random_wants_limit!).to eq([])
-      end
+      expect(user_status.record_want_registration!).to eq(events)
     end
 
-    context "最終アクション日が一昨日以前の場合" do
-      before do
-        user_status.update!(
-          last_action_date: 2.days.ago.to_date,
-          action_streak: 5,
-          longest_action_streak: 10
-        )
-      end
+    it "ガチャ上限達成をRecordDailyActionに委譲する" do
+      service = instance_double(
+        UserStatuses::RecordDailyAction,
+        call: events
+      )
 
-      it "action_streakを1にリセットする" do
-        expect {
-          user_status.record_random_wants_limit!
-        }.to change {
-          user_status.reload.action_streak
-        }.from(5).to(1)
-      end
+      expect(UserStatuses::RecordDailyAction).to receive(:new)
+        .with(user_status: user_status)
+        .and_return(service)
 
-      it "longest_action_streakは変更しない" do
-        expect {
-          user_status.record_random_wants_limit!
-        }.not_to change {
-          user_status.reload.longest_action_streak
-        }
-      end
-    end
-
-    context "通常のアクションの場合" do
-      before do
-        user_status.update!(
-          last_action_date: Date.yesterday,
-          action_count: 1,
-          action_streak: 1,
-          longest_action_streak: 1
-        )
-      end
-
-      it "アクションEXPが加算される" do
-        expect {
-          user_status.record_random_wants_limit!
-        }.to change {
-          user_status.reload.experience
-        }.by(UserStatus::DAILY_ACTION_EXP)
-      end
-
-      it "アクションEXPイベントを返す" do
-        events = user_status.record_random_wants_limit!
-
-        expect(events).to include(
-          {
-            type: "exp_up",
-            source: "daily_action",
-            exp: UserStatus::DAILY_ACTION_EXP
-          }
-        )
-      end
-    end
-
-    context "累計アクション回数がボーナス条件に到達する場合" do
-      before do
-        user_status.update!(
-          last_action_date: Date.yesterday,
-          action_count: UserStatus::ACTION_COUNT_BONUS_INTERVAL - 1,
-          action_streak: 1
-        )
-      end
-
-      it "累計アクションボーナスイベントを返す" do
-        events = user_status.record_random_wants_limit!
-
-        expect(events).to include(
-          {
-            type: "exp_up",
-            source: "action_count",
-            exp: UserStatus::ACTION_COUNT_BONUS_EXP
-          }
-        )
-      end
-    end
-
-    context "連続アクション回数がボーナス条件に到達する場合" do
-      before do
-        user_status.update!(
-          last_action_date: Date.yesterday,
-          action_count: 1,
-          action_streak: UserStatus::ACTION_STREAK_BONUS_INTERVAL - 1,
-          longest_action_streak: UserStatus::ACTION_STREAK_BONUS_INTERVAL - 1
-        )
-      end
-
-      it "連続アクションボーナスイベントを返す" do
-        events = user_status.record_random_wants_limit!
-
-        expect(events).to include(
-          {
-            type: "exp_up",
-            source: "action_streak",
-            exp: UserStatus::ACTION_STREAK_BONUS_EXP
-          }
-        )
-      end
-    end
-
-    context "アクションEXPによって必要EXPに到達する場合" do
-      before do
-        user_status.update!(
-          level: 1,
-          experience: 0,
-          last_action_date: Date.yesterday
-        )
-      end
-
-      it "レベルが上がる" do
-        expect {
-          user_status.record_random_wants_limit!
-        }.to change {
-          user_status.reload.level
-        }.from(1).to(2)
-      end
-
-      it "レベルアップイベントを返す" do
-        events = user_status.record_random_wants_limit!
-
-        expect(events).to include(
-          hash_including(
-            type: "lv_up",
-            source: "daily_action",
-            level: 2
-          )
-        )
-      end
-    end
-  end
-
-  describe "#record_want_registration!" do
-    let(:user) { create(:user) }
-    let(:user_status) { create(:user_status, owner: user) }
-
-    context "今日まだやりたいことを登録していない場合" do
-      before do
-        user_status.update!(
-          last_want_registration_date: Date.yesterday,
-          last_action_date: Date.yesterday
-        )
-      end
-
-      it "last_want_registration_dateを今日に更新する" do
-        expect {
-          user_status.record_want_registration!
-        }.to change {
-          user_status.reload.last_want_registration_date
-        }.from(Date.yesterday).to(Date.current)
-      end
-
-      it "last_action_dateを今日に更新する" do
-        expect {
-          user_status.record_want_registration!
-        }.to change {
-          user_status.reload.last_action_date
-        }.from(Date.yesterday).to(Date.current)
-      end
-
-      it "action_countが1増える" do
-        expect {
-          user_status.record_want_registration!
-        }.to change {
-          user_status.reload.action_count
-        }.by(1)
-      end
-
-      it "action_streakが1増える" do
-        expect {
-          user_status.record_want_registration!
-        }.to change {
-          user_status.reload.action_streak
-        }.by(1)
-      end
-
-      it "経験値が10増える" do
-        expect {
-          user_status.record_want_registration!
-        }.to change {
-          user_status.reload.experience
-        }.by(UserStatus::DAILY_ACTION_EXP)
-      end
-
-      it "アクションEXPイベントを返す" do
-        events = user_status.record_want_registration!
-
-        expect(events).to include(
-          hash_including(
-            type: "exp_up",
-            source: "daily_action",
-            exp: UserStatus::DAILY_ACTION_EXP
-          )
-        )
-      end
-    end
-
-    context "今日すでにやりたいことを登録している場合" do
-      before do
-        user_status.update!(
-          last_want_registration_date: Date.current
-        )
-      end
-
-      it "last_want_registration_dateを変更しない" do
-        expect {
-          user_status.record_want_registration!
-        }.not_to change {
-          user_status.reload.last_want_registration_date
-        }
-      end
-
-      it "action_countを変更しない" do
-        expect {
-          user_status.record_want_registration!
-        }.not_to change {
-          user_status.reload.action_count
-        }
-      end
-
-      it "空の配列を返す" do
-        expect(user_status.record_want_registration!).to eq([])
-      end
-    end
-
-    context "今日すでに別のアクションを実施している場合" do
-      before do
-        user_status.update!(
-          last_want_registration_date: Date.yesterday,
-          last_action_date: Date.current
-        )
-      end
-
-      it "last_want_registration_dateは今日に更新する" do
-        expect {
-          user_status.record_want_registration!
-        }.to change {
-          user_status.reload.last_want_registration_date
-        }.from(Date.yesterday).to(Date.current)
-      end
-
-      it "action_countは増やさない" do
-        expect {
-          user_status.record_want_registration!
-        }.not_to change {
-          user_status.reload.action_count
-        }
-      end
-
-      it "experienceは増やさない" do
-        expect {
-          user_status.record_want_registration!
-        }.not_to change {
-          user_status.reload.experience
-        }
-      end
-
-      it "空の配列を返す" do
-        expect(user_status.record_want_registration!).to eq([])
-      end
-    end
-
-    context "アクションEXPによって必要EXPに到達する場合" do
-      before do
-        user_status.update!(
-          level: 1,
-          experience: 0,
-          last_action_date: Date.yesterday
-        )
-      end
-
-      it "レベルが上がる" do
-        expect {
-          user_status.record_want_registration!
-        }.to change {
-          user_status.reload.level
-        }.from(1).to(2)
-      end
-
-      it "レベルアップイベントを返す" do
-        events = user_status.record_want_registration!
-
-        expect(events).to include(
-          hash_including(
-            type: "lv_up",
-            source: "daily_action",
-            level: 2
-          )
-        )
-      end
+      expect(user_status.record_random_wants_limit!).to eq(events)
     end
   end
 
@@ -973,6 +449,29 @@ RSpec.describe UserStatus, type: :model do
           user_status.reload.experience
         }.by(required_exp)
       end
+    end
+  end
+
+  describe "#record_first_visit!" do
+    let(:user_status) do
+      create(:user_status, level: 1, experience: 0)
+    end
+
+    it "初回アクセスEXPを付与しイベントを返す" do
+      events = user_status.record_first_visit!
+
+      expect(user_status.reload).to have_attributes(
+        experience: UserStatus::FIRST_VISIT_EXP,
+        level: 2
+      )
+
+      expect(events).to include(
+        {
+          type: "exp_up",
+          source: "first_visit",
+          exp: UserStatus::FIRST_VISIT_EXP
+        }
+      )
     end
   end
 
