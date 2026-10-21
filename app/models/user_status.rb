@@ -75,22 +75,26 @@ class UserStatus < ApplicationRecord
     process_exp_events!([ first_visit_exp_event ])
   end
 
-  # ログイン時のステータス更新記録
+  # ログイン時のステータス更新
   def record_daily_login!
-    return [] if last_login_date == Date.current
-    process_daily_login!
+    UserStatuses::RecordDailyLogin.new(
+      user_status: self
+    ).call
   end
 
-  # やりたいこと登録時のステータス更新記録
+  # やりたいこと登録時のステータス更新
   def record_want_registration!
-    return [] if last_want_registration_date == Date.current
-    process_daily_want_registration!
+    UserStatuses::RecordDailyAction.new(
+      user_status: self,
+      want_registration: true
+    ).call
   end
 
-  # やりたいことガチャ制限まで実施した際のステータス更新記録
+  # ガチャ上限達成時のステータス更新
   def record_random_wants_limit!
-    return [] if last_action_date == Date.current
-    process_daily_action!
+    UserStatuses::RecordDailyAction.new(
+      user_status: self,
+    ).call
   end
 
   # 次Lvまでに必要なEXP
@@ -137,83 +141,5 @@ class UserStatus < ApplicationRecord
 
   def first_visit_exp_event
     { type: "exp_up", source: "first_visit", exp: FIRST_VISIT_EXP }
-  end
-
-  def process_daily_login!
-    transaction do
-      update_login_status!
-      process_exp_events!(login_exp_events)
-    end
-  end
-
-  def update_login_status!
-    new_login_streak = last_login_date == Date.yesterday ? login_streak + 1 : 1
-    update!(
-      last_login_date: Date.current,
-      login_count: login_count + 1,
-      login_streak: new_login_streak,
-      longest_login_streak: [ longest_login_streak, new_login_streak ].max
-    )
-  end
-
-  def login_exp_events
-    [ login_exp_event, login_count_exp_event, login_streak_exp_event ].compact
-  end
-
-  def login_exp_event
-    { type: "exp_up", source: "daily_login", exp: DAILY_LOGIN_EXP }
-  end
-
-  def login_count_exp_event
-    return unless login_count % LOGIN_COUNT_BONUS_INTERVAL == 0
-    { type: "exp_up", source: "login_count", exp: LOGIN_COUNT_BONUS_EXP }
-  end
-
-  def login_streak_exp_event
-    return unless login_streak % LOGIN_STREAK_BONUS_INTERVAL == 0
-    { type: "exp_up", source: "login_streak", exp: LOGIN_STREAK_BONUS_EXP }
-  end
-
-  def process_daily_want_registration!
-    transaction do
-      update!(last_want_registration_date: Date.current)
-      process_daily_action!
-    end
-  end
-
-  def process_daily_action!
-    return [] if last_action_date == Date.current
-    transaction do
-      update_action_status!
-      process_exp_events!(action_exp_events)
-    end
-  end
-
-  def update_action_status!
-    new_action_streak = last_action_date == Date.yesterday ? action_streak + 1 : 1
-    update!(
-      last_action_date: Date.current,
-      action_count: action_count + 1,
-      action_streak: new_action_streak,
-      longest_action_streak: [ longest_action_streak, new_action_streak ].max
-    )
-  end
-
-  def action_exp_events
-    [ action_exp_event, action_count_exp_event, action_streak_exp_event ].compact
-  end
-
-  def action_exp_event
-    { type: "exp_up", source: "daily_action", exp: DAILY_ACTION_EXP }
-  end
-
-  def action_count_exp_event
-    return unless action_count % ACTION_COUNT_BONUS_INTERVAL == 0
-    { type: "exp_up", source: "action_count", exp: ACTION_COUNT_BONUS_EXP }
-  end
-
-  def action_streak_exp_event
-    return unless action_streak % ACTION_STREAK_BONUS_INTERVAL == 0
-    { type: "exp_up", source: "action_streak", exp: ACTION_STREAK_BONUS_EXP }
   end
 end
