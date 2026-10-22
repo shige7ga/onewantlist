@@ -95,6 +95,7 @@ RSpec.describe "ゲスト体験終了モーダル", type: :system do
     expect(page).to have_css("dialog[open]", wait: 10)
     expect(page).to have_content("ゲスト体験、上限まで達成！")
   end
+
   it "レベルアップ演出があっても、終了後にゲスト体験モーダルを表示する" do
     guest.update!(
       direct_registration_count: GuestUser::DIRECT_REGISTRATION_LIMIT - 1,
@@ -112,5 +113,35 @@ RSpec.describe "ゲスト体験終了モーダル", type: :system do
     expect(page).to have_css('[data-controller="level-up-modal"][aria-hidden="false"]', wait: 6)
     expect(page).to have_css("dialog[open]", wait: 15)
     expect(page).to have_content("ゲスト体験、上限まで達成！")
+  end
+
+  it "自由登録のURL直接アクセスでもモーダルを表示する" do
+    guest.update!(
+      direct_registration_count: GuestUser::DIRECT_REGISTRATION_LIMIT
+    )
+
+    visit new_want_path
+
+    expect(page).to have_current_path(guest_user_path)
+
+    within("dialog[open]") do
+      expect(page).to have_content("やりたいこと登録、3回達成！")
+    end
+  end
+
+  it "ガチャのURL直接アクセスでもモーダルを表示する" do
+    guest.update!(
+      gacha_usage_count: GuestUser::GACHA_USAGE_LIMIT
+    )
+
+    status.update!(random_gacha_date: Date.yesterday)
+
+    visit random_want_path
+
+    expect(page).to have_current_path(guest_user_path)
+
+    within("dialog[open]") do
+      expect(page).to have_content("ガチャ体験、3回達成！")
+    end
   end
 end
