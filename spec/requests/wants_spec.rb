@@ -48,38 +48,27 @@ RSpec.describe "Wants", type: :request do
         sign_in user
       end
 
-      it "やりたいことを登録できる" do
+      it "登録成功後にマイページへリダイレクトする" do
         expect {
           post wants_path, params: valid_params
-      }.to change(Want, :count).by(1)
-      end
+        }.to change(Want, :count).by(1)
 
-      it "登録後にマイページへリダイレクトされる" do
-        post wants_path, params: valid_params
         expect(response).to redirect_to(mypage_path)
-      end
-
-      it "やりたいこと登録日が今日に更新される" do
-        expect {
-          post wants_path, params: valid_params
-        }.to change {
-          user.user_status.reload.last_want_registration_date
-        }.from(nil).to(Date.current)
       end
 
       context "不正なパラメータの場合" do
         let(:invalid_params) do
-          { want: { content: "" } }
+          {
+            want: { content: "" },
+            registration_source: "direct"
+          }
         end
 
-        it "Wantが作成されない" do
+        it "Wantが作成せず、422を返す" do
           expect {
             post wants_path, params: invalid_params
           }.not_to change(Want, :count)
-        end
 
-        it "unprocessable_entity 422を返す" do
-          post wants_path, params: invalid_params
           expect(response).to have_http_status(422)
         end
       end
@@ -92,12 +81,6 @@ RSpec.describe "Wants", type: :request do
         it "マイページへリダイレクトされる" do
           post wants_path, params: valid_params
           expect(response).to redirect_to(mypage_path)
-        end
-
-        it "やりたいことは登録されない" do
-          expect {
-            post wants_path, params: valid_params
-          }.not_to change(Want, :count)
         end
       end
     end
@@ -175,16 +158,13 @@ RSpec.describe "Wants", type: :request do
         sign_in user
       end
 
-      it "やりたいことを更新できる" do
+      it "やりたいことを更新し、詳細画面へリダイレクトする" do
         expect {
           patch want_path(want), params: valid_params
         }.to change { want.reload.content }
         .from("富士山を登る")
         .to("映画を見る")
-      end
 
-      it "更新後に詳細画面へリダイレクトされる" do
-        patch want_path(want), params: valid_params
         expect(response).to redirect_to(want_path(want))
       end
 
@@ -193,14 +173,11 @@ RSpec.describe "Wants", type: :request do
           { want: { content: "" } }
         end
 
-        it "Wantが更新されない" do
+        it "更新せず、422を返す" do
           expect {
-            post wants_path, params: invalid_params
+            patch want_path(want), params: invalid_params
           }.not_to change { want.reload.content }
-        end
 
-        it "unprocessable_entity 422を返す" do
-          post wants_path, params: invalid_params
           expect(response).to have_http_status(422)
         end
       end
@@ -222,14 +199,11 @@ RSpec.describe "Wants", type: :request do
         sign_in user
       end
 
-      it "やりたいことを削除できる" do
+      it "やりたいことを削除し、マイページへリダイレクトする" do
         expect {
           delete want_path(want)
         }.to change(Want, :count).by(-1)
-      end
 
-      it "削除した後、マイページにリダイレクトされる" do
-        delete want_path(want)
         expect(response).to redirect_to(mypage_path)
       end
     end

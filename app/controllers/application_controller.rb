@@ -24,9 +24,8 @@ class ApplicationController < ActionController::Base
     current_owner.user_status
   end
 
-  def check_today_want_registration
-    return unless current_owner.user_status.last_want_registration_date == Date.current
-
+  def redirect_if_want_registered_today
+    return unless current_owner.user_status.want_registered_today?
     redirect_to owner_home_path, alert: "今日は既にやりたいことを登録完了しています"
   end
 
