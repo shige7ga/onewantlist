@@ -21,13 +21,16 @@ RSpec.describe "ゲスト体験制限", type: :request do
       expect(response).to have_http_status(:ok)
     end
 
-    it "自由登録の上限到達後は画面への直接アクセスも制限する" do
+    it "自由登録上限後はゲストページでdirectモーダルを指定する" do
       guest.update!(direct_registration_count: GuestUser::DIRECT_REGISTRATION_LIMIT)
 
       get new_want_path
+      expect(response).to redirect_to(guest_user_path)
 
-      expect(response).to redirect_to(new_user_registration_path)
-      expect(flash[:alert]).to include("ゲスト体験上限に達しました")
+      follow_redirect!
+      expect(response.body).to include(
+        'data-guest-limit-modal-redirect-type-value="direct"'
+      )
     end
   end
 
@@ -50,7 +53,7 @@ RSpec.describe "ゲスト体験制限", type: :request do
         post wants_path, params: direct_params
       }.not_to change(Want, :count)
 
-      expect(response).to redirect_to(new_user_registration_path)
+      expect(response).to redirect_to(guest_user_path)
     end
 
     it "登録に失敗した場合は自由登録の回数が増えない" do
@@ -103,8 +106,27 @@ RSpec.describe "ゲスト体験制限", type: :request do
 
       post draw_random_want_path
 
-      expect(response).to redirect_to(new_user_registration_path)
+      expect(response).to redirect_to(guest_user_path)
       expect(status.reload.random_gacha_count).to eq(2)
+    end
+
+    it "ガチャ最終日に登録済みなら直接アクセスを制限する" do
+      guest.update!(
+        gacha_usage_count: GuestUser::GACHA_USAGE_LIMIT
+      )
+
+      status.update!(
+        random_gacha_date: Date.current,
+        last_want_registration_date: Date.current
+      )
+
+      get random_want_path
+      expect(response).to redirect_to(guest_user_path)
+
+      follow_redirect!
+      expect(response.body).to include(
+        'data-guest-limit-modal-redirect-type-value="gacha"'
+      )
     end
   end
 

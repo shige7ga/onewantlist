@@ -27,7 +27,7 @@ module Wants
 
         if status.want_registered_today?
           error = :already_registered
-        elsif guest_direct? && @owner.direct_registration_limit_reached?
+        elsif guest_direct? && !@owner.direct_registration_available?
           error = :guest_limit
         elsif want.save
           @owner.record_direct_registration! if guest_direct?

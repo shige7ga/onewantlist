@@ -35,6 +35,12 @@ class ApplicationController < ActionController::Base
     current_owner.user_status.reset_action_streak_if_expired!
   end
 
+  # ゲスト体験制限モーダルの表示指示を保存して遷移
+  def redirect_to_guest_limit_modal(type)
+    session[:guest_limit_modal_type] = type.to_s
+    redirect_to guest_user_path, status: :see_other
+  end
+
   def current_guest
     return @current_guest if defined?(@current_guest)
 

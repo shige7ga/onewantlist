@@ -17,6 +17,7 @@
     data-controller="guest-limit-modal"
     data-guest-limit-modal-auto-value="<%= auto_show_limit %>"
     data-guest-limit-modal-wait-for-exp-value="<%= wait_for_exp %>"
+    data-guest-limit-modal-redirect-type-value="<%= @guest_limit_modal_type %>"
     data-action="exp-gauge:finished@window->guest-limit-modal#expFinished"
     data-guest-limit-modal-titles-value="<%= guest_limit_modal_titles.to_json %>"
   <% end %>

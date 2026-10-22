@@ -1,38 +1,23 @@
-
 <% owner = current_owner %>
 <% status = owner.user_status %>
 <% guest = !user_signed_in? %>
 
 <%# 今日のやりたいこと登録状況 %>
-<% today_registered =
-  status.last_want_registration_date == Date.current
-%>
+<% today_registered = status.last_want_registration_date == Date.current %>
 
 <%# 自由登録のゲスト利用制限 %>
-<% direct_limited =
-  guest && owner.direct_registration_limit_reached?
-%>
+<% direct_limited = guest && !owner.direct_registration_available? %>
 
 <%# ガチャのゲスト利用制限 %>
-<% gacha_limited =
-  guest &&
-  !owner.gacha_usage_available? &&
-  (status.random_gacha_date != Date.current || today_registered)
-%>
+<% gacha_limited = guest && owner.gacha_usage_limited? %>
 
 <%# 通常のガチャ抽選が可能か %>
-<% can_draw_gacha =
-  !today_registered && status.random_gacha_available?
-%>
+<% can_draw_gacha = !today_registered && status.random_gacha_available? %>
 
 <%# ガチャの遷移先・リクエスト方法 %>
-<% gacha_path =
-  can_draw_gacha ? draw_random_want_path : random_want_path
-%>
+<% gacha_path = can_draw_gacha ? draw_random_want_path : random_want_path %>
 
-<% gacha_data =
-  can_draw_gacha ? { turbo_method: :post } : {}
-%>
+<% gacha_data = can_draw_gacha ? { turbo_method: :post } : {} %>
 
 <div class="fixed bottom-0 left-1/2 z-40
             w-full -translate-x-1/2

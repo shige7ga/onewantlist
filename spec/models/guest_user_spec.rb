@@ -55,4 +55,50 @@ RSpec.describe GuestUser, type: :model do
       end
     end
   end
+
+  describe "#gacha_usage_limited?" do
+    let(:guest) { GuestUser.create! }
+    let!(:status) { guest.create_user_status! }
+
+    before do
+      guest.update!(
+        gacha_usage_count: GuestUser::GACHA_USAGE_LIMIT
+      )
+    end
+
+    it "最終日の未登録状態なら利用制限しない" do
+      status.update!(
+        random_gacha_date: Date.current,
+        last_want_registration_date: nil
+      )
+
+      expect(guest.gacha_usage_limited?).to be false
+    end
+
+    it "最終日に登録済みなら利用制限する" do
+      status.update!(
+        random_gacha_date: Date.current,
+        last_want_registration_date: Date.current
+      )
+
+      expect(guest.gacha_usage_limited?).to be true
+    end
+
+    it "最終日の翌日なら利用制限する" do
+      status.update!(
+        random_gacha_date: Date.yesterday
+      )
+
+      expect(guest.gacha_usage_limited?).to be true
+    end
+
+    it "体験枠が残っていれば利用制限しない" do
+      guest.update!(
+        gacha_usage_count: GuestUser::GACHA_USAGE_LIMIT - 1
+      )
+      status.update!(random_gacha_date: Date.yesterday)
+
+      expect(guest.gacha_usage_limited?).to be false
+    end
+  end
 end
