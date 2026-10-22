@@ -10,7 +10,7 @@
 
 <%# 自由登録のゲスト利用制限 %>
 <% direct_limited =
-  guest && !owner.direct_registration_available?
+  guest && !owner.direct_registration_limit_reached?
 %>
 
 <%# ガチャのゲスト利用制限 %>

@@ -121,6 +121,11 @@ class UserStatus < ApplicationRecord
     ).call
   end
 
+  # 本日やりたいことを登録できるか
+  def want_registered_today?
+    last_want_registration_date == Date.current
+  end
+
   private
 
   def user_owner?

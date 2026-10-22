@@ -10,7 +10,7 @@ class GuestUser < ApplicationRecord
   # 自由登録とガチャの両方のゲスト体験が終了したか
   def experience_finished?
     # いずれかの体験枠が残っていれば終了ではない
-    return false if direct_registration_available?
+    return false unless direct_registration_limit_reached?
     return false if gacha_usage_available?
 
     status = user_status
@@ -24,8 +24,8 @@ class GuestUser < ApplicationRecord
     gacha_day_finished || today_want_registered
   end
 
-  def direct_registration_available?
-    direct_registration_count < DIRECT_REGISTRATION_LIMIT
+  def direct_registration_limit_reached?
+    direct_registration_count >= DIRECT_REGISTRATION_LIMIT
   end
 
   def gacha_usage_available?

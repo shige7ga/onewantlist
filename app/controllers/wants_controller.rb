@@ -1,6 +1,6 @@
 class WantsController < ApplicationController
-  before_action :check_guest_registration_limit, only: %i[ new create ]
-  before_action :check_today_want_registration, only: %i[ new create ]
+  before_action :check_guest_registration_limit, only: :new
+  before_action :redirect_if_want_registered_today, only: :new
   before_action :set_want, only: %i[ show edit update destroy ]
 
   def show
@@ -11,17 +11,38 @@ class WantsController < ApplicationController
   end
 
   def create
-    @want = current_owner.wants.new(want_params)
-    if @want.save
-      record_guest_registration!
-      session.delete(:random_want_id) if registration_source == :gacha
+    source = registration_source
 
-      add_status_events(current_owner.user_status.record_want_registration!)
-      redirect_to owner_home_path, notice: t("defaults.flash_message.created", item: Want.model_name.human)
+    result = Wants::Register.new(
+      owner: current_owner,
+      attributes: want_params,
+      source: source
+    ).call
+
+    @want = result.want
+
+    case result.error
+    when nil
+      session.delete(:random_want_id) if source == :gacha
+      add_status_events(result.events)
+
+      redirect_to owner_home_path,
+                  notice: t("defaults.flash_message.created",
+                            item: Want.model_name.human)
+
+    when :already_registered
+      redirect_to owner_home_path,
+                  alert: "今日は既にやりたいことを登録完了しています"
+
+    when :guest_limit
+      redirect_to new_user_registration_path,
+                  alert: "ゲスト体験上限に達しました。ユーザー登録して使ってみましょう。"
+
     else
-      flash.now[:alert] = t("defaults.flash_message.not_created", item: Want.model_name.human)
+      flash.now[:alert] = t("defaults.flash_message.not_created",
+                            item: Want.model_name.human)
 
-      if params[:registration_source] == "gacha"
+      if source == :gacha
         render "random_wants/edit", status: :unprocessable_entity
       else
         render :new, status: :unprocessable_entity
@@ -63,15 +84,9 @@ class WantsController < ApplicationController
 
   def check_guest_registration_limit
     return if user_signed_in?
+    return unless current_owner.direct_registration_limit_reached?
 
-    # ガチャ経由の登録は自由登録の上限に含めない
-    if action_name == "create" && registration_source == :gacha
-      return
-    end
-
-    return if current_owner.direct_registration_available?
-
-    redirect_to new_user_registration_path, alert: "ゲスト利用制限に達しました。ユーザー登録して使ってみましょう。"
+    redirect_to new_user_registration_path, alert: "ゲスト体験上限に達しました。ユーザー登録して使ってみましょう。"
   end
 
   def record_guest_registration!
