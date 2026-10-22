@@ -6,7 +6,8 @@ export default class extends Controller {
   static values = {
     auto: Boolean,
     waitForExp: Boolean,
-    titles: Object
+    titles: Object,
+    redirectType: String
   }
 
   connect() {
@@ -14,16 +15,21 @@ export default class extends Controller {
     this.queuedType = null
 
     // Turboキャッシュ対策
-    this.beforeCacheHandler = () => this.close()
+    this.beforeCacheHandler = () => {
+      this.close()
+      this.redirectTypeValue = ""
+    }
 
     document.addEventListener(
       "turbo:before-cache",
       this.beforeCacheHandler
     )
 
-    // 両方の体験枠を終了している場合は自動表示
-    if (this.autoValue) {
-      this.requestOpen("all")
+    // 両方終了していればall、そうでなければリダイレクト時の種類
+    const type = this.autoValue ? "all" : this.redirectTypeValue
+
+    if (type) {
+      this.requestOpen(type)
     }
   }
 

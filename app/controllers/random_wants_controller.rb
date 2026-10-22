@@ -50,10 +50,9 @@ class RandomWantsController < ApplicationController
 
   def check_guest_gacha_usage_limit
     return if user_signed_in?
-    return if current_owner_status.random_gacha_date == Date.current
-    return if current_owner.gacha_usage_available?
+    return unless current_owner.gacha_usage_limited?
 
-    redirect_to new_user_registration_path, alert: "ゲスト利用制限に達しました。ユーザー登録して使ってみましょう。"
+    redirect_to_guest_limit_modal(:gacha)
   end
 
   def check_random_want

@@ -35,8 +35,7 @@ class WantsController < ApplicationController
                   alert: "今日は既にやりたいことを登録完了しています"
 
     when :guest_limit
-      redirect_to new_user_registration_path,
-                  alert: "ゲスト体験上限に達しました。ユーザー登録して使ってみましょう。"
+      redirect_to_guest_limit_modal(:direct)
 
     else
       flash.now[:alert] = t("defaults.flash_message.not_created",
@@ -84,9 +83,9 @@ class WantsController < ApplicationController
 
   def check_guest_registration_limit
     return if user_signed_in?
-    return unless current_owner.direct_registration_limit_reached?
+    return if current_owner.direct_registration_available?
 
-    redirect_to new_user_registration_path, alert: "ゲスト体験上限に達しました。ユーザー登録して使ってみましょう。"
+    redirect_to_guest_limit_modal(:direct)
   end
 
   def record_guest_registration!
