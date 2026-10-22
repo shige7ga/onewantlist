@@ -27,7 +27,7 @@ RSpec.describe "ゲスト体験制限", type: :request do
       get new_want_path
 
       expect(response).to redirect_to(new_user_registration_path)
-      expect(flash[:alert]).to include("ゲスト利用制限に達しました")
+      expect(flash[:alert]).to include("ゲスト体験上限に達しました")
     end
   end
 
