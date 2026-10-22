@@ -26,7 +26,7 @@ export default class extends Controller {
     )
 
     // 両方終了していればall、そうでなければリダイレクト時の種類
-    const type = this.autoValue ? "all" : this.redirectTypeValue
+    const type = this.redirectTypeValue || (this.autoValue ? "all" : "")
 
     if (type) {
       this.requestOpen(type)
