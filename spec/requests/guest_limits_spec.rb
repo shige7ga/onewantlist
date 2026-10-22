@@ -159,5 +159,21 @@ RSpec.describe "ゲスト体験制限", type: :request do
       expect(response.body).to include("今日は未登録")
       expect(response.body).not_to include("本日登録済")
     end
+
+    it "自由登録の上限未到達なら登録リンクを表示する" do
+      guest.update!(
+        direct_registration_count: GuestUser::DIRECT_REGISTRATION_LIMIT - 1
+      )
+
+      get guest_user_path
+
+      expect(response.parsed_body.at_css(
+        "a[href='#{new_want_path}']"
+      )).to be_present
+
+      expect(response.parsed_body.at_css(
+        'button[data-guest-limit-type="direct"]'
+      )).to be_nil
+    end
   end
 end
