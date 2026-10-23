@@ -27,5 +27,4 @@ class ApplicationController < ActionController::Base
     session[:guest_limit_modal_type] = type.to_s
     redirect_to guest_user_path, status: :see_other
   end
-
 end
