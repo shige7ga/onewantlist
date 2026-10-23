@@ -1,4 +1,3 @@
-
 module Wants
   class Register
     Result = Struct.new(:want, :events, :error, keyword_init: true) do

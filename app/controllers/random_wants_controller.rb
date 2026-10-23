@@ -1,9 +1,8 @@
 class RandomWantsController < ApplicationController
   before_action :clear_stale_gacha_result, only: %i[ show edit ]
-  before_action :check_guest_gacha_usage_limit, only: %i[ show edit draw ]
+  before_action :redirect_if_guest_gacha_limited, only: %i[ show edit draw ]
   before_action :redirect_if_want_registered_today, only: %i[ show edit draw ]
   before_action :check_random_want, only: %i[ show edit ]
-  before_action :check_today_gacha_limit, only: %i[ draw ]
   before_action :set_gacha_result, only: %i[ show edit ]
 
   def show
@@ -13,42 +12,34 @@ class RandomWantsController < ApplicationController
   end
 
   def draw
-    random_want = RandomWant.order(Arel.sql("RANDOM()")).first
+    result = Gacha::Draw.new(owner: current_owner).call
 
-    prepare_gacha_for_draw!
+    case result.error
+    when nil
+      session[:random_want_id] = result.random_want.id
+      add_status_events(result.events)
+      redirect_to random_want_path
 
-    session[:random_want_id] = random_want.id
-    current_owner_status.increment!(:random_gacha_count)
+    when :guest_limit
+      redirect_to_guest_limit_modal(:gacha)
 
-    if current_owner_status.random_gacha_count == UserStatus::RANDOM_GACHA_LIMIT
-      add_status_events(current_owner_status.record_random_wants_limit!)
+    when :already_registered
+      redirect_to owner_home_path, alert: "今日は既にやりたいことを登録完了しています"
+
+    when :daily_limit
+      redirect_to owner_home_path, alert: "やりたいことガチャの使用上限を超えています"
+
     end
-
-    redirect_to random_want_path
   end
 
   private
-
-  def set_gacha_result
-    random_want = RandomWant.find(session[:random_want_id])
-    @want = current_owner.wants.build(content: random_want.content)
-    @user_status = current_owner_status
-  end
 
   def clear_stale_gacha_result
     return if current_owner_status.random_gacha_date == Date.current
     session.delete(:random_want_id)
   end
 
-  def prepare_gacha_for_draw!
-    return if current_owner_status.random_gacha_date == Date.current
-
-    current_owner.record_gacha_usage! unless user_signed_in?
-    current_owner_status.update!(random_gacha_date: Date.current, random_gacha_count: 0)
-    session.delete(:random_want_id)
-  end
-
-  def check_guest_gacha_usage_limit
+  def redirect_if_guest_gacha_limited
     return if user_signed_in?
     return unless current_owner.gacha_usage_limited?
 
@@ -60,8 +51,9 @@ class RandomWantsController < ApplicationController
     redirect_to owner_home_path, alert: "やりたいことガチャを回してください"
   end
 
-  def check_today_gacha_limit
-    return if current_owner_status.random_gacha_available?
-    redirect_to owner_home_path, alert: "やりたいことガチャの使用上限を超えています"
+  def set_gacha_result
+    random_want = RandomWant.find(session[:random_want_id])
+    @want = current_owner.wants.build(content: random_want.content)
+    @user_status = current_owner_status
   end
 end
