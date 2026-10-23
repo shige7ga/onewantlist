@@ -1,7 +1,7 @@
 class RandomWantsController < ApplicationController
   before_action :clear_stale_gacha_result, only: %i[ show edit ]
-  before_action :redirect_if_guest_gacha_limited, only: %i[ show edit draw ]
-  before_action :redirect_if_want_registered_today, only: %i[ show edit draw ]
+  before_action :redirect_if_guest_gacha_limited, only: %i[ show edit ]
+  before_action :redirect_if_want_registered_today, only: %i[ show edit ]
   before_action :check_random_want, only: %i[ show edit ]
   before_action :set_gacha_result, only: %i[ show edit ]
 
