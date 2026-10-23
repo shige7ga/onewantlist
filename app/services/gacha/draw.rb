@@ -40,9 +40,9 @@ module Gacha
         events: events,
         error: error
       )
-  end
+    end
 
-  private
+    private
 
     def unavailable_reason(status)
       return :guest_limit if guest? && @owner.gacha_usage_limited?
@@ -66,4 +66,5 @@ module Gacha
     def guest?
       @owner.is_a?(GuestUser)
     end
+  end
 end
