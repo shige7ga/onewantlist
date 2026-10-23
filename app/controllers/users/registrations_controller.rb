@@ -22,9 +22,13 @@ class Users::RegistrationsController < Devise::RegistrationsController
     ApplicationRecord.transaction do
       super do |resource|
         next unless resource.persisted?
-        user_status = transfer_guest_data!(guest_user, resource)
+
+        user_status = Users::TransferGuestData(
+          guest_user: guest_user,
+          user: resource
+        ).call
+
         signup_events = user_status.record_signup!
-        guest_user.reload.destroy!
         registration_succeeded = true
       end
     end
@@ -83,27 +87,5 @@ class Users::RegistrationsController < Devise::RegistrationsController
   # アカウント削除後の遷移先を定義
   def after_sign_out_path_for(resource)
     new_user_registration_path
-  end
-
-  private
-
-  def transfer_guest_data!(guest_user, user)
-    user_status = guest_user.user_status
-
-    user_status.update!(
-      owner: user,
-      last_login_date: Date.current,
-      login_count: 1,
-      login_streak: 1,
-      longest_login_streak: 1
-    )
-
-    guest_user.wants.update_all(
-      owner_type: "User",
-      owner_id: user.id,
-      updated_at: Time.current
-    )
-
-    user_status
   end
 end
