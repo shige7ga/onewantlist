@@ -23,7 +23,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
       super do |resource|
         next unless resource.persisted?
 
-        user_status = Users::TransferGuestData(
+        user_status = Users::TransferGuestData.new(
           guest_user: guest_user,
           user: resource
         ).call

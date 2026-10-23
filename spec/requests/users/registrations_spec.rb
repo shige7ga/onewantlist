@@ -59,6 +59,52 @@ RSpec.describe "Users::Registrations", type: :request do
         post user_registration_path, params: invalid_params
         expect(response).not_to redirect_to(mypage_path)
       end
+
+      it "登録失敗時にゲストデータが保持される" do
+        get guest_user_path
+
+        guest_user = GuestUser.last
+        user_status = guest_user.user_status
+        want = create(:want, owner: guest_user)
+
+        post user_registration_path, params: invalid_params
+
+        expect(GuestUser.exists?(guest_user.id)).to be true
+        expect(user_status.reload.owner).to eq(guest_user)
+        expect(want.reload.owner).to eq(guest_user)
+      end
+    end
+
+    context "ゲストデータがある場合" do
+      let(:valid_params) do
+        {
+          user: {
+            name: "test",
+            email: "transfer@example.com",
+            password: "password",
+            password_confirmation: "password"
+          }
+        }
+      end
+
+      before do
+        get guest_user_path
+
+        @guest_user = GuestUser.last
+        @user_status_id = @guest_user.user_status.id
+        @want = create(:want, owner: @guest_user)
+      end
+
+      it "登録後もゲストのデータを引き継ぐ" do
+        post user_registration_path, params: valid_params
+
+        user = User.last
+
+        expect(user.user_status.id).to eq(@user_status_id)
+        expect(user.wants).to contain_exactly(@want)
+        expect(GuestUser.exists?(@guest_user.id)).to be false
+        expect(response).to redirect_to(mypage_path)
+      end
     end
   end
 end
