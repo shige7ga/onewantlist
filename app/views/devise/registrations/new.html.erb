@@ -6,36 +6,76 @@
       </h2>
       <%= render "shared/flash", flash: flash %>
 
-      <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { class: "space-y-4" }) do |f| %>
-        <%= render "devise/shared/error_messages", resource: resource %>
+      <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { class: "space-y-4", novalidate: true }) do |f| %>
 
-        <%= f.label :name, class: "mb-1 block text-sm font-semibold text-[#4F5A4C]" %>
-        <%= f.text_field :name,
+        <% invalids = %i[ name email password password_confirmation ].index_with do |attribute|
+          f.object.errors[attribute].any?
+        end %>
+
+        <%# ユーザー名 %>
+        <div>
+          <%= f.label :name,
+                      class: "mb-1 block text-sm font-semibold text-[#4F5A4C]" %>
+
+          <%= f.text_field :name,
                           autofocus: true,
                           autocomplete: "name",
-                          class: "input input-bordered w-full border-[#A8BFA0] bg-[#F6F5EE] text-[#4F5A4C] focus:border-[#4F5A4C] focus:outline-none" %>
+                          "aria-invalid": invalids[:name],
+                          "aria-describedby": (f.field_id(:name, :errors) if invalids[:name]),
+                          class: "input input-bordered w-full bg-[#F6F5EE] text-[#4F5A4C] #{invalids[:name] ? 'border-red-500' : 'border-[#A8BFA0]'} focus:outline-none" %>
 
-        <%= f.label :email, class: "mb-1 block text-sm font-semibold text-[#4F5A4C]" %>
-        <%= f.email_field :email,
-                          autocomplete: "email",
-                          class: "input input-bordered w-full border-[#A8BFA0] bg-[#F6F5EE] text-[#4F5A4C] focus:border-[#4F5A4C] focus:outline-none" %>
-
-        <div class="mb-1 flex items-center gap-2">
-          <%= f.label :password, class: "text-sm font-semibold text-[#4F5A4C]" %>
-          <% if @minimum_password_length %>
-            <p class="text-xs text-[#4F5A4C]/70">
-              <%= t("devise.registrations.minimum_password_length", count: @minimum_password_length) %>
-            </p>
-          <% end %>
+          <%= render "shared/field_errors", form: f, attribute: :name %>
         </div>
-        <%= f.password_field :password,
-                              autocomplete: "new-password",
-                              class: "input input-bordered w-full border-[#A8BFA0] bg-[#F6F5EE] text-[#4F5A4C] focus:border-[#4F5A4C] focus:outline-none" %>
 
-        <%= f.label :password_confirmation, class: "mb-1 block text-sm font-semibold text-[#4F5A4C]" %>
-        <%= f.password_field :password_confirmation,
+        <%# メールアドレス %>
+        <div>
+          <%= f.label :email,
+                      class: "mb-1 block text-sm font-semibold text-[#4F5A4C]" %>
+
+          <%= f.email_field :email,
+                            autocomplete: "email",
+                            "aria-invalid": invalids[:email],
+                            "aria-describedby": (f.field_id(:email, :errors) if invalids[:email]),
+                            class: "input input-bordered w-full bg-[#F6F5EE] text-[#4F5A4C] #{invalids[:email] ? 'border-red-500' : 'border-[#A8BFA0]'} focus:outline-none" %>
+
+          <%= render "shared/field_errors", form: f, attribute: :email %>
+        </div>
+
+        <%# パスワード %>
+        <div>
+          <div class="mb-1 flex items-center gap-2">
+            <%= f.label :password,
+                        class: "text-sm font-semibold text-[#4F5A4C]" %>
+
+            <% if @minimum_password_length %>
+              <p class="text-xs text-[#4F5A4C]/70">
+                <%= t("devise.registrations.minimum_password_length", count: @minimum_password_length) %>
+              </p>
+            <% end %>
+          </div>
+
+          <%= f.password_field :password,
                               autocomplete: "new-password",
-                              class: "input input-bordered w-full border-[#A8BFA0] bg-[#F6F5EE] text-[#4F5A4C] focus:border-[#4F5A4C] focus:outline-none" %>
+                              "aria-invalid": invalids[:password],
+                              "aria-describedby": (f.field_id(:password, :errors) if invalids[:password]),
+                              class: "input input-bordered w-full bg-[#F6F5EE] text-[#4F5A4C] #{invalids[:password] ? 'border-red-500' : 'border-[#A8BFA0]'} focus:outline-none" %>
+
+          <%= render "shared/field_errors", form: f, attribute: :password %>
+        </div>
+
+        <%# パスワード確認 %>
+        <div>
+          <%= f.label :password_confirmation,
+                      class: "mb-1 block text-sm font-semibold text-[#4F5A4C]" %>
+
+          <%= f.password_field :password_confirmation,
+                              autocomplete: "new-password",
+                              "aria-invalid": invalids[:password_confirmation],
+                              "aria-describedby": (f.field_id(:password_confirmation, :errors) if invalids[:password_confirmation]),
+                              class: "input input-bordered w-full bg-[#F6F5EE] text-[#4F5A4C] #{invalids[:password_confirmation] ? 'border-red-500' : 'border-[#A8BFA0]'} focus:outline-none" %>
+
+          <%= render "shared/field_errors", form: f, attribute: :password_confirmation %>
+        </div>
 
         <div class="pt-2">
           <%= f.submit class: "btn w-full border-none bg-[#A8BFA0] text-[#4F5A4C] hover:bg-[#E3C88F]" %>

@@ -56,7 +56,7 @@ class WantsController < ApplicationController
     if @want.update(want_params)
       redirect_to want_path(@want), notice: t("defaults.flash_message.updated", item: Want.model_name.human)
     else
-      flash.now[:danger] = t("defaults.flash_message.not_updated", item: Want.model_name.human)
+      flash.now[:alert] = t("defaults.flash_message.not_updated", item: Want.model_name.human)
       render :edit, status: :unprocessable_entity
     end
   end

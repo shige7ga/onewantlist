@@ -10,54 +10,88 @@
             resource,
             as: resource_name,
             url: registration_path(resource_name),
-            html: { method: :put, class: "space-y-4" }
+            html: { method: :put, class: "space-y-4", novalidate: true }
           ) do |f| %>
 
-      <%= render "devise/shared/error_messages", resource: resource %>
+        <% invalids = %i[email password password_confirmation current_password].index_with do |attribute|
+            f.object.errors[attribute].any?
+          end %>
 
-        <%= f.label :email, class: "mb-1 block text-sm font-semibold text-[#4F5A4C]" %>
-        <%= f.email_field :email,
-                          autofocus: true,
-                          autocomplete: "email",
-                          class: "input input-bordered w-full border-[#A8BFA0] bg-[#F6F5EE] text-[#4F5A4C] focus:border-[#4F5A4C] focus:outline-none" %>
+        <%# メールアドレス %>
+        <div>
+          <%= f.label :email,
+                      class: "mb-1 block text-sm font-semibold text-[#4F5A4C]" %>
 
-      <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
-        <p class="text-sm text-[#4F5A4C]/70">
-          現在、<%= resource.unconfirmed_email %> の確認待ちです。
-        </p>
-      <% end %>
+          <%= f.email_field :email,
+                            autofocus: true,
+                            autocomplete: "email",
+                            "aria-invalid": invalids[:email],
+                            "aria-describedby": (f.field_id(:email, :errors) if invalids[:email]),
+                            class: "input input-bordered w-full bg-[#F6F5EE] text-[#4F5A4C] #{invalids[:email] ? 'border-red-500' : 'border-[#A8BFA0]'} focus:outline-none" %>
 
+          <%= render "shared/field_errors", form: f, attribute: :email %>
 
-        <div class="mb-1 flex items-center gap-2">
-          <%= f.label :password, t(".new_password"),
-                      class: "text-sm font-semibold text-[#4F5A4C]" %>
-          <span class="text-xs text-[#4F5A4C]/70">
-            <%= t(".blank_if_unchanged") %>
-          </span>
+          <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
+            <p class="mt-1 text-sm text-[#4F5A4C]/70">
+              現在、<%= resource.unconfirmed_email %> の確認待ちです。
+            </p>
+          <% end %>
         </div>
-        <%= f.password_field :password,
+
+        <%# 新しいパスワード %>
+        <div>
+          <div class="mb-1 flex items-center gap-2">
+            <%= f.label :password, t(".new_password"),
+                        class: "text-sm font-semibold text-[#4F5A4C]" %>
+            <span class="text-xs text-[#4F5A4C]/70">
+              <%= t(".blank_if_unchanged") %>
+            </span>
+          </div>
+
+          <%= f.password_field :password,
                               autocomplete: "new-password",
-                              class: "input input-bordered w-full border-[#A8BFA0] bg-[#F6F5EE] text-[#4F5A4C] focus:border-[#4F5A4C] focus:outline-none" %>
-        <% if @minimum_password_length %>
-          <p class="mt-1 text-xs text-[#4F5A4C]/70">
-            <%= t("devise.registrations.minimum_password_length", count: @minimum_password_length) %>
-          </p>
-        <% end %>
+                              "aria-invalid": invalids[:password],
+                              "aria-describedby": (f.field_id(:password, :errors) if invalids[:password]),
+                              class: "input input-bordered w-full bg-[#F6F5EE] text-[#4F5A4C] #{invalids[:password] ? 'border-red-500' : 'border-[#A8BFA0]'} focus:outline-none" %>
 
-        <%= f.label :password_confirmation, t(".new_password_confirmation"), class: "mb-1 block text-sm font-semibold text-[#4F5A4C]" %>
+          <%= render "shared/field_errors", form: f, attribute: :password %>
 
-        <%= f.password_field :password_confirmation,
+          <% if @minimum_password_length %>
+            <p class="mt-1 text-xs text-[#4F5A4C]/70">
+              <%= t("devise.registrations.minimum_password_length", count: @minimum_password_length) %>
+            </p>
+          <% end %>
+        </div>
+
+        <%# パスワード確認 %>
+        <div>
+          <%= f.label :password_confirmation, t(".new_password_confirmation"),
+                      class: "mb-1 block text-sm font-semibold text-[#4F5A4C]" %>
+
+          <%= f.password_field :password_confirmation,
                               autocomplete: "new-password",
-                              class: "input input-bordered w-full border-[#A8BFA0] bg-[#F6F5EE] text-[#4F5A4C] focus:border-[#4F5A4C] focus:outline-none" %>
+                              "aria-invalid": invalids[:password_confirmation],
+                              "aria-describedby": (f.field_id(:password_confirmation, :errors) if invalids[:password_confirmation]),
+                              class: "input input-bordered w-full bg-[#F6F5EE] text-[#4F5A4C] #{invalids[:password_confirmation] ? 'border-red-500' : 'border-[#A8BFA0]'} focus:outline-none" %>
 
-        <div class="mb-1 flex items-center gap-2">
+          <%= render "shared/field_errors", form: f, attribute: :password_confirmation %>
+        </div>
+
+        <%# 現在のパスワード %>
+        <div>
           <%= f.label :current_password, t(".current_password"),
-                      class: "text-sm font-semibold text-[#4F5A4C]" %>
-        </div>
-        <%= f.password_field :current_password,
-                              autocomplete: "current-password",
-                              class: "input input-bordered w-full border-[#A8BFA0] bg-[#F6F5EE] text-[#4F5A4C] focus:border-[#4F5A4C] focus:outline-none" %>
+                      class: "mb-1 block text-sm font-semibold text-[#4F5A4C]" %>
 
+          <%= f.password_field :current_password,
+                              autocomplete: "current-password",
+                              "aria-invalid": invalids[:current_password],
+                              "aria-describedby": (f.field_id(:current_password, :errors) if invalids[:current_password]),
+                              class: "input input-bordered w-full bg-[#F6F5EE] text-[#4F5A4C] #{invalids[:current_password] ? 'border-red-500' : 'border-[#A8BFA0]'} focus:outline-none" %>
+
+          <%= render "shared/field_errors", form: f, attribute: :current_password %>
+        </div>
+
+        <%# 更新ボタン %>
         <div class="flex justify-center pt-2">
           <%= f.submit class: "btn border-none bg-[#A8BFA0] text-[#4F5A4C] hover:bg-[#E3C88F]" %>
         </div>

@@ -6,14 +6,24 @@
       </h2>
       <%= render "shared/flash", flash: flash %>
 
-      <%= form_with(model: @want, html: { class: "space-y-4" }) do |f| %>
+      <%= form_with(model: @want, html: { class: "space-y-4", novalidate: true }) do |f| %>
+        <% invalids = %i[ content status due_date ].index_with do |attribute|
+          f.object.errors[attribute].any?
+        end %>
+
         <%# やりたいこと内容 %>
-        <%= f.text_area :content,
-                    autofocus: true,
-                    rows: 8,
-                    class: "textarea textarea-bordered w-full border-[#A8BFA0] bg-[#F6F5EE] text-[#4F5A4C] focus:border-[#4F5A4C] focus:outline-none" %>
+        <div>
+          <%= f.text_area :content,
+                      autofocus: true,
+                      rows: 8,
+                      "aria-invalid": invalids[:content],
+                      "aria-describedby": (f.field_id(:content, :errors) if invalids[:content]),
+                      class: "textarea textarea-bordered w-full bg-[#F6F5EE] text-[#4F5A4C] #{invalids[:content] ? 'border-red-500' : 'border-[#A8BFA0]'} focus:outline-none" %>
+          <%= render "shared/field_errors", form: f, attribute: :content %>
+        </div>
 
         <%# ステータス %>
+        <div>
           <%= f.label :status,
                       Want.human_attribute_name(:status),
                       class: "mb-1 block text-sm font-semibold text-[#4F5A4C]" %>
@@ -21,8 +31,12 @@
                         Want.statuses.keys.map { |status|
                           [ t("activerecord.enums.want.status.#{status}"), status ]
                         },
-                       {},
-                       class: "select select-bordered w-full border-[#A8BFA0] bg-[#F6F5EE] text-[#4F5A4C] focus:border-[#4F5A4C] focus:outline-none" %>
+                        {},
+                        "aria-invalid": invalids[:status],
+                        "aria-describedby": (f.field_id(:status, :errors) if invalids[:status]),
+                        class: "select select-bordered w-full border-[#A8BFA0] bg-[#F6F5EE] text-[#4F5A4C] focus:outline-none #{invalids[:status] ? 'border-red-500' : 'border-[#A8BFA0]'} " %>
+          <%= render "shared/field_errors", form: f, attribute: :status %>
+        </div>
 
         <%# 期限日 %>
         <div>
@@ -31,8 +45,11 @@
                       class: "mb-1 block text-sm font-semibold text-[#4F5A4C]" %>
 
           <%= f.date_field :due_date,
-                          class: "input input-bordered w-full border-[#A8BFA0] bg-[#F6F5EE] text-[#4F5A4C] focus:border-[#4F5A4C] focus:outline-none",
-                          min: Date.current  %>
+                      "aria-invalid": invalids[:due_date],
+                      "aria-describedby": (f.field_id(:due_date, :errors) if invalids[:due_date]),
+                      class: "input input-bordered w-full bg-[#F6F5EE] #{invalids[:due_date] ? 'border-red-500' : 'border-[#A8BFA0]'} focus:outline-none",
+                      min: Date.current  %>
+          <%= render "shared/field_errors", form: f, attribute: :due_date %>
         </div>
 
         <%# 更新ボタン %>

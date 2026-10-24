@@ -1,0 +1,11 @@
+<% messages = form.object.errors.full_messages_for(attribute) %>
+
+<% if messages.any? %>
+  <div id="<%= form.field_id(attribute, :errors) %>" class="mt-1 space-y-1">
+    <% messages.each do |message| %>
+      <p class="text-sm text-red-600">
+        <%= message %>
+      </p>
+    <% end %>
+  </div>
+<% end %>
