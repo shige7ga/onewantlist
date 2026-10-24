@@ -63,7 +63,7 @@ class WantsController < ApplicationController
 
   def destroy
     @want.destroy!
-    redirect_to mypage_path, notice: t("defaults.flash_message.deleted", item: Want.model_name.human), status: :see_other
+    redirect_to owner_home_path, notice: t("defaults.flash_message.deleted", item: Want.model_name.human), status: :see_other
   end
 
   private
@@ -102,6 +102,6 @@ class WantsController < ApplicationController
   def set_want
     @want = current_owner.wants.find_by(id: params[:id])
     return if @want.present?
-    redirect_to owner_home_path, alert: "アクセス権がありません"
+    redirect_to owner_home_path, alert: t("defaults.flash_message.unauthenticated")
   end
 end
