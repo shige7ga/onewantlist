@@ -14,7 +14,7 @@
                       autofocus: true,
                       rows: 8,
                       "aria-invalid": invalid,
-                      "aria-describedby": ("want_content_errors" if invalid),
+                      "aria-describedby": (f.field_id(:content, :errors) if invalid),
                       class: "textarea textarea-bordered w-full bg-[#F6F5EE] text-[#4F5A4C] #{invalid ? 'border-red-500' : 'border-[#A8BFA0]'} focus:outline-none"
                       %>
 

@@ -21,7 +21,10 @@ class Users::RegistrationsController < Devise::RegistrationsController
 
     ApplicationRecord.transaction do
       super do |resource|
-        next unless resource.persisted?
+        unless resource.persisted?
+          flash.now[:alert] = t("devise.registrations.invalid")
+          next
+        end
 
         user_status = Users::TransferGuestData.new(
           guest_user: guest_user,
