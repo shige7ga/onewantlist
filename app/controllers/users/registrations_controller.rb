@@ -47,9 +47,13 @@ class Users::RegistrationsController < Devise::RegistrationsController
   # end
 
   # PUT /resource
-  # def update
-  #   super
-  # end
+  def update
+    super do |resource|
+      if resource.errors.any?
+        flash.now[:alert] = t("devise.registrations.update_failed")
+      end
+    end
+  end
 
   # DELETE /resource
   # def destroy
