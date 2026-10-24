@@ -23,6 +23,7 @@ ja:
       user:
         signed_in: ログインしました
         signed_out: ログアウトしました
+        already_signed_out: ログアウトしました
       new:
         title: ログイン
         login: ログイン
