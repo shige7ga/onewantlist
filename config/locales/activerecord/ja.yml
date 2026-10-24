@@ -21,3 +21,11 @@ ja:
           not_started: 未着手
           in_progress: 進行中
           completed: 完了
+    errors:
+      models:
+        want:
+          attributes:
+            due_date:
+              greater_than_or_equal_to: "は本日以降の日付を指定してください"
+            status:
+              inclusion: "は選択肢から選んでください"
