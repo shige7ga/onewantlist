@@ -238,5 +238,19 @@ RSpec.describe "Users::Registrations", type: :request do
         expect(user.reload.valid_password?("password")).to be true
       end
     end
+
+    context "ユーザー名を空欄に変更する場合" do
+      it "nameがnilとして保存される" do
+        put user_registration_path, params: {
+          user: {
+            name: "",
+            current_password: "password"
+          }
+        }
+
+        expect(user.reload.name).to be_nil
+        expect(response).to be_redirect
+      end
+    end
   end
 end

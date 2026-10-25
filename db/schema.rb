@@ -10,16 +10,16 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.1].define(version: 2026_09_22_034953) do
+ActiveRecord::Schema[8.1].define(version: 2026_10_25_060333) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
   create_table "guest_users", force: :cascade do |t|
+    t.string "token", null: false
     t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.integer "direct_registration_count", default: 0, null: false
     t.integer "gacha_usage_count", default: 0, null: false
-    t.string "token", null: false
-    t.datetime "updated_at", null: false
     t.index ["token"], name: "index_guest_users_on_token", unique: true
   end
 
@@ -30,34 +30,34 @@ ActiveRecord::Schema[8.1].define(version: 2026_09_22_034953) do
   end
 
   create_table "user_statuses", force: :cascade do |t|
-    t.integer "action_count", default: 0, null: false
-    t.integer "action_streak", default: 0, null: false
-    t.datetime "created_at", null: false
     t.integer "experience", default: 0, null: false
-    t.date "last_action_date"
-    t.date "last_login_date"
-    t.date "last_want_registration_date"
     t.integer "level", default: 1, null: false
     t.integer "login_count"
     t.integer "login_streak"
-    t.integer "longest_action_streak", default: 0, null: false
     t.integer "longest_login_streak"
-    t.bigint "owner_id", null: false
-    t.string "owner_type", null: false
+    t.integer "action_count", default: 0, null: false
+    t.integer "action_streak", default: 0, null: false
+    t.integer "longest_action_streak", default: 0, null: false
+    t.date "last_login_date"
+    t.date "last_action_date"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.integer "random_gacha_count", default: 0, null: false
     t.date "random_gacha_date"
-    t.datetime "updated_at", null: false
+    t.date "last_want_registration_date"
+    t.string "owner_type", null: false
+    t.bigint "owner_id", null: false
     t.index ["owner_type", "owner_id"], name: "index_user_statuses_on_owner", unique: true
   end
 
   create_table "users", force: :cascade do |t|
-    t.datetime "created_at", null: false
+    t.string "name"
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
-    t.string "name", null: false
-    t.datetime "remember_created_at"
-    t.datetime "reset_password_sent_at"
     t.string "reset_password_token"
+    t.datetime "reset_password_sent_at"
+    t.datetime "remember_created_at"
+    t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
@@ -65,12 +65,12 @@ ActiveRecord::Schema[8.1].define(version: 2026_09_22_034953) do
 
   create_table "wants", force: :cascade do |t|
     t.string "content", null: false
-    t.datetime "created_at", null: false
-    t.datetime "due_date"
-    t.bigint "owner_id", null: false
-    t.string "owner_type", null: false
     t.integer "status", default: 0, null: false
+    t.datetime "due_date"
+    t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "owner_type", null: false
+    t.bigint "owner_id", null: false
     t.index ["owner_type", "owner_id"], name: "index_wants_on_owner"
   end
 end
