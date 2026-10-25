@@ -29,6 +29,9 @@ class RandomWantsController < ApplicationController
     when :daily_limit
       redirect_to owner_home_path, alert: "やりたいことガチャの使用上限を超えています"
 
+    when :no_random_want
+      redirect_to owner_home_path, alert: "ガチャの候補がありません"
+
     end
   end
 

@@ -27,6 +27,11 @@ module Gacha
         next if error
         random_want = RandomWant.order(Arel.sql("RANDOM()")).first
 
+        unless random_want
+          error = :no_random_want
+          next
+        end
+
         start_new_gacha_day!(status)
         status.increment!(:random_gacha_count)
 
