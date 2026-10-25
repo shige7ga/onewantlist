@@ -271,6 +271,38 @@ RSpec.describe UserStatus, type: :model do
     end
   end
 
+  describe "ownerによるバリデーションの違い" do
+    let(:login_attributes) do
+      {
+        last_login_date: nil,
+        login_count: nil,
+        login_streak: nil,
+        longest_login_streak: nil
+      }
+    end
+
+    it "ゲストはログイン情報がnilでも有効" do
+      guest = GuestUser.create!
+
+      status = build(
+        :user_status,
+        owner: guest,
+        **login_attributes
+      )
+
+      expect(status).to be_valid
+    end
+
+    it "ログインユーザーはログイン情報が必須" do
+      status = build(
+        :user_status,
+        **login_attributes
+      )
+
+      expect(status).to be_invalid
+    end
+  end
+
   describe "UserStatusとの関連" do
     it "UserStatusを紐づけられる" do
       user = create(:user)
