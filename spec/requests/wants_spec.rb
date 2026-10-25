@@ -64,14 +64,6 @@ RSpec.describe "Wants", type: :request do
           }
         end
 
-        it "Wantが作成せず、422を返す" do
-          expect {
-            post wants_path, params: invalid_params
-          }.not_to change(Want, :count)
-
-          expect(response).to have_http_status(422)
-        end
-
         it "登録せず、エラーメッセージを表示する" do
           expect {
             post wants_path, params: invalid_params
@@ -106,6 +98,38 @@ RSpec.describe "Wants", type: :request do
       it "ゲストユーザー画面へリダイレクトされる" do
         post wants_path, params: valid_params
         expect(response).to redirect_to(guest_user_path)
+      end
+    end
+
+    context "登録元が不正な場合" do
+      before { sign_in user }
+
+      it "登録せず、マイページにリダイレクトする" do
+        expect {
+          post wants_path, params: {
+            want: { content: "映画を見る" },
+            registration_source: "invalid"
+          }
+        }.not_to change(Want, :count)
+
+        expect(response).to redirect_to(mypage_path)
+        expect(flash[:alert]).to include("登録情報が不正です")
+      end
+    end
+
+    context "ガチャのセッションが存在しない場合" do
+      before { sign_in user }
+
+      it "登録せず、マイページにリダイレクトする" do
+        expect {
+          post wants_path, params: {
+            want: { content: "映画を見る" },
+            registration_source: "gacha"
+          }
+        }.not_to change(Want, :count)
+
+        expect(response).to redirect_to(mypage_path)
+        expect(flash[:alert]).to include("登録情報が不正です")
       end
     end
   end
