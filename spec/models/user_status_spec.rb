@@ -17,7 +17,6 @@ RSpec.describe UserStatus, type: :model do
         longest_action_streak
         random_gacha_count
       ].each do |attribute|
-
         it "#{attribute}が0なら有効" do
           status = build(:user_status, attribute => 0)
           expect(status).to be_valid
@@ -41,7 +40,6 @@ RSpec.describe UserStatus, type: :model do
         last_want_registration_date
         random_gacha_date
       ].each do |attribute|
-
         it "#{attribute}が本日の日付なら有効" do
           status = build(:user_status, attribute => Date.current)
           expect(status).to be_valid
