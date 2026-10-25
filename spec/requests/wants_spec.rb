@@ -281,4 +281,32 @@ RSpec.describe "Wants", type: :request do
       end
     end
   end
+
+  describe "他人のWantに対する操作" do
+    let(:other_user) do
+      create(:user, email: "other@example.com")
+    end
+
+    let!(:other_want) do
+      create(:want, owner: other_user, content: "旅行する")
+    end
+
+    before { sign_in user }
+
+    it "他人のWantを更新できない" do
+      patch want_path(other_want),
+            params: { want: { content: "書き換え" } }
+
+      expect(other_want.reload.content).to eq("旅行する")
+      expect(response).to redirect_to(mypage_path)
+    end
+
+    it "他人のWantを削除できない" do
+      expect {
+        delete want_path(other_want)
+      }.not_to change(Want, :count)
+
+      expect(response).to redirect_to(mypage_path)
+    end
+  end
 end
