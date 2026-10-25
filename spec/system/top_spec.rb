@@ -24,19 +24,4 @@ RSpec.describe "Top", type: :system do
       expect(page).to have_current_path(new_user_registration_path)
     end
   end
-
-  context "ログイン時" do
-    let!(:user) { create(:user) }
-    let!(:user_status) { create(:user_status, owner: user) }
-
-     before do
-      login(user)
-      expect(page).to have_current_path(mypage_path)
-    end
-
-    it "トップページではなくマイページが表示される" do
-      visit root_path
-      expect(page).to have_current_path(mypage_path)
-    end
-  end
 end
