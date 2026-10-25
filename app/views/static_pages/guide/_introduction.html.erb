@@ -25,23 +25,16 @@
       わんわんとリストの楽しみ方
     </p>
 
-    <%# 区切り線 %>
-    <div
-      class="mx-auto my-10 h-px w-16 bg-[#A8BFA0]"
-      aria-hidden="true"
-    ></div>
-
-    <%# メインメッセージ %>
-    <h2 class="text-xl font-bold leading-relaxed sm:text-2xl">
-      「やってみたい」を、少しずつ集めよう。
-    </h2>
+    <%# キャラクター配置 %>
+    <%= render "static_pages/shared/characters",
+              image: "wanta_risumaru_joy.png",
+              alt: "楽しそうなワン太とリス丸" %>
 
     <%# ページ紹介 %>
     <div class="mx-auto mt-6 max-w-[30em] space-y-4 text-sm leading-8 sm:text-base">
 
       <p>
-        やりたいことを登録したり、<br>
-        ガチャで新しい興味を見つけたり。
+        やりたいことの登録やガチャで新しい興味を見つけたり。
       </p>
 
       <p>
