@@ -81,9 +81,14 @@
           <%= f.submit class: "btn w-full border-none bg-[#A8BFA0] text-[#4F5A4C] hover:bg-[#E3C88F]" %>
         </div>
       <% end %>
-      <p class="text-xs text-[#4F5A4C]/70">
-        <%= link_to t('.to_login_page'), new_user_session_path %>
-      </p>
+
+      <div class="mt-4 border-t border-[#A8BFA0]/40 pt-4 text-center text-sm text-[#4F5A4C]">
+        <p>すでにアカウントをお持ちの方</p>
+
+        <%= link_to "ログインはこちら",
+                    new_user_session_path,
+                    class: "auth-navigation-link mt-1" %>
+      </div>
     </div>
   </div>
 </div>
