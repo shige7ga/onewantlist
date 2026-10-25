@@ -4,7 +4,7 @@
 <section
   id="introduction"
   aria-labelledby="introduction-title"
-  class="px-5 py-14 sm:py-20"
+  class="px-5 py-18 sm:py-20"
 >
   <div class="mx-auto max-w-3xl text-center">
 
@@ -25,11 +25,9 @@
       「やってみたい」を、ひとつずつ。
     </p>
 
-    <%# 区切り線 %>
-    <div
-      class="mx-auto my-10 h-px w-16 bg-[#A8BFA0]"
-      aria-hidden="true"
-    ></div>
+    <%= render "static_pages/shared/characters",
+           image: "wanta_risumaru.png",
+           alt: "ワン太とリス丸" %>
 
     <%# アプリ紹介 %>
     <div class="mx-auto mt-6 max-w-xl space-y-4 text-sm leading-8 sm:text-base">
