@@ -71,6 +71,23 @@ RSpec.describe "Wants", type: :request do
 
           expect(response).to have_http_status(422)
         end
+
+        it "登録せず、エラーメッセージを表示する" do
+          expect {
+            post wants_path, params: invalid_params
+          }.not_to change(Want, :count)
+
+          expect(response).to have_http_status(:unprocessable_entity)
+          expect(flash[:alert]).to include("登録できませんでした")
+
+          document = response.parsed_body
+
+          expect(document.at_css("#want_content_errors").text)
+            .to include("やりたいこと")
+
+          expect(document.at_css("#want_content")["aria-invalid"])
+            .to eq("true")
+        end
       end
 
       context "本日すでにやりたいことを登録している場合" do
@@ -179,6 +196,55 @@ RSpec.describe "Wants", type: :request do
           }.not_to change { want.reload.content }
 
           expect(response).to have_http_status(422)
+        end
+
+        it "更新せず、入力欄の下にエラーを表示する" do
+          expect {
+            patch want_path(want), params: invalid_params
+          }.not_to change { want.reload.content }
+
+          expect(response).to have_http_status(:unprocessable_entity)
+          expect(flash[:alert]).to include("更新できませんでした")
+
+          document = response.parsed_body
+
+          expect(document.at_css("#want_content_errors").text)
+            .to include("やりたいこと")
+
+          expect(document.at_css("#want_content")["aria-describedby"])
+            .to eq("want_content_errors")
+        end
+      end
+
+      context "不正なステータスの場合" do
+        it "更新せず、ステータスのエラーを表示する" do
+          patch want_path(want), params: {
+            want: { status: "invalid_status" }
+          }
+
+          expect(response).to have_http_status(:unprocessable_entity)
+          expect(want.reload.status).to eq("not_started")
+
+          document = response.parsed_body
+
+          expect(document.at_css("#want_status_errors").text)
+            .to include("選択肢から選んでください")
+        end
+      end
+
+      context "過去の期限日の場合" do
+        it "更新せず、期限日のエラーを表示する" do
+          patch want_path(want), params: {
+            want: { due_date: Date.yesterday.to_s }
+          }
+
+          expect(response).to have_http_status(:unprocessable_entity)
+          expect(want.reload.due_date).to be_nil
+
+          document = response.parsed_body
+
+          expect(document.at_css("#want_due_date_errors").text)
+            .to include("本日以降の日付を指定してください")
         end
       end
     end

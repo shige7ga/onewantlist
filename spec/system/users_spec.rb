@@ -40,12 +40,52 @@ RSpec.describe "Users", type: :system do
       expect(page).to have_content("富士山に登る")
       expect(page).not_to have_content("海外旅行へ行く")
     end
+
+    it "プロフィール更新失敗時にエラーを表示する" do
+      visit edit_user_registration_path
+
+      fill_in "user_email", with: "changed@example.com"
+      fill_in "user_current_password", with: "wrong_password"
+
+      click_button "更新する"
+
+      expect(page).to have_css(
+        "#user_current_password_errors",
+        text: "現在のパスワード"
+      )
+
+      expect(page).to have_css(
+        'input#user_current_password[aria-invalid="true"]'
+      )
+
+      expect(user.reload.email).not_to eq("changed@example.com")
+    end
   end
 
   context "未ログイン時" do
     it "ログイン画面にリダイレクトされる" do
       visit mypage_path
       expect(page).to have_current_path(new_user_session_path)
+    end
+
+    it "ユーザー登録失敗時に入力欄の下へエラーを表示する" do
+      visit new_user_registration_path
+
+      fill_in "user_name", with: "テストユーザー"
+      fill_in "user_email", with: "invalid-email"
+      fill_in "user_password", with: "password"
+      fill_in "user_password_confirmation", with: "password"
+
+      click_button "登録する"
+
+      expect(page).to have_css(
+        "#user_email_errors",
+        text: "メールアドレス"
+      )
+
+      expect(page).to have_css(
+        'input#user_email[aria-invalid="true"]'
+      )
     end
   end
 end

@@ -30,6 +30,15 @@ RSpec.describe "Wants", type: :system do
 
         expect(page).to have_current_path(new_want_path)
         expect(page).to have_content("登録できませんでした")
+
+        expect(page).to have_css(
+          "#want_content_errors",
+          text: "やりたいこと"
+        )
+
+        expect(page).to have_css(
+          'textarea#want_content[aria-invalid="true"]'
+        )
       end
 
       it "本日すでに登録済みの場合は登録画面へアクセスできない" do
@@ -68,6 +77,24 @@ RSpec.describe "Wants", type: :system do
 
         expect(page).to have_current_path(mypage_path)
         expect(page).not_to have_content("富士山に登る")
+      end
+
+      it "編集内容が不正な場合は入力欄にエラーを表示する" do
+        visit edit_want_path(want)
+
+        fill_in "want_content", with: ""
+        click_button "更新"
+
+        expect(page).to have_css(
+          "#want_content_errors",
+          text: "やりたいこと"
+        )
+
+        expect(page).to have_css(
+          'textarea#want_content[aria-invalid="true"]'
+        )
+
+        expect(want.reload.content).to eq("富士山に登る")
       end
     end
 

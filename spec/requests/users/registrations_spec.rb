@@ -73,6 +73,24 @@ RSpec.describe "Users::Registrations", type: :request do
         expect(user_status.reload.owner).to eq(guest_user)
         expect(want.reload.owner).to eq(guest_user)
       end
+
+      it "登録失敗時にFlashと項目別エラーを表示する" do
+        post user_registration_path, params: invalid_params
+
+        expect(response).to have_http_status(:unprocessable_entity)
+        expect(flash[:alert]).to eq("ユーザー登録できませんでした")
+
+        document = response.parsed_body
+
+        expect(document.at_css("#user_email_errors").text)
+          .to include("メールアドレス")
+
+        expect(document.at_css("#user_email")["aria-invalid"])
+          .to eq("true")
+
+        expect(document.at_css("#user_email")["aria-describedby"])
+          .to eq("user_email_errors")
+      end
     end
 
     context "ゲストデータがある場合" do
@@ -104,6 +122,89 @@ RSpec.describe "Users::Registrations", type: :request do
         expect(user.wants).to contain_exactly(@want)
         expect(GuestUser.exists?(@guest_user.id)).to be false
         expect(response).to redirect_to(mypage_path)
+      end
+    end
+  end
+
+  describe "PUT /users" do
+    let(:user) { create(:user) }
+    let!(:user_status) { create(:user_status, owner: user) }
+
+    before do
+      sign_in user
+    end
+
+    context "正常なパラメータの場合" do
+      it "ユーザー情報を更新できる" do
+        put user_registration_path, params: {
+          user: {
+            email: "changed@example.com",
+            current_password: "password"
+          }
+        }
+
+        expect(user.reload.email).to eq("changed@example.com")
+        expect(response).to be_redirect
+        expect(flash[:notice]).to eq("ユーザー情報を編集しました")
+      end
+    end
+
+    context "現在のパスワードが間違っている場合" do
+      it "更新せず、エラーを表示する" do
+        put user_registration_path, params: {
+          user: {
+            email: "changed@example.com",
+            current_password: "wrong_password"
+          }
+        }
+
+        expect(response).to have_http_status(:unprocessable_entity)
+        expect(user.reload.email).not_to eq("changed@example.com")
+        expect(flash[:alert]).to eq("ユーザー情報を更新できませんでした")
+
+        document = response.parsed_body
+
+        expect(document.at_css("#user_current_password_errors").text)
+          .to include("現在のパスワード")
+      end
+    end
+
+    context "メールアドレスが不正な場合" do
+      it "メールアドレスのエラーを表示する" do
+        put user_registration_path, params: {
+          user: {
+            email: "invalid-email",
+            current_password: "password"
+          }
+        }
+
+        expect(response).to have_http_status(:unprocessable_entity)
+
+        document = response.parsed_body
+
+        expect(document.at_css("#user_email_errors").text)
+          .to include("メールアドレス")
+      end
+    end
+
+    context "パスワード確認が一致しない場合" do
+      it "パスワード確認のエラーを表示する" do
+        put user_registration_path, params: {
+          user: {
+            password: "newpassword",
+            password_confirmation: "different",
+            current_password: "password"
+          }
+        }
+
+        expect(response).to have_http_status(:unprocessable_entity)
+
+        document = response.parsed_body
+
+        expect(document.at_css("#user_password_confirmation_errors").text)
+          .to include("パスワード確認")
+
+        expect(user.reload.valid_password?("password")).to be true
       end
     end
   end
