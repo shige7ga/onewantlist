@@ -38,7 +38,6 @@
                       class: "mb-1 block text-sm font-semibold text-[#4F5A4C]" %>
 
           <%= f.email_field :email,
-                            autofocus: true,
                             autocomplete: "email",
                             "aria-invalid": invalids[:email],
                             "aria-describedby": (f.field_id(:email, :errors) if invalids[:email]),
