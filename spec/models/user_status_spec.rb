@@ -9,6 +9,61 @@ RSpec.describe UserStatus, type: :model do
       end
     end
 
+    context "0以上の整数を許容する属性" do
+      %i[
+        experience
+        action_count
+        action_streak
+        longest_action_streak
+        random_gacha_count
+      ].each do |attribute|
+
+        it "#{attribute}が0なら有効" do
+          status = build(:user_status, attribute => 0)
+          expect(status).to be_valid
+        end
+
+        it "#{attribute}がnilなら無効" do
+          status = build(:user_status, attribute => nil)
+          expect(status).to be_invalid
+        end
+
+        it "#{attribute}が負数なら無効" do
+          status = build(:user_status, attribute => -1)
+          expect(status).to be_invalid
+        end
+      end
+    end
+
+    context "今日・過去・nil が有効、未来が無効となる属性" do
+      %i[
+        last_action_date
+        last_want_registration_date
+        random_gacha_date
+      ].each do |attribute|
+
+        it "#{attribute}が本日の日付なら有効" do
+          status = build(:user_status, attribute => Date.current)
+          expect(status).to be_valid
+        end
+
+        it "#{attribute}が過去の日付なら有効" do
+          user_status = build(:user_status, attribute => Date.current - 1.day)
+          expect(user_status).to be_valid
+        end
+
+        it "#{attribute}が未来の日付なら無効" do
+          user_status = build(:user_status, attribute => Date.current + 1.day)
+          expect(user_status).to be_invalid
+        end
+
+        it "#{attribute}がnilなら有効" do
+          user_status = build(:user_status, attribute => nil)
+          expect(user_status).to be_valid
+        end
+      end
+    end
+
     context "levelについて" do
       it "levelが1の場合、有効" do
         user_status = build(:user_status, level: 1)
@@ -31,22 +86,6 @@ RSpec.describe UserStatus, type: :model do
       end
     end
 
-    context "experienceについて" do
-      it "experienceが0の場合、有効" do
-        user_status = build(:user_status, experience: 0)
-        expect(user_status).to be_valid
-      end
-
-      it "experienceが存在しない場合、無効" do
-        user_status = build(:user_status, experience: nil)
-        expect(user_status).to be_invalid
-      end
-
-      it "experienceがマイナスの場合、無効" do
-        user_status = build(:user_status, experience: -1)
-        expect(user_status).to be_invalid
-      end
-    end
 
     context "login_countについて" do
       it "login_countが1の場合、有効" do
@@ -114,57 +153,6 @@ RSpec.describe UserStatus, type: :model do
       end
     end
 
-    context "action_countについて" do
-      it "action_countが0の場合、有効" do
-        user_status = build(:user_status, action_count: 0)
-        expect(user_status).to be_valid
-      end
-
-      it "action_countが存在しない場合、無効" do
-        user_status = build(:user_status, action_count: nil)
-        expect(user_status).to be_invalid
-      end
-
-      it "action_countがマイナスの場合、無効" do
-        user_status = build(:user_status, action_count: -1)
-        expect(user_status).to be_invalid
-      end
-    end
-
-    context "action_streakについて" do
-      it "action_streakが0の場合、有効" do
-        user_status = build(:user_status, action_streak: 0)
-        expect(user_status).to be_valid
-      end
-
-      it "action_streakが存在しない場合、無効" do
-        user_status = build(:user_status, action_streak: nil)
-        expect(user_status).to be_invalid
-      end
-
-      it "action_streakがマイナスの場合、無効" do
-        user_status = build(:user_status, action_streak: -1)
-        expect(user_status).to be_invalid
-      end
-    end
-
-    context "longest_action_streakについて" do
-      it "longest_action_streakが0の場合、有効" do
-        user_status = build(:user_status, longest_action_streak: 0)
-        expect(user_status).to be_valid
-      end
-
-      it "longest_action_streakが存在しない場合、無効" do
-        user_status = build(:user_status, longest_action_streak: nil)
-        expect(user_status).to be_invalid
-      end
-
-      it "longest_action_streakがマイナスの場合、無効" do
-        user_status = build(:user_status, longest_action_streak: -1)
-        expect(user_status).to be_invalid
-      end
-    end
-
     context "last_login_dateについて" do
       it "last_login_dateが本日の日付なら有効" do
         user_status = build(:user_status, last_login_date: Date.current)
@@ -184,89 +172,6 @@ RSpec.describe UserStatus, type: :model do
       it "last_login_dateがnilなら無効" do
         user_status = build(:user_status, last_login_date: nil)
         expect(user_status).to be_invalid
-      end
-    end
-
-    context "last_action_dateについて" do
-      it "last_action_dateが本日の日付なら有効" do
-        user_status = build(:user_status, last_action_date: Date.current)
-        expect(user_status).to be_valid
-      end
-
-      it "last_action_dateが過去の日付なら有効" do
-        user_status = build(:user_status, last_action_date: Date.current - 1.day)
-        expect(user_status).to be_valid
-      end
-
-      it "last_action_dateが未来の日付なら無効" do
-        user_status = build(:user_status, last_action_date: Date.current + 1.day)
-        expect(user_status).to be_invalid
-      end
-
-      it "last_action_dateがnilなら有効" do
-        user_status = build(:user_status, last_action_date: nil)
-        expect(user_status).to be_valid
-      end
-    end
-
-    context "last_want_registration_dateについて" do
-      it "last_want_registration_dateが本日の日付なら有効" do
-        user_status = build(:user_status, last_want_registration_date: Date.current)
-        expect(user_status).to be_valid
-      end
-
-      it "last_want_registration_dateが過去の日付なら有効" do
-        user_status = build(:user_status, last_want_registration_date: Date.current - 1.day)
-        expect(user_status).to be_valid
-      end
-
-      it "last_want_registration_dateが未来の日付なら無効" do
-        user_status = build(:user_status, last_want_registration_date: Date.current + 1.day)
-        expect(user_status).to be_invalid
-      end
-
-      it "last_want_registration_dateがnilなら有効" do
-        user_status = build(:user_status, last_want_registration_date: nil)
-        expect(user_status).to be_valid
-      end
-    end
-
-    context "random_gacha_countについて" do
-      it "random_gacha_countが0の場合、有効" do
-        user_status = build(:user_status, random_gacha_count: 0)
-        expect(user_status).to be_valid
-      end
-
-      it "random_gacha_countが存在しない場合、無効" do
-        user_status = build(:user_status, random_gacha_count: nil)
-        expect(user_status).to be_invalid
-      end
-
-      it "random_gacha_countがマイナスの場合、無効" do
-        user_status = build(:user_status, random_gacha_count: -1)
-        expect(user_status).to be_invalid
-      end
-    end
-
-    context "random_gacha_dateについて" do
-      it "random_gacha_dateが本日の日付なら有効" do
-        user_status = build(:user_status, random_gacha_date: Date.current)
-        expect(user_status).to be_valid
-      end
-
-      it "random_gacha_dateが過去の日付なら有効" do
-        user_status = build(:user_status, random_gacha_date: Date.current - 1.day)
-        expect(user_status).to be_valid
-      end
-
-      it "random_gacha_dateが未来の日付なら無効" do
-        user_status = build(:user_status, random_gacha_date: Date.current + 1.day)
-        expect(user_status).to be_invalid
-      end
-
-      it "random_gacha_dateがnilなら有効" do
-        user_status = build(:user_status, random_gacha_date: nil)
-        expect(user_status).to be_valid
       end
     end
   end
@@ -425,42 +330,17 @@ RSpec.describe UserStatus, type: :model do
       )
     end
 
-    it "experienceが増える" do
-      expect {
-        user_status.record_signup!
-      }.to change {
-        user_status.reload.experience
-      }.by(10)
-    end
-
-    it "levelが上がる" do
-      expect {
-        user_status.record_signup!
-      }.to change {
-        user_status.reload.level
-      }.by(1)
-    end
-
-    it "ユーザー登録EXPイベントを返す" do
+    it "登録時にEXPとレベルを更新し、イベントを返す" do
       events = user_status.record_signup!
 
-      expect(events).to include(
-        hash_including(
-          type: "exp_up",
-          source: "signup"
-        )
+      expect(user_status.reload).to have_attributes(
+        experience: 10,
+        level: 2
       )
-    end
-
-    it "レベルアップイベントを返す" do
-      events = user_status.record_signup!
 
       expect(events).to include(
-        hash_including(
-          type: "lv_up",
-          source: "signup",
-          level: 2
-        )
+        hash_including(type: "exp_up", source: "signup"),
+        hash_including(type: "lv_up", source: "signup", level: 2)
       )
     end
 

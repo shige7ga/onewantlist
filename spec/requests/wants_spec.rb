@@ -214,14 +214,6 @@ RSpec.describe "Wants", type: :request do
           { want: { content: "" } }
         end
 
-        it "更新せず、422を返す" do
-          expect {
-            patch want_path(want), params: invalid_params
-          }.not_to change { want.reload.content }
-
-          expect(response).to have_http_status(422)
-        end
-
         it "更新せず、入力欄の下にエラーを表示する" do
           expect {
             patch want_path(want), params: invalid_params
