@@ -9,10 +9,16 @@
       <%= form_with(model: @want, html: { class: "space-y-4" }) do |f| %>
         <%= hidden_field_tag :registration_source, "direct" %>
         <div>
+          <% invalid = f.object.errors[:content].any? %>
           <%= f.text_area :content,
                       autofocus: true,
                       rows: 8,
-                      class: "textarea textarea-bordered w-full border-[#A8BFA0] bg-[#F6F5EE] text-[#4F5A4C] focus:border-[#4F5A4C] focus:outline-none" %>
+                      "aria-invalid": invalid,
+                      "aria-describedby": (f.field_id(:content, :errors) if invalid),
+                      class: "textarea textarea-bordered w-full bg-[#F6F5EE] text-[#4F5A4C] #{invalid ? 'border-red-500' : 'border-[#A8BFA0]'} focus:outline-none"
+                      %>
+
+          <%= render "shared/field_errors", form: f, attribute: :content %>
         </div>
 
         <div class="pt-2">

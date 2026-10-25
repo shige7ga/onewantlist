@@ -18,10 +18,13 @@ ja:
         delete_btn: アカウントを削除する
         delete_confirm: 本当にアカウントを削除しますか？
       minimum_password_length: "※%{count}文字以上で入力してください"
+      invalid: ユーザー登録できませんでした
+      update_failed: "ユーザー情報を更新できませんでした"
     sessions:
       user:
         signed_in: ログインしました
         signed_out: ログアウトしました
+        already_signed_out: ログアウトしました
       new:
         title: ログイン
         login: ログイン

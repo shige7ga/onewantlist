@@ -102,6 +102,26 @@ RSpec.describe "RandomWants", type: :system do
       # 戻る操作では抽選回数が変わらないことを検証
       expect(user_status.reload.random_gacha_count).to eq(count_before)
     end
+
+    it "ガチャ結果の編集内容が不正な場合はエラーを表示する" do
+      visit mypage_path
+      click_link "やりたいことガチャ"
+      click_link "内容を編集する"
+
+      fill_in "want_content", with: ""
+      click_button "登録する"
+
+      expect(page).to have_css(
+        "#want_content_errors",
+        text: "やりたいこと"
+      )
+
+      expect(page).to have_css(
+        'textarea#want_content[aria-invalid="true"]'
+      )
+
+      expect(Want.where(owner: user).count).to eq(0)
+    end
   end
 
   context "未ログイン時" do
