@@ -2,6 +2,7 @@ require "rails_helper"
 
 RSpec.describe "Users::Sessions", type: :request do
   let(:user) { create(:user) }
+  let!(:user_status) { create(:user_status, owner: user) }
 
   describe "POST /users/sign_in" do
     it "正しい認証情報ならログインできる" do
@@ -24,9 +25,9 @@ RSpec.describe "Users::Sessions", type: :request do
         }
       }
 
-      expect(response).to redirect_to(new_user_session_path)
-      expect(flash[:alert])
-        .to eq("メールアドレスまたはパスワードが正しくありません")
+      expect(response).to have_http_status(:unprocessable_content)
+      expect(flash[:alert]).to eq("メールアドレスまたはパスワードが正しくありません")
+      expect(response.body).to include("メールアドレスまたはパスワードが正しくありません")
     end
 
     it "存在しないメールアドレスでも同じエラーを表示する" do
