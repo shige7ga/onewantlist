@@ -253,4 +253,22 @@ RSpec.describe "Users::Registrations", type: :request do
       end
     end
   end
+
+  describe "DELETE /users" do
+    let(:user) { create(:user) }
+    let!(:user_status) { create(:user_status, owner: user) }
+    let!(:want) { create(:want, owner: user) }
+
+    before { sign_in user }
+
+    it "アカウントと関連データを削除する" do
+      expect {
+        delete user_registration_path
+      }.to change(User, :count).by(-1)
+
+      expect(UserStatus.exists?(user_status.id)).to be false
+      expect(Want.exists?(want.id)).to be false
+      expect(response).to redirect_to(new_user_registration_path)
+    end
+  end
 end
