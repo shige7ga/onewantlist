@@ -81,5 +81,13 @@ RSpec.describe Gacha::Draw do
 
       expect(user_status.reload.random_gacha_count).to eq(9)
     end
+
+    it "ガチャ候補が存在しない場合は回数を増やさない" do
+      random_want.destroy!
+
+      expect(result.error).to eq(:no_random_want)
+      expect(result.random_want).to be_nil
+      expect(user_status.reload.random_gacha_count).to eq(0)
+    end
   end
 end

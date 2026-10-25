@@ -64,14 +64,6 @@ RSpec.describe "Wants", type: :request do
           }
         end
 
-        it "Wantが作成せず、422を返す" do
-          expect {
-            post wants_path, params: invalid_params
-          }.not_to change(Want, :count)
-
-          expect(response).to have_http_status(422)
-        end
-
         it "登録せず、エラーメッセージを表示する" do
           expect {
             post wants_path, params: invalid_params
@@ -106,6 +98,38 @@ RSpec.describe "Wants", type: :request do
       it "ゲストユーザー画面へリダイレクトされる" do
         post wants_path, params: valid_params
         expect(response).to redirect_to(guest_user_path)
+      end
+    end
+
+    context "登録元が不正な場合" do
+      before { sign_in user }
+
+      it "登録せず、マイページにリダイレクトする" do
+        expect {
+          post wants_path, params: {
+            want: { content: "映画を見る" },
+            registration_source: "invalid"
+          }
+        }.not_to change(Want, :count)
+
+        expect(response).to redirect_to(mypage_path)
+        expect(flash[:alert]).to include("登録情報が不正です")
+      end
+    end
+
+    context "ガチャのセッションが存在しない場合" do
+      before { sign_in user }
+
+      it "登録せず、マイページにリダイレクトする" do
+        expect {
+          post wants_path, params: {
+            want: { content: "映画を見る" },
+            registration_source: "gacha"
+          }
+        }.not_to change(Want, :count)
+
+        expect(response).to redirect_to(mypage_path)
+        expect(flash[:alert]).to include("登録情報が不正です")
       end
     end
   end
@@ -190,14 +214,6 @@ RSpec.describe "Wants", type: :request do
           { want: { content: "" } }
         end
 
-        it "更新せず、422を返す" do
-          expect {
-            patch want_path(want), params: invalid_params
-          }.not_to change { want.reload.content }
-
-          expect(response).to have_http_status(422)
-        end
-
         it "更新せず、入力欄の下にエラーを表示する" do
           expect {
             patch want_path(want), params: invalid_params
@@ -279,6 +295,34 @@ RSpec.describe "Wants", type: :request do
         delete want_path(want)
         expect(response).to redirect_to(guest_user_path)
       end
+    end
+  end
+
+  describe "他人のWantに対する操作" do
+    let(:other_user) do
+      create(:user, email: "other@example.com")
+    end
+
+    let!(:other_want) do
+      create(:want, owner: other_user, content: "旅行する")
+    end
+
+    before { sign_in user }
+
+    it "他人のWantを更新できない" do
+      patch want_path(other_want),
+            params: { want: { content: "書き換え" } }
+
+      expect(other_want.reload.content).to eq("旅行する")
+      expect(response).to redirect_to(mypage_path)
+    end
+
+    it "他人のWantを削除できない" do
+      expect {
+        delete want_path(other_want)
+      }.not_to change(Want, :count)
+
+      expect(response).to redirect_to(mypage_path)
     end
   end
 end

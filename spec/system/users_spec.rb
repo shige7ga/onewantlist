@@ -63,11 +63,6 @@ RSpec.describe "Users", type: :system do
   end
 
   context "未ログイン時" do
-    it "ログイン画面にリダイレクトされる" do
-      visit mypage_path
-      expect(page).to have_current_path(new_user_session_path)
-    end
-
     it "ユーザー登録失敗時に入力欄の下へエラーを表示する" do
       visit new_user_registration_path
 

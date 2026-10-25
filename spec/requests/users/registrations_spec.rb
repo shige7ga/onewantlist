@@ -14,26 +14,18 @@ RSpec.describe "Users::Registrations", type: :request do
         }
       end
 
-      it "ユーザーが作成される" do
+      it "ユーザーを作成し、マイページにリダイレクトする" do
         expect {
           post user_registration_path, params: valid_params
         }.to change(User, :count).by(1)
-      end
 
-      it "nameが保存される" do
-        post user_registration_path, params: valid_params
         expect(User.last.name).to eq("test")
-      end
-
-      it "マイページにリダイレクトされる" do
-        post user_registration_path, params: valid_params
         expect(response).to redirect_to(mypage_path)
       end
 
-      it "ユーザー登録時のステータス更新が行われる" do
+      it "登録時にステータスを更新する" do
         post user_registration_path, params: valid_params
-        user_status = User.last.user_status
-        expect(user_status.level).to eq(3)
+        expect(User.last.user_status.level).to eq(3)
       end
     end
 
@@ -49,14 +41,10 @@ RSpec.describe "Users::Registrations", type: :request do
         }
       end
 
-      it "ユーザーが作成されない" do
+      it "ユーザー登録されず、マイページにリダイレクトされない" do
         expect {
           post user_registration_path, params: invalid_params
         }.not_to change(User, :count)
-      end
-
-      it "マイページにリダイレクトされない" do
-        post user_registration_path, params: invalid_params
         expect(response).not_to redirect_to(mypage_path)
       end
 
@@ -251,6 +239,24 @@ RSpec.describe "Users::Registrations", type: :request do
         expect(user.reload.name).to be_nil
         expect(response).to be_redirect
       end
+    end
+  end
+
+  describe "DELETE /users" do
+    let(:user) { create(:user) }
+    let!(:user_status) { create(:user_status, owner: user) }
+    let!(:want) { create(:want, owner: user) }
+
+    before { sign_in user }
+
+    it "アカウントと関連データを削除する" do
+      expect {
+        delete user_registration_path
+      }.to change(User, :count).by(-1)
+
+      expect(UserStatus.exists?(user_status.id)).to be false
+      expect(Want.exists?(want.id)).to be false
+      expect(response).to redirect_to(new_user_registration_path)
     end
   end
 end

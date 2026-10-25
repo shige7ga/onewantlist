@@ -8,40 +8,7 @@ RSpec.describe Want, type: :model do
         expect(want).to be_valid
       end
 
-      it "nilの場合、無効" do
-        want = build(:want, content: nil)
-        expect(want).to be_invalid
-      end
-
-      it "空文字の場合、無効" do
-        want = build(:want, content: "")
-        expect(want).to be_invalid
-      end
-
-      it "スペースのみの場合、無効" do
-        want = build(:want, content: " 　 ")
-        expect(want).to be_invalid
-      end
-
-      it "TABのみの場合、無効" do
-        want = build(:want, content: "\t\t")
-        expect(want).to be_invalid
-      end
-
-      it "contentの文字前後に空白の場合、前後空白が除去される" do
-        want = build(:want, content: "  Railsの勉強をする  ")
-        expect(want.content).to eq("Railsの勉強をする")
-      end
-
-      it "400文字なら有効" do
-        want = build(:want, content: "a" * 400)
-        expect(want).to be_valid
-      end
-
-      it "401文字なら有効" do
-        want = build(:want, content: "a" * 401)
-        expect(want).to be_invalid
-      end
+      include_examples "contentの共通バリデーション", :want
     end
 
     context "status(enum)について" do

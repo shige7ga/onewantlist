@@ -13,6 +13,11 @@ class WantsController < ApplicationController
   def create
     source = registration_source
 
+    unless source
+      redirect_to owner_home_path, alert: "登録情報が不正です。もう一度操作してください"
+      return
+    end
+
     result = Wants::Register.new(
       owner: current_owner,
       attributes: want_params,
@@ -69,16 +74,12 @@ class WantsController < ApplicationController
   private
 
   def registration_source
-    @registration_source ||=
-      case params[:registration_source]
-      when "gacha"
-        raise ArgumentError, "Missing random_want session" if session[:random_want_id].blank?
-        :gacha
-      when "direct"
-        :direct
-      else
-        raise ArgumentError, "Unknown registration_source: #{params[:registration_source].inspect}"
-      end
+    case params[:registration_source]
+    when "direct"
+      :direct
+    when "gacha"
+      :gacha if session[:random_want_id].present?
+    end
   end
 
   def check_guest_registration_limit
