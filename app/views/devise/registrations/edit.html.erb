@@ -13,9 +13,24 @@
             html: { method: :put, class: "space-y-4", novalidate: true }
           ) do |f| %>
 
-        <% invalids = %i[email password password_confirmation current_password].index_with do |attribute|
+        <% invalids = %i[name email password password_confirmation current_password].index_with do |attribute|
             f.object.errors[attribute].any?
           end %>
+
+        <%# ユーザー名 %>
+        <div>
+          <%= f.label :name,
+                      class: "mb-1 block text-sm font-semibold text-[#4F5A4C]" %>
+
+          <%= f.text_field :name,
+                          autofocus: true,
+                          autocomplete: "nickname",
+                          "aria-invalid": invalids[:name],
+                          "aria-describedby": (f.field_id(:name, :errors) if invalids[:name]),
+                          class: "input input-bordered w-full bg-[#F6F5EE] text-[#4F5A4C] #{invalids[:name] ? 'border-red-500' : 'border-[#A8BFA0]'} focus:outline-none" %>
+
+          <%= render "shared/field_errors", form: f, attribute: :name %>
+        </div>
 
         <%# メールアドレス %>
         <div>
