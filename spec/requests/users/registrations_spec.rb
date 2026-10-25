@@ -149,6 +149,37 @@ RSpec.describe "Users::Registrations", type: :request do
       end
     end
 
+    context "ユーザー名を変更する場合" do
+      it "ユーザー名が更新される" do
+        put user_registration_path, params: {
+          user: {
+            name: "new_name",
+            current_password: "password"
+          }
+        }
+
+        expect(user.reload.name).to eq("new_name")
+        expect(response).to be_redirect
+      end
+    end
+
+    context "ユーザー名が41文字以上の場合" do
+      it "更新せず、エラーを表示する" do
+        put user_registration_path, params: {
+          user: {
+            name: "a" * 41,
+            current_password: "password"
+          }
+        }
+
+        expect(response).to have_http_status(:unprocessable_entity)
+        expect(user.reload.name).to eq("test_user")
+
+        document = response.parsed_body
+        expect(document.at_css("#user_name_errors")).to be_present
+      end
+    end
+
     context "現在のパスワードが間違っている場合" do
       it "更新せず、エラーを表示する" do
         put user_registration_path, params: {
