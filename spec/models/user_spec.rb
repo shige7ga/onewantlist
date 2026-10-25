@@ -44,6 +44,11 @@ RSpec.describe User, type: :model do
         user = build(:user, name: "a" * 41)
         expect(user).to be_invalid
       end
+
+      it "名前がnilでもDBに保存できる" do
+        user = create(:user, name: nil)
+        expect(user.reload.name).to be_nil
+      end
     end
 
     context "emailについて" do
