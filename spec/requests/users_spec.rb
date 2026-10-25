@@ -34,4 +34,14 @@ RSpec.describe "Users", type: :request do
       end
     end
   end
+
+  describe "GET /users/sign_in" do
+    it "パスワード忘れのお問い合わせリンクを表示する" do
+      get new_user_session_path
+
+      expect(response).to have_http_status(:ok)
+      document = response.parsed_body
+      expect(document.at_css('a[href="/contact#password-help"]')).not_to be_nil
+    end
+  end
 end

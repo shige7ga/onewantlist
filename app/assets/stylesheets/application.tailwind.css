@@ -6,11 +6,15 @@
 @plugin "daisyui";
 
 body {
+  background-color: var(--color-page-bg);
   font-family: "Zen Maru Gothic", sans-serif;
 }
 
-/* トップページのアニメーション */
 @theme {
+  /* 通常の背景色の指定 */
+  --color-page-bg: #F6F5EE;
+
+  /* トップページのアニメーション */
   --animate-intro-character: intro-character 500ms ease-out 1 both;
   --animate-intro-speech: intro-speech 400ms ease-out 1 both;
   --animate-intro-cta: intro-cta 600ms ease-in-out 1 both;
@@ -77,4 +81,16 @@ body:has([data-hero-intro-lock="true"])
            focus-visible:outline-offset-4
            focus-visible:outline-[#4F5A4C];
   }
+}
+
+/* 認証画面の案内リンク */
+.auth-navigation-link {
+  @apply inline-block rounded-sm text-sm font-bold
+         text-[#4F5A4C]
+         underline underline-offset-4
+         transition-colors duration-200
+         hover:text-[#2F6043]
+         focus-visible:outline-2
+         focus-visible:outline-offset-2
+         focus-visible:outline-[#4F5A4C];
 }

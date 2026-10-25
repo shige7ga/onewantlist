@@ -24,9 +24,26 @@
                        class: "btn w-full border-none bg-[#A8BFA0] text-[#4F5A4C] hover:bg-[#E3C88F]" %>
         </div>
       <% end %>
-      <p class="text-xs text-[#4F5A4C]/70">
-        <%= link_to t('.to_register_page'), new_user_registration_path %>
-      </p>
+
+      <div class="mt-4 space-y-4 text-center text-sm text-[#4F5A4C]">
+
+        <%# パスワード忘れ %>
+        <p>
+          <%= link_to "パスワードをお忘れの場合",
+                      contact_path(anchor: "password-help"),
+                      class: "auth-navigation-link" %>
+        </p>
+
+        <%# 新規登録への案内 %>
+        <div class="border-t border-[#A8BFA0]/40 pt-4">
+          <p>アカウントをお持ちでない方は</p>
+
+          <%= link_to "無料登録はこちら",
+                      new_user_registration_path,
+                      class: "auth-navigation-link mt-1" %>
+        </div>
+
+      </div>
     </div>
   </div>
 </div>
