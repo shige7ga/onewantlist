@@ -1,6 +1,7 @@
 class User < ApplicationRecord
   has_one :user_status, as: :owner, dependent: :destroy
   has_many :wants, as: :owner, dependent: :destroy
+  has_one :memo, dependent: :destroy
 
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
