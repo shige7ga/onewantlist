@@ -1,6 +1,17 @@
-<h2 class="mb-4 mt-2 text-xl font-bold text-[#4F5A4C]">
-  <%= t(".title") %>
-</h2>
+<div class="mb-4 mt-2 flex items-center justify-between gap-2">
+
+  <h2 class="text-xl font-bold text-[#4F5A4C]">
+    <%= t(".title") %>
+  </h2>
+
+  <% if user_signed_in? %>
+    <%= link_to memo_path,
+          class: "inline-flex shrink-0 items-center gap-1.5 rounded-lg border border-[#A8BFA0] bg-white/70 px-3 py-2 text-xs font-medium text-[#4F5A4C] transition hover:bg-[#EAF2E7]" do %>
+      <span>簡単メモ</span>
+    <% end %>
+  <% end %>
+
+</div>
 
 <div class="space-y-4">
   <% wants.each do |want| %>

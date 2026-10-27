@@ -8,7 +8,7 @@ Rails.application.routes.draw do
   resource :random_want, only: %i[ show edit ] do
     post :draw
   end
-  resource :memo
+  resource :memo, only: %i[ show update ]
 
   namespace :guest do
     resource :user, only: :show
