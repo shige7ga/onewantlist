@@ -94,3 +94,16 @@ body:has([data-hero-intro-lock="true"])
          focus-visible:outline-offset-2
          focus-visible:outline-[#4F5A4C];
 }
+
+/* 簡易メモ：ノート風の横罫線 */
+.memo-paper-lines {
+  background-image: repeating-linear-gradient(
+    to bottom,
+    transparent 0,
+    transparent 31px,
+    #DBE5D8 31px,
+    #DBE5D8 32px
+  );
+
+  background-attachment: local;
+}

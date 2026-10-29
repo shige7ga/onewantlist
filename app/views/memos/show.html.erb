@@ -1,0 +1,80 @@
+<div class="min-h-screen bg-[#F6F5EE] px-4 py-6 sm:px-6">
+
+  <div class="mx-auto w-full max-w-3xl">
+
+    <%# マイページに戻る %>
+    <%= link_to mypage_path,
+          class: "mb-5 inline-flex items-center gap-2 text-sm text-[#4F5A4C] hover:opacity-70" do %>
+      <span aria-hidden="true">←</span>
+      <span>マイページに戻る</span>
+    <% end %>
+
+    <%# メモ用紙 %>
+    <div
+      data-controller="memo-autosave"
+      data-memo-autosave-url-value="<%= memo_path %>"
+      class="rounded-xl border border-[#E4DED1] bg-[#FFFDF6] px-5 py-6 shadow-md sm:px-8 sm:py-8"
+    >
+
+      <%# タイトル・保存状態 %>
+      <div class="mb-5 flex items-start justify-between gap-3">
+
+        <div>
+          <h1 class="text-xl font-bold text-[#4F5A4C]">
+            簡単メモ
+          </h1>
+          <p class="mt-1 text-xs text-[#899483]">
+            思いついたことを、気軽にメモ。※2000文字以内まで
+          </p>
+        </div>
+
+        <%# 保存状態（Stimulusが更新） %>
+        <p
+          data-memo-autosave-target="status"
+          data-state="<%= @memo.persisted? ? 'saved' : 'idle' %>"
+          role="status"
+          class="badge min-w-20 h-auto rounded-full
+                border border-dashed border-[#BBC7B7]
+                bg-transparent px-3 py-1
+                text-xs font-medium text-[#7D8978]
+
+                data-[state=saved]:border-solid
+                data-[state=saved]:border-[#A8BFA0]
+                data-[state=saved]:bg-[#EAF2E7]
+                data-[state=saved]:text-[#4F7953]"
+        >
+          <%= @memo.persisted? ? "保存済み" : "未入力" %>
+        </p>
+
+      </div>
+
+      <%# メモ入力領域 %>
+      <div class="relative border-t border-[#E8E3D8] pt-4">
+
+        <%# ノート左側の縦線 %>
+        <div
+          aria-hidden="true"
+          class="pointer-events-none absolute bottom-0 left-3 top-4 w-px bg-[#E9CFC8]"
+        ></div>
+
+        <%= text_area_tag "memo[content]",
+              @memo.content,
+              maxlength: 2000,
+              placeholder: "思いついたことを自由にメモ...",
+              data: {
+                memo_autosave_target: "content",
+                action: "input->memo-autosave#scheduleSave blur->memo-autosave#save compositionend->memo-autosave#scheduleSave"
+              },
+              class: "memo-paper-lines block w-full min-h-[60vh] resize-none border-0 bg-transparent py-0 pl-7 pr-2 text-base leading-8 text-[#4F5A4C] placeholder:text-[#A2AA9B] focus:outline-none focus:ring-0"
+        %>
+
+      </div>
+
+    </div>
+
+    <p class="mt-4 text-center text-xs text-[#899483]">
+      入力内容は自動的に保存されます
+    </p>
+
+  </div>
+</div>
