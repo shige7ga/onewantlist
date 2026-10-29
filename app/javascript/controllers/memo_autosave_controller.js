@@ -33,15 +33,22 @@ export default class extends Controller {
     this.setStatus("保存中...")
 
     try {
+      const csrfToken = document.querySelector(
+        'meta[name="csrf-token"]'
+      )?.content
+
+      const headers = {
+        "Content-Type": "application/json",
+        "Accept": "application/json"
+      }
+
+      if (csrfToken) {
+        headers["X-CSRF-Token"] = csrfToken
+      }
+
       const response = await fetch(this.urlValue, {
         method: "PATCH",
-        headers: {
-          "Content-Type": "application/json",
-          "Accept": "application/json",
-          "X-CSRF-Token": document.querySelector(
-            'meta[name="csrf-token"]'
-          ).content
-        },
+        headers,
         body: JSON.stringify({ memo: { content } })
       })
 
