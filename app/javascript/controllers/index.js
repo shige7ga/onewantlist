@@ -18,3 +18,6 @@ application.register("hello", HelloController)
 
 import LevelUpModalController from "./level_up_modal_controller"
 application.register("level-up-modal", LevelUpModalController)
+
+import MemoAutosaveController from "./memo_autosave_controller"
+application.register("memo-autosave", MemoAutosaveController)
