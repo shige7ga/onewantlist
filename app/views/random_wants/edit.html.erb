@@ -1,14 +1,14 @@
-<div class="flex min-h-[calc(100vh-4rem)] items-center justify-center bg-[#F6F5EE] px-4 py-10">
+<div class="flex min-h-[calc(100vh-4rem)] items-center justify-center px-4 py-10">
   <div class="card w-full max-w-lg bg-white shadow-xl">
     <div class="card-body">
 
       <%# タイトル %>
       <div class="text-center">
-        <h2 class="text-2xl font-bold text-[#4F5A4C]">
+        <h2 class="text-2xl font-bold">
           やりたいことを編集
         </h2>
 
-        <p class="mt-3 text-sm text-[#4F5A4C]/70">
+        <p class="mt-3 text-sm text-color/70">
           ガチャの結果は、自由に編集できます
         </p>
       </div>
@@ -32,7 +32,7 @@
                           rows: 6,
                           "aria-invalid": invalid,
                           "aria-describedby": (f.field_id(:content, :errors) if invalid),
-                          class: "textarea textarea-bordered w-full border-[#A8BFA0] bg-[#F6F5EE] text-[#4F5A4C] #{invalid ? 'border-red-500' : 'border-[#A8BFA0]'} focus:outline-none" %>
+                          class: "textarea textarea-bordered w-full border-app-accent bg-color #{invalid ? 'border-red-500' : 'border-app-accent'} focus:outline-none" %>
 
           <%= render "shared/field_errors", form: f, attribute: :content %>
         </div>
@@ -42,10 +42,10 @@
 
           <%= link_to "戻る",
                       random_want_path,
-                      class: "btn h-12 rounded-full border border-[#A8BFA0] bg-white text-[#4F5A4C] hover:bg-[#F6F5EE]" %>
+                      class: "btn h-12 rounded-full border border-app-accent bg-white text-color hover:bg-color" %>
 
           <%= f.submit "登録する",
-                       class: "btn h-12 rounded-full border-none bg-[#A8BFA0] font-bold text-[#354133] hover:bg-[#96AE8E]" %>
+                       class: "btn h-12 rounded-full border-none bg-app-accent font-bold text-color hover:bg-app-accent-hover" %>
 
         </div>
       <% end %>

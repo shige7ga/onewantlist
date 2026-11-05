@@ -9,19 +9,19 @@
               auto: true %>
 <% end %>
 
-<div class="flex min-h-[calc(100vh-4rem)] items-center justify-center bg-[#F6F5EE] px-4 py-10">
+<div class="flex min-h-[calc(100vh-4rem)] items-center justify-center px-4 py-10">
   <div class="card w-full max-w-lg bg-white shadow-xl">
     <div class="card-body gap-6">
 
       <%# タイトル %>
       <div class="text-center">
-        <h2 class="text-2xl font-bold text-[#4F5A4C]">
+        <h2 class="text-2xl font-bold">
           やりたいことガチャ結果
         </h2>
       </div>
 
       <%# ガチャ結果表示 %>
-      <div class="rounded-2xl border border-[#A8BFA0]/50 bg-[#F6F5EE] px-5 py-5 text-center shadow-sm">
+      <div class="rounded-2xl border border-app-accent/50 bg-color px-5 py-5 text-center shadow-sm">
 
         <%# カプセルアイコン %>
         <div class="flex justify-center">
@@ -30,7 +30,7 @@
                         class: "h-14 w-14 object-contain" %>
         </div>
 
-        <p class="whitespace-pre-line pt-2 break-words text-center text-xl font-bold leading-9 text-[#4F5A4C] sm:text-2xl sm:leading-10"><%= @want.content %></p>
+        <p class="whitespace-pre-line pt-2 break-words text-center text-xl font-bold leading-9 sm:text-2xl sm:leading-10"><%= @want.content %></p>
       </div>
 
       <%# 操作ボタン %>
@@ -46,7 +46,7 @@
           <%= f.hidden_field :content %>
 
           <%= f.submit "この内容で登録する",
-                       class: "btn h-12 w-full rounded-full border-none bg-[#A8BFA0] font-bold text-[#354133] hover:bg-[#96AE8E]" %>
+                       class: "btn h-12 w-full rounded-full border-none bg-app-accent font-bold text-color hover:bg-app-accent-hover" %>
         <% end %>
 
         <%# 再度ガチャを回す %>
@@ -54,7 +54,7 @@
                       method: :post,
                       disabled: !@user_status.random_gacha_available?,
                       form: { class: "w-full" },
-                      class: "btn h-14 w-full flex-col gap-0.5 rounded-full border-none bg-[#E3C88F] text-[#4F5A4C] hover:bg-[#D7B96F] disabled:bg-gray-200 disabled:text-gray-500" do %>
+                      class: "btn h-14 w-full flex-col gap-0.5 rounded-full border-none bg-[#E3C88F] text-color hover:bg-[#D7B96F] disabled:bg-gray-200 disabled:text-gray-500" do %>
 
           <span class="font-bold">
             再度ガチャを回す
@@ -69,7 +69,7 @@
         <%# 編集画面へ移動 %>
         <%= link_to "内容を編集する",
                     edit_random_want_path,
-                    class: "btn h-12 w-full rounded-full border border-[#A8BFA0] bg-white text-[#4F5A4C] hover:bg-[#F6F5EE]" %>
+                    class: "btn h-12 w-full rounded-full border border-app-accent bg-white text-color hover:bg-color" %>
 
       </div>
     </div>

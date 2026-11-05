@@ -4,14 +4,14 @@
 <section
   id="target-users"
   aria-labelledby="target-users-title"
-  class="bg-[#E9EFE5] px-5 py-14 text-[#4F5A4C] sm:py-20"
+  class="bg-[#E9EFE5] px-5 py-14 sm:py-20"
 >
   <div class="mx-auto max-w-3xl">
 
     <%# セクション見出し %>
     <div class="text-center">
 
-      <span class="inline-block rounded-full bg-[#A8BFA0]/40 px-4 py-1 text-xs font-bold tracking-widest">
+      <span class="inline-block rounded-full bg-app-accent/40 px-4 py-1 text-xs font-bold tracking-widest">
         FOR YOU
       </span>
 
@@ -23,7 +23,7 @@
       </h2>
 
       <div
-        class="mx-auto mt-8 h-px w-16 bg-[#A8BFA0]"
+        class="mx-auto mt-8 h-px w-16 bg-app-accent"
         aria-hidden="true"
       ></div>
 
@@ -44,7 +44,7 @@
       </h3>
 
       <div
-        class="mx-auto mt-5 h-px w-12 bg-[#A8BFA0]"
+        class="mx-auto mt-5 h-px w-12 bg-app-accent"
         aria-hidden="true"
       ></div>
 
@@ -96,7 +96,7 @@
                 <%= item[:title] %>
               </h4>
 
-              <p class="mt-2 text-sm leading-7 text-[#4F5A4C]/80 sm:leading-8">
+              <p class="mt-2 text-sm leading-7 text-color/80 sm:leading-8">
                 <%= safe_join(item[:descriptions], tag.br) %>
               </p>
 
@@ -109,13 +109,13 @@
       </div>
 
       <%# 補足：ほかにもおすすめの方 %>
-      <div class="mt-10 border-t border-[#A8BFA0]/40 pt-8">
+      <div class="mt-10 border-t border-app-accent/40 pt-8">
 
         <h4 class="text-sm font-bold leading-7 sm:text-base">
           ほかにも、こんな方におすすめです。
         </h4>
 
-        <ul class="mt-4 list-disc space-y-0 pl-5 text-sm leading-7 text-[#4F5A4C]/80 sm:leading-8">
+        <ul class="mt-4 list-disc space-y-0 pl-5 text-sm leading-7 text-color/80 sm:leading-8">
           <li>
             ノートや手帳を買ったり、アプリをダウンロードしただけで満足してしまったことがある方
           </li>
@@ -137,7 +137,7 @@
     <%# ==========================================
         こんな方には、少し物足りないかも
     ========================================== %>
-    <div class="mx-auto mt-6 max-w-3xl rounded-3xl bg-[#F6F5EE] px-5 py-8 shadow-sm sm:px-10 sm:py-10">
+    <div class="mx-auto mt-6 max-w-3xl rounded-3xl bg-color px-5 py-8 shadow-sm sm:px-10 sm:py-10">
 
       <h3 class="text-center text-lg font-bold leading-relaxed sm:text-xl">
         こんな方には、<br class="sm:hidden">
@@ -145,7 +145,7 @@
       </h3>
 
       <div
-        class="mx-auto mt-5 h-px w-12 bg-[#A8BFA0]"
+        class="mx-auto mt-5 h-px w-12 bg-app-accent"
         aria-hidden="true"
       ></div>
 
@@ -177,13 +177,13 @@
           }
         ].each do |item| %>
 
-          <div class="border-l-2 border-[#A8BFA0] pl-4 sm:pl-5">
+          <div class="border-l-2 border-app-accent pl-4 sm:pl-5">
 
             <h4 class="text-sm font-bold leading-7 sm:text-base">
               <%= item[:title] %>
             </h4>
 
-            <p class="mt-2 text-sm leading-7 text-[#4F5A4C]/80 sm:leading-8">
+            <p class="mt-2 text-sm leading-7 text-color/80 sm:leading-8">
               <%= safe_join(item[:descriptions], tag.br) %>
             </p>
 
@@ -199,7 +199,7 @@
     <div class="mt-12 text-center">
 
       <div
-        class="mx-auto h-px w-12 bg-[#A8BFA0]"
+        class="mx-auto h-px w-12 bg-app-accent"
         aria-hidden="true"
       ></div>
 

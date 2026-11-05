@@ -1,9 +1,9 @@
-<header class="fixed inset-x-0 top-0 z-50 h-16 border-b border-[#A8BFA0] bg-[#F6F5EE]">
+<header class="fixed inset-x-0 top-0 z-50 h-16 border-b border-app-accent bg-color">
   <div class="mx-auto flex h-full items-center justify-between gap-2 px-3 sm:px-6">
 
     <%# アプリ名：ロゴ画像＋文字 %>
     <%= link_to root_path,
-                class: "flex min-w-0 items-center gap-2 text-base font-bold text-[#4F5A4C] hover:opacity-70 sm:text-xl" do %>
+                class: "flex min-w-0 items-center gap-2 text-base font-bold hover:opacity-70 sm:text-xl" do %>
 
       <%# ロゴ画像 %>
       <%= image_tag "header_logo.png",
@@ -23,14 +23,14 @@
       <% unless user_signed_in? %>
         <%= link_to "無料登録",
                     new_user_registration_path,
-                    class: "btn btn-sm border-none bg-[#A8BFA0] text-[#4F5A4C] hover:bg-[#96AE8E] transition-transform duration-200 hover:scale-105" %>
+                    class: "btn btn-sm border-none bg-app-accent text-color hover:bg-app-accent-hover transition-transform duration-200 hover:scale-105" %>
       <% end %>
 
       <%# ハンバーガーメニュー %>
       <details class="dropdown dropdown-end">
 
         <summary
-          class="btn btn-square btn-ghost cursor-pointer list-none text-[#4F5A4C] [&::-webkit-details-marker]:hidden"
+          class="btn btn-square btn-ghost cursor-pointer list-none text-color [&::-webkit-details-marker]:hidden"
           aria-label="メニュー"
         >
           <svg
@@ -51,15 +51,15 @@
         </summary>
 
         <%# プルダウンの中身 %>
-        <ul class="menu dropdown-content z-50 mt-2 w-64 max-w-[calc(100vw-1rem)] rounded-xl border border-[#A8BFA0]/30 bg-[#F6F5EE] p-2 text-[#4F5A4C] shadow-xl">
+        <ul class="menu dropdown-content z-50 mt-2 w-64 max-w-[calc(100vw-1rem)] text-color rounded-xl border border-app-accent/30 bg-color p-2 shadow-xl">
 
           <% if user_signed_in? %>
 
             <%# ログイン後：マイメニュー %>
             <li class="menu-title mt-2">
-              <span class="flex items-center gap-2 text-xs text-[#7D9876]">
+              <span class="flex items-center gap-2 text-xs text-sub-text">
                 マイメニュー
-                <span class="h-px flex-1 bg-[#A8BFA0]/50"></span>
+                <span class="h-px flex-1 bg-app-accent/50"></span>
               </span>
             </li>
 
@@ -78,9 +78,9 @@
 
             <%# ログイン前：アカウント %>
             <li class="menu-title mt-2">
-              <span class="flex items-center gap-2 text-xs text-[#7D9876]">
+              <span class="flex items-center gap-2 text-xs text-sub-text">
                 アカウント
-                <span class="h-px flex-1 bg-[#A8BFA0]/50"></span>
+                <span class="h-px flex-1 bg-app-accent/50"></span>
               </span>
             </li>
 
@@ -100,9 +100,9 @@
 
           <%# 初めての方へ %>
           <li class="menu-title mt-2">
-            <span class="flex items-center gap-2 text-xs text-[#7D9876]">
+            <span class="flex items-center gap-2 text-xs text-sub-text">
               初めての方へ
-              <span class="h-px flex-1 bg-[#A8BFA0]/50"></span>
+              <span class="h-px flex-1 bg-app-accent/50"></span>
             </span>
           </li>
 
@@ -117,9 +117,9 @@
 
           <%# ご案内・サポート %>
           <li class="menu-title mt-3">
-            <span class="flex items-center gap-2 text-xs text-[#7D9876]">
+            <span class="flex items-center gap-2 text-xs text-sub-text">
               ご案内・サポート
-              <span class="h-px flex-1 bg-[#A8BFA0]/50"></span>
+              <span class="h-px flex-1 bg-app-accent/50"></span>
             </span>
           </li>
 
@@ -136,7 +136,7 @@
           <%# ログイン後のみログアウトを表示 %>
           <% if user_signed_in? %>
             <li>
-              <hr class="my-2 border-[#A8BFA0]/30">
+              <hr class="my-2 border-app-accent/30">
             </li>
 
             <li>

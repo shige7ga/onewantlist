@@ -6,12 +6,12 @@
   aria-labelledby="faq-title"
   class="bg-[#E9EFE5] px-5 py-14 sm:py-20"
 >
-  <div class="mx-auto max-w-3xl text-[#4F5A4C]">
+  <div class="mx-auto max-w-3xl">
 
     <%# セクション見出し %>
     <div class="text-center">
 
-      <span class="inline-block rounded-full bg-[#A8BFA0]/40 px-4 py-1 text-xs font-bold tracking-widest">
+      <span class="inline-block rounded-full bg-app-accent/40 px-4 py-1 text-xs font-bold tracking-widest">
         FAQ
       </span>
 
@@ -23,7 +23,7 @@
       </h2>
 
       <div
-        class="mx-auto mt-8 h-px w-16 bg-[#A8BFA0]"
+        class="mx-auto mt-8 h-px w-16 bg-app-accent"
         aria-hidden="true"
       ></div>
 
@@ -57,7 +57,7 @@
 
       <% faqs.each do |faq| %>
 
-        <div class="collapse-arrow collapse rounded-2xl border border-[#A8BFA0]/20 bg-white shadow-sm">
+        <div class="collapse-arrow collapse rounded-2xl border border-app-accent/20 bg-white shadow-sm">
 
           <%# チェック状態で回答を開閉 %>
           <input
@@ -68,7 +68,7 @@
           <%# 質問部分 %>
           <div class="collapse-title flex items-center gap-3 pr-12 text-sm font-bold leading-relaxed sm:text-base">
 
-            <span class="shrink-0 text-[#7D9876]">
+            <span class="shrink-0 text-sub-text">
               Q.
             </span>
 
@@ -83,7 +83,7 @@
 
             <div class="flex gap-3 border-t border-[#E9EFE5] pt-4 text-sm leading-8 sm:text-base">
 
-              <span class="shrink-0 font-bold text-[#7D9876]">
+              <span class="shrink-0 font-bold text-sub-text">
                 A.
               </span>
 

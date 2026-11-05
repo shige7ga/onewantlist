@@ -1,12 +1,12 @@
 <div class="mb-4 mt-2 flex items-center justify-between gap-2">
 
-  <h2 class="text-xl font-bold text-[#4F5A4C]">
+  <h2 class="text-xl font-bold">
     <%= t(".title") %>
   </h2>
 
   <% if user_signed_in? %>
     <%= link_to memo_path,
-          class: "inline-flex shrink-0 items-center gap-1.5 rounded-lg border border-[#A8BFA0] bg-white/70 px-3 py-2 text-xs font-medium text-[#4F5A4C] transition hover:bg-[#EAF2E7]" do %>
+          class: "inline-flex shrink-0 items-center gap-1.5 rounded-lg border border-app-accent bg-white/70 px-3 py-2 text-xs font-medium transition hover:bg-soft-green" do %>
       <span>簡単メモ</span>
     <% end %>
   <% end %>
@@ -21,11 +21,11 @@
       <div class="card-body gap-3 p-4">
 
         <div class="flex items-start justify-between gap-4">
-          <p class="min-w-0 flex-1 whitespace-pre-wrap break-words text-lg font-semibold text-[#4F5A4C]"><%= want.content %></p>
+          <p class="min-w-0 flex-1 whitespace-pre-wrap break-words text-lg font-semibold"><%= want.content %></p>
         </div>
 
-        <div class="flex flex-wrap items-center gap-2 text-sm text-[#4F5A4C]">
-          <span class="badge border-none bg-[#A8BFA0] text-[#4F5A4C]">
+        <div class="flex flex-wrap items-center gap-2 text-sm">
+          <span class="badge border-none bg-app-accent">
             <%= t("activerecord.enums.want.status.#{want.status}") %>
           </span>
 

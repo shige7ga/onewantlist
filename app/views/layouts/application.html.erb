@@ -22,13 +22,13 @@
     <%= javascript_include_tag "application", "data-turbo-track": "reload", type: "module" %>
   </head>
 
-  <body class="flex min-h-screen flex-col bg-page-bg">
+  <body class="flex min-h-screen flex-col bg-color">
 
     <%# ヘッダー %>
     <%= render "shared/header" %>
 
     <%# メインコンテンツ %>
-    <main class="flex-1 pt-16 bg-page-bg">
+    <main class="flex-1 pt-16 bg-color">
       <%= yield %>
     </main>
 

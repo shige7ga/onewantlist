@@ -4,14 +4,14 @@
 <section
   id="rules"
   aria-labelledby="rules-title"
-  class="bg-[#F6F5EE] px-5 py-14 sm:py-20"
+  class="px-5 py-14 sm:py-20"
 >
-  <div class="mx-auto max-w-3xl text-[#4F5A4C]">
+  <div class="mx-auto max-w-3xl">
 
     <%# セクション見出し %>
     <div class="text-center">
 
-      <span class="inline-block rounded-full bg-[#A8BFA0]/30 px-4 py-1 text-xs font-bold tracking-widest">
+      <span class="inline-block rounded-full bg-app-accent/30 px-4 py-1 text-xs font-bold tracking-widest">
         RULES
       </span>
 
@@ -23,7 +23,7 @@
       </h2>
 
       <div
-        class="mx-auto mt-8 h-px w-16 bg-[#A8BFA0]"
+        class="mx-auto mt-8 h-px w-16 bg-app-accent"
         aria-hidden="true"
       ></div>
 
@@ -46,11 +46,11 @@
 
         <div class="rounded-2xl bg-white px-3 py-5 text-center shadow-sm sm:px-5 sm:py-6">
 
-          <p class="text-2xl font-bold text-[#4F5A4C] sm:text-3xl">
+          <p class="text-2xl font-bold sm:text-3xl">
             <%= value %>
           </p>
 
-          <p class="mt-2 text-xs leading-relaxed text-[#7D9876] sm:text-sm">
+          <p class="mt-2 text-xs leading-relaxed text-sub-text sm:text-sm">
             <%= label %>
           </p>
 
@@ -70,7 +70,7 @@
 
         <div class="flex items-center gap-4">
 
-          <span class="flex size-11 shrink-0 items-center justify-center rounded-xl bg-[#E9EFE5] text-lg font-bold text-[#7D9876]">
+          <span class="flex size-11 shrink-0 items-center justify-center rounded-xl bg-[#E9EFE5] text-lg font-bold text-sub-text">
             01
           </span>
 
@@ -154,7 +154,7 @@
 
         <div class="flex items-center gap-4">
 
-          <span class="flex size-11 shrink-0 items-center justify-center rounded-xl bg-[#E9EFE5] text-lg font-bold text-[#7D9876]">
+          <span class="flex size-11 shrink-0 items-center justify-center rounded-xl bg-[#E9EFE5] text-lg font-bold text-sub-text">
             02
           </span>
 
@@ -168,7 +168,7 @@
           <table class="w-full text-left text-sm">
 
             <thead>
-              <tr class="border-b border-[#A8BFA0]/40">
+              <tr class="border-b border-app-accent/40">
                 <th scope="col" class="pb-3 pr-3 font-bold">
                   行動・条件
                 </th>
@@ -196,7 +196,7 @@
                     <%= action %>
                   </td>
 
-                  <td class="whitespace-nowrap py-3 text-right font-bold text-[#7D9876]">
+                  <td class="whitespace-nowrap py-3 text-right font-bold text-sub-text">
                     <%= exp %>
                   </td>
                 </tr>
@@ -209,7 +209,7 @@
         </div>
 
         <%# アクション経験値の補足 %>
-        <div class="mt-6 rounded-xl bg-[#F6F5EE] px-4 py-5 sm:px-6">
+        <div class="mt-6 rounded-xl bg-color px-4 py-5 sm:px-6">
 
           <h4 class="text-sm font-bold sm:text-base">
             アクション経験値について
@@ -233,7 +233,7 @@
 
           </div>
 
-          <p class="mt-4 text-xs font-medium text-[#7D9876]">
+          <p class="mt-4 text-xs font-medium text-sub-text">
             ※アクション経験値は1日最大<%= UserStatus::DAILY_ACTION_EXP %>EXPです。
           </p>
 
@@ -248,7 +248,7 @@
 
         <div class="flex items-center gap-4">
 
-          <span class="flex size-11 shrink-0 items-center justify-center rounded-xl bg-[#E9EFE5] text-lg font-bold text-[#7D9876]">
+          <span class="flex size-11 shrink-0 items-center justify-center rounded-xl bg-[#E9EFE5] text-lg font-bold text-sub-text">
             03
           </span>
 
@@ -286,7 +286,7 @@
             </p>
           </div>
 
-          <div class="rounded-xl bg-[#F6F5EE] px-4 py-5 sm:px-6">
+          <div class="rounded-xl bg-color px-4 py-5 sm:px-6">
 
             <h4 class="font-bold">
               お休みする日があっても、大丈夫。
@@ -318,7 +318,7 @@
 
         <div class="flex items-center gap-4">
 
-          <span class="flex size-11 shrink-0 items-center justify-center rounded-xl bg-[#E9EFE5] text-lg font-bold text-[#7D9876]">
+          <span class="flex size-11 shrink-0 items-center justify-center rounded-xl bg-[#E9EFE5] text-lg font-bold text-sub-text">
             04
           </span>
 
