@@ -39,11 +39,7 @@
         type="button"
         data-action="guest-limit-modal#open"
         data-guest-limit-type="direct"
-        class="flex flex-col items-center justify-center
-               rounded-xl bg-app-accent
-               px-3 py-3
-               font-bold
-               hover:opacity-80"
+        class="action-bar-btn"
       >
         <span class="whitespace-nowrap">
           ＋ やりたいこと登録
@@ -57,12 +53,7 @@
     <% else %>
 
       <%# 通常の登録画面へ %>
-      <%= link_to new_want_path,
-            class: "flex flex-col items-center justify-center
-                    rounded-xl bg-app-accent
-                    px-3 py-3
-                    font-bold
-                    hover:opacity-80" do %>
+      <%= link_to new_want_path, class: "action-bar-btn" do %>
 
         <span class="whitespace-nowrap">
           ＋ やりたいこと登録
@@ -91,12 +82,7 @@
         type="button"
         data-action="guest-limit-modal#open"
         data-guest-limit-type="gacha"
-        class="flex flex-col items-center justify-center
-               gap-0.5
-               rounded-xl bg-[#E3C88F]
-               px-3 py-3
-               font-bold
-               hover:opacity-80"
+        class="action-bar-btn gap-0.5 bg-[#E3C88F]"
       >
 
         <span class="flex items-center justify-center gap-1.5">
@@ -120,12 +106,7 @@
       <%# 通常のガチャ処理 %>
       <%= link_to gacha_path,
             data: gacha_data,
-            class: "flex flex-col items-center justify-center
-                    gap-0.5
-                    rounded-xl bg-[#E3C88F]
-                    px-3 py-3
-                    font-bold
-                    hover:opacity-80" do %>
+            class: "action-bar-btn gap-0.5 bg-[#E3C88F]" do %>
 
         <span class="flex items-center justify-center gap-1.5">
           <%= image_tag "icons/gacha_button.svg",

@@ -52,10 +52,7 @@
           <%= render "shared/field_errors", form: f, attribute: :due_date %>
         </div>
 
-        <%# 更新ボタン %>
-        <div class="pt-2">
-          <%= f.submit class: "btn w-full border-none bg-app-accent text-color hover:bg-[#E3C88F]" %>
-        </div>
+        <%= f.submit class: "form-btn" %>
 
       <% end %>
     </div>

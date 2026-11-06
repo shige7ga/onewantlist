@@ -105,10 +105,8 @@
           <%= render "shared/field_errors", form: f, attribute: :current_password %>
         </div>
 
-        <%# 更新ボタン %>
-        <div class="flex justify-center pt-2">
-          <%= f.submit class: "btn border-none bg-app-accent text-color hover:bg-[#E3C88F]" %>
-        </div>
+        <%= f.submit class: "form-btn" %>
+
       <% end %>
 
       <div class="divider my-6"></div>

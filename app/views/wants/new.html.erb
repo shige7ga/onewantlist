@@ -15,15 +15,12 @@
                       rows: 8,
                       "aria-invalid": invalid,
                       "aria-describedby": (f.field_id(:content, :errors) if invalid),
-                      class: "textarea textarea-bordered w-full bg-color #{invalid ? 'border-red-500' : 'border-app-accent'} focus:outline-none"
+                      class: "textarea textarea-bordered w-full rounded-2xl bg-color #{invalid ? 'border-red-500' : 'border-app-accent'} focus:outline-none"
                       %>
 
           <%= render "shared/field_errors", form: f, attribute: :content %>
         </div>
-
-        <div class="pt-2">
-          <%= f.submit class: "btn w-full border-none bg-app-accent text-color hover:bg-[#E3C88F]" %>
-        </div>
+        <%= f.submit class: "form-btn" %>
       <% end %>
     </div>
   </div>

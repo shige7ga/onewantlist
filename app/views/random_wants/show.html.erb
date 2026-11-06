@@ -46,7 +46,7 @@
           <%= f.hidden_field :content %>
 
           <%= f.submit "この内容で登録する",
-                       class: "btn h-12 w-full rounded-full border-none bg-app-accent font-bold text-color hover:bg-app-accent-hover" %>
+                       class: "form-btn" %>
         <% end %>
 
         <%# 再度ガチャを回す %>
@@ -54,7 +54,7 @@
                       method: :post,
                       disabled: !@user_status.random_gacha_available?,
                       form: { class: "w-full" },
-                      class: "btn h-14 w-full flex-col gap-0.5 rounded-full border-none bg-[#E3C88F] text-color hover:bg-[#D7B96F] disabled:bg-gray-200 disabled:text-gray-500" do %>
+                      class: "form-btn h-14 flex-col gap-0.5 bg-[#E3C88F] hover:bg-[#D7B96F] disabled:bg-gray-200 disabled:text-gray-500" do %>
 
           <span class="font-bold">
             再度ガチャを回す
@@ -69,7 +69,7 @@
         <%# 編集画面へ移動 %>
         <%= link_to "内容を編集する",
                     edit_random_want_path,
-                    class: "btn h-12 w-full rounded-full border border-app-accent bg-white text-color hover:bg-color" %>
+                    class: "form-btn border-solid border border-app-accent bg-white text-color hover:bg-color" %>
 
       </div>
     </div>
