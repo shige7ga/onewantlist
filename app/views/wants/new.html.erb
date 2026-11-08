@@ -1,7 +1,7 @@
-<div class="flex min-h-[calc(100vh-4rem)] items-center justify-center bg-[#F6F5EE] px-4">
-  <div class="card w-full max-w-md bg-white shadow-xl">
+<div class="centered-page">
+  <div class="app-card max-w-md">
     <div class="card-body">
-      <h2 class="card-title justify-center text-2xl font-bold text-[#4F5A4C]">
+      <h2 class="page-title">
         <%= t(".title") %>
       </h2>
       <%= render "shared/flash", flash: flash %>
@@ -15,15 +15,12 @@
                       rows: 8,
                       "aria-invalid": invalid,
                       "aria-describedby": (f.field_id(:content, :errors) if invalid),
-                      class: "textarea textarea-bordered w-full bg-[#F6F5EE] text-[#4F5A4C] #{invalid ? 'border-red-500' : 'border-[#A8BFA0]'} focus:outline-none"
+                      class: "textarea form-field rounded-2xl"
                       %>
 
           <%= render "shared/field_errors", form: f, attribute: :content %>
         </div>
-
-        <div class="pt-2">
-          <%= f.submit class: "btn w-full border-none bg-[#A8BFA0] text-[#4F5A4C] hover:bg-[#E3C88F]" %>
-        </div>
+        <%= f.submit class: "form-btn" %>
       <% end %>
     </div>
   </div>

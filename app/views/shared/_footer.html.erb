@@ -1,5 +1,5 @@
 <footer
-  class="border-t border-[#A8BFA0]/30 bg-[#F6F5EE] px-4 py-8 text-center <%= 'pb-28' if current_page?(mypage_path) || current_page?(guest_user_path) %>"
+  class="border-t border-app-accent/30 px-4 py-8 text-center <%= 'pb-28' if current_page?(mypage_path) || current_page?(guest_user_path) %>"
 >
   <nav aria-label="フッター">
     <ul class="mx-auto flex max-w-4xl list-none flex-wrap justify-center gap-x-5 gap-y-2">
@@ -10,14 +10,14 @@
         ["お問い合わせ", contact_path]
       ].each do |label, path| %>
         <li>
-          <%= link_to label, path, class: "text-xs text-[#4F5A4C]/50" %>
+          <%= link_to label, path, class: "text-xs text-color/50" %>
         </li>
       <% end %>
 
     </ul>
   </nav>
 
-  <p class="mt-5 text-xs text-[#4F5A4C]/50">
+  <p class="mt-5 text-xs text-color/50">
     &copy; <%= Time.current.year %> わんわんとリスト
   </p>
 </footer>

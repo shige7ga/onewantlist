@@ -1,7 +1,7 @@
-<div class="flex min-h-[calc(100vh-4rem)] items-center justify-center bg-[#F6F5EE] px-4">
-  <div class="card w-full max-w-md bg-white shadow-xl">
+<div class="centered-page">
+  <div class="app-card max-w-md">
     <div class="card-body">
-      <h2 class="card-title justify-center text-2xl font-bold text-[#4F5A4C]">
+      <h2 class="page-title">
         <%= t(".title") %>
       </h2>
       <%= render "shared/flash", flash: flash %>
@@ -18,7 +18,7 @@
                       rows: 8,
                       "aria-invalid": invalids[:content],
                       "aria-describedby": (f.field_id(:content, :errors) if invalids[:content]),
-                      class: "textarea textarea-bordered w-full bg-[#F6F5EE] text-[#4F5A4C] #{invalids[:content] ? 'border-red-500' : 'border-[#A8BFA0]'} focus:outline-none" %>
+                      class: "textarea form-field rounded-2xl" %>
           <%= render "shared/field_errors", form: f, attribute: :content %>
         </div>
 
@@ -26,7 +26,7 @@
         <div>
           <%= f.label :status,
                       Want.human_attribute_name(:status),
-                      class: "mb-1 block text-sm font-semibold text-[#4F5A4C]" %>
+                      class: "form-label" %>
           <%= f.select :status,
                         Want.statuses.keys.map { |status|
                           [ t("activerecord.enums.want.status.#{status}"), status ]
@@ -34,7 +34,7 @@
                         {},
                         "aria-invalid": invalids[:status],
                         "aria-describedby": (f.field_id(:status, :errors) if invalids[:status]),
-                        class: "select select-bordered w-full border-[#A8BFA0] bg-[#F6F5EE] text-[#4F5A4C] focus:outline-none #{invalids[:status] ? 'border-red-500' : 'border-[#A8BFA0]'} " %>
+                        class: "select form-field" %>
           <%= render "shared/field_errors", form: f, attribute: :status %>
         </div>
 
@@ -42,20 +42,17 @@
         <div>
           <%= f.label :due_date,
                       Want.human_attribute_name(:due_date),
-                      class: "mb-1 block text-sm font-semibold text-[#4F5A4C]" %>
+                      class: "form-label" %>
 
           <%= f.date_field :due_date,
                       "aria-invalid": invalids[:due_date],
                       "aria-describedby": (f.field_id(:due_date, :errors) if invalids[:due_date]),
-                      class: "input input-bordered w-full bg-[#F6F5EE] #{invalids[:due_date] ? 'border-red-500' : 'border-[#A8BFA0]'} focus:outline-none",
+                      class: "input form-field",
                       min: Date.current  %>
           <%= render "shared/field_errors", form: f, attribute: :due_date %>
         </div>
 
-        <%# 更新ボタン %>
-        <div class="pt-2">
-          <%= f.submit class: "btn w-full border-none bg-[#A8BFA0] text-[#4F5A4C] hover:bg-[#E3C88F]" %>
-        </div>
+        <%= f.submit class: "form-btn" %>
 
       <% end %>
     </div>

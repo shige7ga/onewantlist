@@ -4,13 +4,13 @@
   aria-labelledby="guest-limit-title"
   aria-describedby="guest-limit-description"
 >
-  <div class="modal-box relative max-w-md rounded-3xl bg-[#F6F5EE] px-6 py-10 text-center shadow-xl">
+  <div class="modal-box relative max-w-md rounded-3xl bg-color px-6 py-10 text-center shadow-xl">
 
     <%# 閉じるボタン %>
     <button
       type="button"
       data-action="guest-limit-modal#close"
-      class="absolute right-4 top-4 text-xl text-[#4F5A4C]"
+      class="absolute right-4 top-4 text-xl text-color"
       aria-label="閉じる"
     >
       ×
@@ -30,7 +30,7 @@
     <h2
       id="guest-limit-title"
       data-guest-limit-modal-target="title"
-      class="text-xl font-bold text-[#4F5A4C]"
+      class="text-xl font-bold text-color"
     >
       ゲスト体験、上限まで達成！
     </h2>
@@ -38,13 +38,13 @@
     <%# 共通メッセージ %>
     <p
       id="guest-limit-description"
-      class="mt-5 text-sm leading-7 text-[#4F5A4C]/80"
+      class="mt-5 text-sm leading-7 text-color/80"
     >
       これからも「1日ひとつ」を続けてみたいと思ったら、<br>
       無料登録で続きから楽しめます。
     </p>
 
-    <p class="mt-4 text-sm leading-7 text-[#4F5A4C]/80">
+    <p class="mt-4 text-sm leading-7 text-color/80">
       これまでに登録したやりたいことやレベルも、<br>
       そのまま引き継げます。
     </p>
@@ -52,13 +52,13 @@
     <%# ユーザー登録へ %>
     <%= link_to "無料登録して続ける →",
                 new_user_registration_path,
-                class: "btn mt-8 h-auto w-full rounded-full border-none bg-[#A8BFA0] px-5 py-4 font-bold text-[#354133] hover:bg-[#96AE8E] transition-transform duration-200 hover:scale-105" %>
+                class: "btn mt-8 h-auto w-full rounded-full border-none bg-app-accent px-5 py-4 font-bold text-color hover:bg-app-accent-hover transition-transform duration-200 hover:scale-105" %>
 
     <%# 閉じる %>
     <button
       type="button"
       data-action="guest-limit-modal#close"
-      class="mt-5 text-sm text-[#4F5A4C]/60 hover:underline"
+      class="mt-5 text-sm text-color/60 hover:underline"
     >
       今は登録しない
     </button>

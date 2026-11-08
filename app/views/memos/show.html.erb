@@ -1,10 +1,9 @@
-<div class="min-h-screen bg-[#F6F5EE] px-4 py-6 sm:px-6">
-
+<div class="min-h-screen px-4 py-6 sm:px-6">
   <div class="mx-auto w-full max-w-3xl">
 
     <%# マイページに戻る %>
     <%= link_to mypage_path,
-          class: "mb-5 inline-flex items-center gap-2 text-sm text-[#4F5A4C] hover:opacity-70" do %>
+          class: "mb-5 inline-flex items-center gap-2 text-sm hover:opacity-70" do %>
       <span aria-hidden="true">←</span>
       <span>マイページに戻る</span>
     <% end %>
@@ -20,7 +19,7 @@
       <div class="mb-5 flex items-start justify-between gap-3">
 
         <div>
-          <h1 class="text-xl font-bold text-[#4F5A4C]">
+          <h1 class="text-xl font-bold">
             簡単メモ
           </h1>
           <p class="mt-1 text-xs text-[#899483]">
@@ -39,8 +38,8 @@
                 text-xs font-medium text-[#7D8978]
 
                 data-[state=saved]:border-solid
-                data-[state=saved]:border-[#A8BFA0]
-                data-[state=saved]:bg-[#EAF2E7]
+                data-[state=saved]:border-app-accent
+                data-[state=saved]:bg-soft-green
                 data-[state=saved]:text-[#4F7953]"
         >
           <%= @memo.persisted? ? "保存済み" : "未入力" %>
@@ -65,7 +64,7 @@
                 memo_autosave_target: "content",
                 action: "input->memo-autosave#scheduleSave blur->memo-autosave#save compositionend->memo-autosave#scheduleSave"
               },
-              class: "memo-paper-lines block w-full min-h-[60vh] resize-none border-0 bg-transparent py-0 pl-7 pr-2 text-base leading-8 text-[#4F5A4C] placeholder:text-[#A2AA9B] focus:outline-none focus:ring-0"
+              class: "memo-paper-lines block w-full min-h-[60vh] resize-none border-0 bg-transparent py-0 pl-7 pr-2 text-base leading-8 placeholder:text-[#A2AA9B] focus:outline-none focus:ring-0"
         %>
 
       </div>

@@ -1,0 +1,19 @@
+@theme {
+  /* ページ全体の背景色 */
+  --color-page-bg: #F6F5EE;
+
+  /* 基本の文字色 */
+  --color-main-text: #4F5A4C;
+
+  /* 補助的な文字色 */
+  --color-sub-text: #7D9876;
+
+  /* アプリ独自のアクセント色 */
+  --color-app-accent: #A8BFA0;
+
+  /* ホバー時の色 */
+  --color-app-accent-hover: #96AE8E;
+
+  /* 淡い緑の背景色 */
+  --color-soft-green: #EAF2E7;
+}
