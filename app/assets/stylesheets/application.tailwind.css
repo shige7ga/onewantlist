@@ -126,6 +126,21 @@ body:has([data-hero-intro-lock="true"])
            font-bold
            hover:opacity-80
   }
+
+  /* フォーム画面の配置 */
+  .centered-page {
+    @apply flex min-h-[calc(100vh-4rem)] items-center justify-center px-4 py-8;
+  }
+
+  /* カード本体 */
+  .app-card {
+    @apply card w-full bg-white shadow-xl rounded-2xl;
+  }
+
+  /* カードタイトル */
+  .page-title {
+    @apply card-title justify-center text-2xl font-bold;
+  }
 }
 
 /* ラベル */
