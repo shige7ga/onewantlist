@@ -1,0 +1,64 @@
+@layer components {
+  /* トップ画面のCTAボタン */
+  .guest-cta-button {
+    @apply btn h-auto min-h-0 w-full rounded-full
+           border-none bg-app-accent px-8 py-4
+           text-base font-bold text-[#354133]
+           btn-motion;
+  }
+
+  /* フォームの送信ボタン */
+  .form-btn {
+    @apply btn h-12 mt-2 w-full rounded-full
+           border-none bg-app-accent font-bold
+           text-color hover:bg-app-accent-hover;
+  }
+
+  /* アクションバーのボタン */
+  .action-bar-btn {
+    @apply flex flex-col items-center justify-center
+           rounded-full bg-app-accent px-3 py-3
+           font-bold hover:opacity-80;
+  }
+
+  /* 補助的な操作ボタン */
+  .simple-btn {
+    @apply inline-flex min-h-10 items-center justify-center
+           gap-2 rounded-full border border-solid
+           border-app-accent bg-white px-4 py-2
+           text-sm font-semibold text-color
+           transition-colors duration-200
+           hover:bg-color
+           focus-visible:outline-2
+           focus-visible:outline-offset-2
+           focus-visible:outline-app-accent-hover;
+  }
+
+  /* 削除などの危険な操作 */
+  .simple-btn-danger {
+    @apply text-[#A45A55] border-[#DBAAA5]
+           hover:bg-[#FFF1EF];
+  }
+
+  /* カード本体 */
+  .app-card {
+    @apply card w-full bg-white shadow-xl rounded-2xl;
+  }
+
+  /* カードタイトル */
+  .page-title {
+    @apply card-title justify-center text-2xl font-bold;
+  }
+
+  /* 認証画面の案内リンク */
+  .auth-navigation-link {
+    @apply inline-block rounded-sm text-sm font-bold
+          text-[#4F5A4C]
+          underline underline-offset-4
+          transition-colors duration-200
+          hover:text-[#2F6043]
+          focus-visible:outline-2
+          focus-visible:outline-offset-2
+          focus-visible:outline-[#4F5A4C];
+  }
+}
