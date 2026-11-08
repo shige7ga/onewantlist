@@ -18,7 +18,7 @@
                       rows: 8,
                       "aria-invalid": invalids[:content],
                       "aria-describedby": (f.field_id(:content, :errors) if invalids[:content]),
-                      class: "textarea textarea-bordered w-full bg-color #{invalids[:content] ? 'border-red-500' : 'border-app-accent'} focus:outline-none" %>
+                      class: "textarea form-field rounded-2xl" %>
           <%= render "shared/field_errors", form: f, attribute: :content %>
         </div>
 
@@ -26,7 +26,7 @@
         <div>
           <%= f.label :status,
                       Want.human_attribute_name(:status),
-                      class: "mb-1 block text-sm font-semibold" %>
+                      class: "form-label" %>
           <%= f.select :status,
                         Want.statuses.keys.map { |status|
                           [ t("activerecord.enums.want.status.#{status}"), status ]
@@ -34,7 +34,7 @@
                         {},
                         "aria-invalid": invalids[:status],
                         "aria-describedby": (f.field_id(:status, :errors) if invalids[:status]),
-                        class: "select select-bordered w-full border-app-accent bg-color focus:outline-none #{invalids[:status] ? 'border-red-500' : 'border-app-accent'} " %>
+                        class: "select form-field" %>
           <%= render "shared/field_errors", form: f, attribute: :status %>
         </div>
 
@@ -42,12 +42,12 @@
         <div>
           <%= f.label :due_date,
                       Want.human_attribute_name(:due_date),
-                      class: "mb-1 block text-sm font-semibold" %>
+                      class: "form-label" %>
 
           <%= f.date_field :due_date,
                       "aria-invalid": invalids[:due_date],
                       "aria-describedby": (f.field_id(:due_date, :errors) if invalids[:due_date]),
-                      class: "input input-bordered w-full bg-color #{invalids[:due_date] ? 'border-red-500' : 'border-app-accent'} focus:outline-none",
+                      class: "input form-field",
                       min: Date.current  %>
           <%= render "shared/field_errors", form: f, attribute: :due_date %>
         </div>

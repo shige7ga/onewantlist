@@ -8,16 +8,16 @@
 
       <%= form_for(resource, as: resource_name, url: session_path(resource_name), html: { class: "space-y-4", novalidate: true }) do |f| %>
 
-        <%= f.label :email, class: "mb-1 block text-sm font-semibold" %>
+        <%= f.label :email, class: "form-label" %>
         <%= f.email_field :email,
                           autofocus: true,
                           autocomplete: "email",
-                          class: "input input-bordered w-full border-app-accent bg-color  focus:border-[#4F5A4C] focus:outline-none" %>
+                          class: "input form-field" %>
 
-        <%= f.label :password, class: "mb-1 block text-sm font-semibold " %>
+        <%= f.label :password, class: "form-label" %>
         <%= f.password_field :password,
                               autocomplete: "current-password",
-                              class: "input input-bordered w-full border-app-accent bg-color focus:border-[#4F5A4C] focus:outline-none" %>
+                              class: "input form-field" %>
 
         <%= f.submit t(".login"), class: "form-btn" %>
       <% end %>

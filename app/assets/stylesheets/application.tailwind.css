@@ -107,14 +107,14 @@ body:has([data-hero-intro-lock="true"])
   animation-play-state: paused;
 }
 
-/* トップ画面のCTAボタン用 */
 @layer components {
+  /* トップ画面のCTAボタン用 */
   .guest-cta-button {
     @apply btn h-auto min-h-0 w-full  rounded-full border-none bg-app-accent px-8 py-4 text-base font-bold text-[#354133] btn-motion;
   }
 
   .form-btn {
-    @apply btn h-12 w-full rounded-full border-none
+    @apply btn h-12 mt-2 w-full rounded-full border-none
            bg-app-accent font-bold text-color
            hover:bg-app-accent-hover
   }
@@ -125,6 +125,24 @@ body:has([data-hero-intro-lock="true"])
            px-3 py-3
            font-bold
            hover:opacity-80
+  }
+}
+
+/* ラベル */
+@utility form-label {
+  @apply mb-1 block text-sm font-semibold;
+}
+
+/* 入力フィールド */
+@utility form-field {
+  @apply w-full border border-solid border-app-accent bg-color
+         focus:outline-none rounded-full
+         focus-visible:outline-2
+         focus-visible:outline-offset-2
+         focus-visible:outline-app-accent-hover;
+
+  &[aria-invalid="true"] {
+    @apply border-red-500;
   }
 }
 

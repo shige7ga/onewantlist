@@ -14,29 +14,25 @@
 
         <%# ユーザー名 %>
         <div>
-          <%= f.label :name,
-                      class: "mb-1 block text-sm font-semibold text-[#4F5444]" %>
-
+          <%= f.label :name, class: "form-label" %>
           <%= f.text_field :name,
                           autofocus: true,
                           autocomplete: "name",
                           "aria-invalid": invalids[:name],
                           "aria-describedby": (f.field_id(:name, :errors) if invalids[:name]),
-                          class: "input input-bordered w-full bg-color #{invalids[:name] ? 'border-red-500' : 'border-app-accent'} focus:outline-none" %>
+                          class: "input form-field" %>
 
           <%= render "shared/field_errors", form: f, attribute: :name %>
         </div>
 
         <%# メールアドレス %>
         <div>
-          <%= f.label :email,
-                      class: "mb-1 block text-sm font-semibold" %>
-
+          <%= f.label :email, class: "form-label" %>
           <%= f.email_field :email,
                             autocomplete: "email",
                             "aria-invalid": invalids[:email],
                             "aria-describedby": (f.field_id(:email, :errors) if invalids[:email]),
-                            class: "input input-bordered w-full bg-color #{invalids[:email] ? 'border-red-500' : 'border-app-accent'} focus:outline-none" %>
+                            class: "input form-field" %>
 
           <%= render "shared/field_errors", form: f, attribute: :email %>
         </div>
@@ -44,8 +40,7 @@
         <%# パスワード %>
         <div>
           <div class="mb-1 flex items-center gap-2">
-            <%= f.label :password,
-                        class: "text-sm font-semibold" %>
+            <%= f.label :password, class: "form-label" %>
 
             <% if @minimum_password_length %>
               <p class="text-xs text-color/70">
@@ -58,21 +53,19 @@
                               autocomplete: "new-password",
                               "aria-invalid": invalids[:password],
                               "aria-describedby": (f.field_id(:password, :errors) if invalids[:password]),
-                              class: "input input-bordered w-full bg-color #{invalids[:password] ? 'border-red-500' : 'border-app-accent'} focus:outline-none" %>
+                              class: "input form-field" %>
 
           <%= render "shared/field_errors", form: f, attribute: :password %>
         </div>
 
         <%# パスワード確認 %>
         <div>
-          <%= f.label :password_confirmation,
-                      class: "mb-1 block text-sm font-semibold" %>
-
+          <%= f.label :password_confirmation, class: "form-label" %>
           <%= f.password_field :password_confirmation,
                               autocomplete: "new-password",
                               "aria-invalid": invalids[:password_confirmation],
                               "aria-describedby": (f.field_id(:password_confirmation, :errors) if invalids[:password_confirmation]),
-                              class: "input input-bordered w-full bg-color #{invalids[:password_confirmation] ? 'border-red-500' : 'border-app-accent'} focus:outline-none" %>
+                              class: "input form-field" %>
 
           <%= render "shared/field_errors", form: f, attribute: :password_confirmation %>
         </div>

@@ -32,7 +32,7 @@
                           rows: 6,
                           "aria-invalid": invalid,
                           "aria-describedby": (f.field_id(:content, :errors) if invalid),
-                          class: "textarea textarea-bordered w-full border-app-accent bg-color #{invalid ? 'border-red-500' : 'border-app-accent'} focus:outline-none" %>
+                          class: "textarea form-field rounded-2xl" %>
 
           <%= render "shared/field_errors", form: f, attribute: :content %>
         </div>
