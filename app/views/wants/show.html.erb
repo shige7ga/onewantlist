@@ -1,5 +1,5 @@
 <div class="centered-page">
-  <div class="app-card">
+  <div class="app-card max-w-xl">
     <div class="card-body gap-5 p-6">
       <h1 class="page-title">
         <%= t(".title") %>
@@ -50,7 +50,7 @@
       <div class="card-actions mt-2 justify-end">
         <%= link_to t(".edit_btn"),
                     edit_want_path(@want),
-                    class: "btn border-app-accent bg-white text-color hover:border-[#E3C88F] hover:bg-[#E3C88F]" %>
+                    class: "simple-btn" %>
 
         <%# 削除ボタン %>
         <%= render "delete_modal", want: @want %>

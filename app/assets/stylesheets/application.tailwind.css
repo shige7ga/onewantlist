@@ -127,6 +127,24 @@ body:has([data-hero-intro-lock="true"])
            hover:opacity-80
   }
 
+  /* 補助的な操作ボタン */
+  .simple-btn {
+    @apply inline-flex min-h-10 items-center justify-center
+           gap-2 rounded-full border border-solid
+           border-app-accent bg-white px-4 py-2
+           text-sm font-semibold text-color
+           transition-colors duration-200
+           hover:bg-color
+           focus-visible:outline-2
+           focus-visible:outline-offset-2
+           focus-visible:outline-app-accent-hover;
+  }
+
+  /* 削除などの危険な操作 */
+  .simple-btn-danger {
+    @apply text-[#A45A55] border-[#DBAAA5] hover:bg-[#FFF1EF];
+  }
+
   /* フォーム画面の配置 */
   .centered-page {
     @apply flex min-h-[calc(100vh-4rem)] items-center justify-center px-4 py-8;

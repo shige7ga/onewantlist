@@ -1,7 +1,7 @@
 <button
   type="button"
   onclick="delete_modal.showModal()"
-  class="btn btn-error text-white"
+  class="simple-btn simple-btn-danger"
 >
   <%= t(".btn") %>
 </button>
@@ -18,7 +18,7 @@
 
     <div class="modal-action">
       <form method="dialog">
-        <button class="btn text-gray-600">
+        <button class="simple-btn">
           <%= t(".cancel") %>
         </button>
       </form>
@@ -26,7 +26,7 @@
       <%= button_to t(".completed_delete_btn"),
                     want_path(@want),
                     method: :delete,
-                    class: "btn btn-error text-white" %>
+                    class: "simple-btn simple-btn-danger" %>
     </div>
   </div>
 </dialog>
