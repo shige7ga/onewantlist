@@ -1,27 +1,32 @@
 <div class="centered-page">
-  <div class="app-card max-w-md">
-    <div class="card-body">
-      <h2 class="page-title">
-        <%= t(".title") %>
-      </h2>
-      <%= render "shared/flash", flash: flash %>
+  <div class="w-full max-w-md">
+    <%= render "shared/back_btn", path: owner_home_path, btn_name: "マイページに戻る" %>
 
-      <%= form_with(model: @want, html: { class: "space-y-4" }) do |f| %>
-        <%= hidden_field_tag :registration_source, "direct" %>
-        <div>
-          <% invalid = f.object.errors[:content].any? %>
-          <%= f.text_area :content,
-                      autofocus: true,
-                      rows: 8,
-                      "aria-invalid": invalid,
-                      "aria-describedby": (f.field_id(:content, :errors) if invalid),
-                      class: "textarea form-field rounded-2xl"
-                      %>
+    <div class="app-card">
+      <div class="card-body">
+        <h2 class="page-title">
+          <%= t(".title") %>
+        </h2>
+        <%= render "shared/flash", flash: flash %>
 
-          <%= render "shared/field_errors", form: f, attribute: :content %>
-        </div>
-        <%= f.submit class: "form-btn" %>
-      <% end %>
+        <%= form_with(model: @want, html: { class: "space-y-4" }) do |f| %>
+          <%= hidden_field_tag :registration_source, "direct" %>
+          <div>
+            <% invalid = f.object.errors[:content].any? %>
+            <%= f.text_area :content,
+                        autofocus: true,
+                        rows: 8,
+                        "aria-invalid": invalid,
+                        "aria-describedby": (f.field_id(:content, :errors) if invalid),
+                        class: "textarea form-field rounded-2xl"
+                        %>
+
+            <%= render "shared/field_errors", form: f, attribute: :content %>
+          </div>
+          <%= f.submit class: "form-btn" %>
+        <% end %>
+      </div>
     </div>
+
   </div>
 </div>

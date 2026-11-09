@@ -2,11 +2,7 @@
   <div class="mx-auto w-full max-w-3xl">
 
     <%# マイページに戻る %>
-    <%= link_to mypage_path,
-          class: "mb-5 inline-flex items-center gap-2 text-sm hover:opacity-70" do %>
-      <span aria-hidden="true">←</span>
-      <span>マイページに戻る</span>
-    <% end %>
+    <%= render "shared/back_btn", path: owner_home_path, btn_name: "マイページに戻る" %>
 
     <%# メモ用紙 %>
     <div

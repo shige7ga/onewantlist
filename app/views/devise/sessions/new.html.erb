@@ -1,45 +1,48 @@
 <div class="centered-page">
-  <div class="app-card max-w-md">
-    <div class="card-body">
-      <h2 class="page-title">
-        <%= t(".title") %>
-      </h2>
-      <%= render "shared/flash", flash: flash %>
+  <div class="w-full max-w-md">
+    <%= render "shared/back_btn", path: root_path, btn_name: "トップに戻る" %>
+    <div class="app-card">
+      <div class="card-body">
+        <h2 class="page-title">
+          <%= t(".title") %>
+        </h2>
+        <%= render "shared/flash", flash: flash %>
 
-      <%= form_for(resource, as: resource_name, url: session_path(resource_name), html: { class: "space-y-4", novalidate: true }) do |f| %>
+        <%= form_for(resource, as: resource_name, url: session_path(resource_name), html: { class: "space-y-4", novalidate: true }) do |f| %>
 
-        <%= f.label :email, class: "form-label" %>
-        <%= f.email_field :email,
-                          autofocus: true,
-                          autocomplete: "email",
-                          class: "input form-field" %>
+          <%= f.label :email, class: "form-label" %>
+          <%= f.email_field :email,
+                            autofocus: true,
+                            autocomplete: "email",
+                            class: "input form-field" %>
 
-        <%= f.label :password, class: "form-label" %>
-        <%= f.password_field :password,
-                              autocomplete: "current-password",
-                              class: "input form-field" %>
+          <%= f.label :password, class: "form-label" %>
+          <%= f.password_field :password,
+                                autocomplete: "current-password",
+                                class: "input form-field" %>
 
-        <%= f.submit t(".login"), class: "form-btn" %>
-      <% end %>
+          <%= f.submit t(".login"), class: "form-btn" %>
+        <% end %>
 
-      <div class="mt-4 space-y-4 text-center text-sm ">
+        <div class="mt-4 space-y-4 text-center text-sm ">
 
-        <%# パスワード忘れ %>
-        <p>
-          <%= link_to "パスワードをお忘れの場合",
-                      contact_path(anchor: "password-help"),
-                      class: "auth-navigation-link" %>
-        </p>
+          <%# パスワード忘れ %>
+          <p>
+            <%= link_to "パスワードをお忘れの場合",
+                        contact_path(anchor: "password-help"),
+                        class: "auth-navigation-link" %>
+          </p>
 
-        <%# 新規登録への案内 %>
-        <div class="border-t border-app-accent/40 pt-4">
-          <p>アカウントをお持ちでない方は</p>
+          <%# 新規登録への案内 %>
+          <div class="border-t border-app-accent/40 pt-4">
+            <p>アカウントをお持ちでない方は</p>
 
-          <%= link_to "無料登録はこちら",
-                      new_user_registration_path,
-                      class: "auth-navigation-link mt-1" %>
+            <%= link_to "無料登録はこちら",
+                        new_user_registration_path,
+                        class: "auth-navigation-link mt-1" %>
+          </div>
+
         </div>
-
       </div>
     </div>
   </div>

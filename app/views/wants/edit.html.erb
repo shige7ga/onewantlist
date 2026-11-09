@@ -1,60 +1,63 @@
 <div class="centered-page">
-  <div class="app-card max-w-md">
-    <div class="card-body">
-      <h2 class="page-title">
-        <%= t(".title") %>
-      </h2>
-      <%= render "shared/flash", flash: flash %>
+  <div class="w-full max-w-md">
+    <%= render "shared/back_btn", path: want_path(@want), btn_name: "前ページに戻る" %>
+    <div class="app-card">
+      <div class="card-body">
+        <h2 class="page-title">
+          <%= t(".title") %>
+        </h2>
+        <%= render "shared/flash", flash: flash %>
 
-      <%= form_with(model: @want, html: { class: "space-y-4", novalidate: true }) do |f| %>
-        <% invalids = %i[ content status due_date ].index_with do |attribute|
-          f.object.errors[attribute].any?
-        end %>
+        <%= form_with(model: @want, html: { class: "space-y-4", novalidate: true }) do |f| %>
+          <% invalids = %i[ content status due_date ].index_with do |attribute|
+            f.object.errors[attribute].any?
+          end %>
 
-        <%# やりたいこと内容 %>
-        <div>
-          <%= f.text_area :content,
-                      autofocus: true,
-                      rows: 8,
-                      "aria-invalid": invalids[:content],
-                      "aria-describedby": (f.field_id(:content, :errors) if invalids[:content]),
-                      class: "textarea form-field rounded-2xl" %>
-          <%= render "shared/field_errors", form: f, attribute: :content %>
-        </div>
+          <%# やりたいこと内容 %>
+          <div>
+            <%= f.text_area :content,
+                        autofocus: true,
+                        rows: 8,
+                        "aria-invalid": invalids[:content],
+                        "aria-describedby": (f.field_id(:content, :errors) if invalids[:content]),
+                        class: "textarea form-field rounded-2xl" %>
+            <%= render "shared/field_errors", form: f, attribute: :content %>
+          </div>
 
-        <%# ステータス %>
-        <div>
-          <%= f.label :status,
-                      Want.human_attribute_name(:status),
-                      class: "form-label" %>
-          <%= f.select :status,
-                        Want.statuses.keys.map { |status|
-                          [ t("activerecord.enums.want.status.#{status}"), status ]
-                        },
-                        {},
-                        "aria-invalid": invalids[:status],
-                        "aria-describedby": (f.field_id(:status, :errors) if invalids[:status]),
-                        class: "select form-field" %>
-          <%= render "shared/field_errors", form: f, attribute: :status %>
-        </div>
+          <%# ステータス %>
+          <div>
+            <%= f.label :status,
+                        Want.human_attribute_name(:status),
+                        class: "form-label" %>
+            <%= f.select :status,
+                          Want.statuses.keys.map { |status|
+                            [ t("activerecord.enums.want.status.#{status}"), status ]
+                          },
+                          {},
+                          "aria-invalid": invalids[:status],
+                          "aria-describedby": (f.field_id(:status, :errors) if invalids[:status]),
+                          class: "select form-field" %>
+            <%= render "shared/field_errors", form: f, attribute: :status %>
+          </div>
 
-        <%# 期限日 %>
-        <div>
-          <%= f.label :due_date,
-                      Want.human_attribute_name(:due_date),
-                      class: "form-label" %>
+          <%# 期限日 %>
+          <div>
+            <%= f.label :due_date,
+                        Want.human_attribute_name(:due_date),
+                        class: "form-label" %>
 
-          <%= f.date_field :due_date,
-                      "aria-invalid": invalids[:due_date],
-                      "aria-describedby": (f.field_id(:due_date, :errors) if invalids[:due_date]),
-                      class: "input form-field",
-                      min: Date.current  %>
-          <%= render "shared/field_errors", form: f, attribute: :due_date %>
-        </div>
+            <%= f.date_field :due_date,
+                        "aria-invalid": invalids[:due_date],
+                        "aria-describedby": (f.field_id(:due_date, :errors) if invalids[:due_date]),
+                        class: "input form-field",
+                        min: Date.current  %>
+            <%= render "shared/field_errors", form: f, attribute: :due_date %>
+          </div>
 
-        <%= f.submit class: "form-btn" %>
+          <%= f.submit class: "form-btn" %>
 
-      <% end %>
+        <% end %>
+      </div>
     </div>
   </div>
 </div>

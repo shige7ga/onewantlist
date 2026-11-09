@@ -6,7 +6,7 @@ class ApplicationController < ActionController::Base
   before_action :record_daily_login, if: :user_signed_in?, unless: :devise_controller?
   before_action :reset_expired_action_streak
 
-  helper_method :status_events, :current_owner
+  helper_method :status_events, :current_owner, :owner_home_path
 
   # Only allow modern browsers supporting webp images, web push, badges, import maps, CSS nesting, and CSS :has.
   allow_browser versions: :modern
