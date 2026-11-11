@@ -82,6 +82,13 @@ export default class extends Controller {
     clearTimeout(this.showTimer)
   }
 
+  // モーダルの外側をクリックした場合のみ閉じる
+  closeOnBackdrop(event) {
+    if (event.target !== this.element) return
+
+    this.close()
+  }
+
   disconnect() {
     clearTimeout(this.showTimer)
 

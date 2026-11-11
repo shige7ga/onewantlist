@@ -27,10 +27,12 @@
       <% end %>
 
       <%# ハンバーガーメニュー %>
-      <details class="dropdown dropdown-end">
-
-        <summary
-          class="btn btn-square btn-ghost cursor-pointer list-none text-color [&::-webkit-details-marker]:hidden"
+      <div>
+        <button
+          type="button"
+          popovertarget="hamburger-menu"
+          style="anchor-name: --hamburger-anchor;"
+          class="btn btn-square btn-ghost text-color"
           aria-label="メニュー"
         >
           <svg
@@ -48,10 +50,15 @@
               d="M4 6h16M4 12h16M4 18h16"
             />
           </svg>
-        </summary>
+        </button>
 
         <%# プルダウンの中身 %>
-        <ul class="menu dropdown-content z-50 mt-2 w-64 max-w-[calc(100vw-1rem)] text-color rounded-xl border border-app-accent/30 bg-color p-2 shadow-xl">
+        <ul
+          id="hamburger-menu"
+          popover="auto"
+          style="position-anchor: --hamburger-anchor;"
+          class="dropdown dropdown-end menu mt-2 w-64 max-w-[calc(100vw-1rem)] rounded-xl border border-app-accent/30 bg-color p-2 text-color shadow-xl"
+        >
 
           <% if user_signed_in? %>
 
@@ -116,7 +123,7 @@
           <% end %>
 
           <%# ご案内・サポート %>
-          <li class="menu-title mt-3">
+          <li class="menu-title mt-2">
             <span class="flex items-center gap-2 text-xs text-sub-text">
               ご案内・サポート
               <span class="h-px flex-1 bg-app-accent/50"></span>
@@ -133,18 +140,32 @@
             </li>
           <% end %>
 
+          <%# その他 %>
+          <li class="menu-title mt-2">
+            <span class="flex items-center gap-2 text-xs text-sub-text">
+              <span class="h-px flex-1 bg-app-accent/50"></span>
+            </span>
+          </li>
+
           <%# ログイン後のみログアウトを表示 %>
           <% if user_signed_in? %>
-            <li>
-              <hr class="my-2 border-app-accent/30">
-            </li>
-
             <li>
               <%= link_to "ログアウト",
                           destroy_user_session_path,
                           data: { turbo_method: :delete } %>
             </li>
           <% end %>
+
+          <li>
+            <button
+              type="button"
+              popovertarget="hamburger-menu"
+              popovertargetaction="hide"
+              class="text-color"
+            >
+              閉じる
+            </button>
+          </li>
 
         </ul>
       </details>

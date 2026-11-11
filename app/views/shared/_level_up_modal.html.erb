@@ -6,7 +6,7 @@
   data-level-up-modal-auto-value="<%= local_assigns.fetch(:auto, true) %>"
   data-level-up-modal-level-value="<%= event[:level] %>"
   data-level-up-modal-delay-value="<%= local_assigns.fetch(:delay, 1500) %>"
-  data-action="exp-gauge:level-up@window->level-up-modal#show"
+  data-action="exp-gauge:level-up@window->level-up-modal#show click->level-up-modal#closeOnBackdrop"
   class="fixed inset-0 z-[60] hidden items-center justify-center bg-black/30 px-5"
   role="dialog"
   aria-modal="true"
