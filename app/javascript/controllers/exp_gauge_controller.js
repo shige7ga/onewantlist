@@ -48,8 +48,8 @@ export default class extends Controller {
       return
     }
 
-    // EXP獲得メッセージを3秒間表示
-    this.showEarnedFor(3000)
+    // EXP獲得メッセージを6秒間表示
+    this.showEarnedFor(6000)
 
     // 視覚効果を減らす設定の場合
     if (reducedMotion) {
