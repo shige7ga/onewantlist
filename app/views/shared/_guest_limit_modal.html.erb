@@ -4,7 +4,10 @@
   aria-labelledby="guest-limit-title"
   aria-describedby="guest-limit-description"
 >
-  <div class="modal-box relative max-w-md rounded-3xl bg-color px-6 py-10 text-center shadow-xl">
+  <div class="modal-box relative isolate max-w-md rounded-3xl bg-color px-6 py-10 text-center shadow-xl">
+
+    <%# 共通背景 %>
+    <%= render "shared/confetti_background" %>
 
     <%# 閉じるボタン %>
     <button
@@ -16,53 +19,56 @@
       ×
     </button>
 
-    <%# キャラクター %>
-    <div class="mb-5 flex items-end justify-center gap-5">
-      <%= image_tag "wanta_congrats.png",
-                    alt: "",
-                    class: "h-23 w-23 object-contain" %>
-      <%= image_tag "risumaru_congrats.png",
-                    alt: "",
-                    class: "h-12 w-12 mb-1 object-contain" %>
+    <%# コンテンツ全体を背景より前面に配置 %>
+    <div class="relative z-10">
+
+      <%# キャラクター %>
+      <div class="mb-5 flex items-end justify-center gap-5">
+        <%= image_tag "wanta_congrats.png",
+                      alt: "",
+                      class: "h-23 w-23 object-contain" %>
+        <%= image_tag "risumaru_congrats.png",
+                      alt: "",
+                      class: "h-12 w-12 mb-1 object-contain" %>
+      </div>
+
+      <%# タイトル（Stimulusで動的に切り替え） %>
+      <h2
+        id="guest-limit-title"
+        data-guest-limit-modal-target="title"
+        class="text-xl font-bold text-color"
+      >
+        ゲスト体験、上限まで達成！
+      </h2>
+
+      <%# 共通メッセージ %>
+      <p
+        id="guest-limit-description"
+        class="mt-5 text-sm leading-7 text-color/80"
+      >
+        これからも「1日ひとつ」を続けてみたいと思ったら、<br>
+        無料登録で続きから楽しめます。
+      </p>
+
+      <p class="mt-4 text-sm leading-7 text-color/80">
+        これまでに登録したやりたいことやレベルも、<br>
+        そのまま引き継げます。
+      </p>
+
+      <%# ユーザー登録へ %>
+      <%= link_to "無料登録して続ける →",
+                  new_user_registration_path,
+                  class: "btn mt-8 h-auto w-full rounded-full border-none bg-app-accent px-5 py-4 font-bold text-color hover:bg-app-accent-hover transition-transform duration-200 hover:scale-105" %>
+
+      <%# 閉じる %>
+      <button
+        type="button"
+        data-action="guest-limit-modal#close"
+        class="simple-btn mt-5 shadow-md hover:shadow-lg"
+      >
+        今は登録しない
+      </button>
     </div>
-
-    <%# タイトル（Stimulusで動的に切り替え） %>
-    <h2
-      id="guest-limit-title"
-      data-guest-limit-modal-target="title"
-      class="text-xl font-bold text-color"
-    >
-      ゲスト体験、上限まで達成！
-    </h2>
-
-    <%# 共通メッセージ %>
-    <p
-      id="guest-limit-description"
-      class="mt-5 text-sm leading-7 text-color/80"
-    >
-      これからも「1日ひとつ」を続けてみたいと思ったら、<br>
-      無料登録で続きから楽しめます。
-    </p>
-
-    <p class="mt-4 text-sm leading-7 text-color/80">
-      これまでに登録したやりたいことやレベルも、<br>
-      そのまま引き継げます。
-    </p>
-
-    <%# ユーザー登録へ %>
-    <%= link_to "無料登録して続ける →",
-                new_user_registration_path,
-                class: "btn mt-8 h-auto w-full rounded-full border-none bg-app-accent px-5 py-4 font-bold text-color hover:bg-app-accent-hover transition-transform duration-200 hover:scale-105" %>
-
-    <%# 閉じる %>
-    <button
-      type="button"
-      data-action="guest-limit-modal#close"
-      class="mt-5 text-sm text-color/60 hover:underline"
-    >
-      今は登録しない
-    </button>
-
   </div>
 
   <%# 背景クリックでも閉じられる %>
