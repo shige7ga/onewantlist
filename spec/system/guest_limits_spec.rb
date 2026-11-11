@@ -71,7 +71,7 @@ RSpec.describe "ゲスト体験終了モーダル", type: :system do
 
   it "未ログインのヘッダーからゲストページへ移動できる" do
     visit root_path
-    find("header summary").click
+    find('header button[aria-label="メニュー"]').click
 
     expect(page).to have_link("ゲストページ", href: guest_user_path)
   end
@@ -111,7 +111,18 @@ RSpec.describe "ゲスト体験終了モーダル", type: :system do
     expect(page).to have_current_path(guest_user_path)
     expect(page).to have_css('[data-guest-limit-modal-wait-for-exp-value="true"]', visible: :all)
     expect(page).to have_css('[data-controller="level-up-modal"][aria-hidden="false"]', wait: 6)
-    expect(page).to have_css("dialog[open]", wait: 15)
+
+    # レベルアップモーダルを手動で閉じる
+    within('[data-controller="level-up-modal"][aria-hidden="false"]') do
+      click_button "閉じる"
+    end
+
+    # レベルアップモーダルが閉じたことを確認
+    expect(page).to have_css(
+      '[data-controller="level-up-modal"][aria-hidden="true"]',
+      visible: :all
+    )
+    expect(page).to have_css("dialog[open]", wait: 10)
     expect(page).to have_content("ゲスト体験、上限まで達成！")
   end
 
