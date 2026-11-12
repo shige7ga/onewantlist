@@ -48,7 +48,7 @@
 /* ページ全体を中央配置する */
 @utility centered-page {
   @apply flex min-h-[calc(100vh-4rem)]
-         items-center justify-center px-4 py-8;
+         items-center justify-center px-4 py-20;
 }
 
 /* ノート風の横罫線 */

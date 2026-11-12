@@ -1,45 +1,46 @@
-<div class="centered-page">
-  <div class="w-full max-w-lg">
-    <%= render "shared/back_btn", path: random_want_path, btn_name: "前ページに戻る" %>
-    <div class="app-card">
-      <div class="card-body">
+<%= render layout: "shared/layouts/centered_card",
+           locals: {
+             back_path: random_want_path,
+             back_label: "前のページに戻る",
+             max_width: "max-w-lg"
+           } do %>
 
-        <h2 class="page-title">
-          やりたいことを編集
-        </h2>
+  <div class="card-body">
+    <h2 class="page-title">
+      やりたいことを編集
+    </h2>
 
-        <p class="text-center mt-3 text-sm text-color/70">
-          ガチャの結果は、自由に編集できます
-        </p>
+    <p class="text-center mt-3 text-sm text-color/70">
+      ガチャの結果は、自由に編集できます
+    </p>
 
-        <%= render "shared/flash", flash: flash %>
+    <%= render "shared/flash", flash: flash %>
 
-        <%# 編集フォーム %>
-        <%= form_with model: @want,
-                      url: wants_path,
-                      method: :post,
-                      html: { class: "space-y-4", novalidate: true  } do |f| %>
+    <%# 編集フォーム %>
+    <%= form_with model: @want,
+                  url: wants_path,
+                  method: :post,
+                  html: { class: "space-y-4", novalidate: true  } do |f| %>
 
-          <%= hidden_field_tag :registration_source, "gacha" %>
-          <% invalid = f.object.errors[:content].any? %>
+      <%= hidden_field_tag :registration_source, "gacha" %>
+      <% invalid = f.object.errors[:content].any? %>
 
-          <div>
-            <%= f.text_area :content,
-                            autofocus: true,
-                            required: true,
-                            maxlength: 400,
-                            rows: 6,
-                            "aria-invalid": invalid,
-                            "aria-describedby": (f.field_id(:content, :errors) if invalid),
-                            class: "textarea form-field rounded-2xl" %>
+      <div>
+        <%= f.text_area :content,
+                        autofocus: true,
+                        required: true,
+                        maxlength: 400,
+                        rows: 6,
+                        "aria-invalid": invalid,
+                        "aria-describedby": (f.field_id(:content, :errors) if invalid),
+                        class: "textarea form-field rounded-2xl" %>
 
-            <%= render "shared/field_errors", form: f, attribute: :content %>
-          </div>
-
-            <%= f.submit "登録する",
-                        class: "form-btn" %>
-        <% end %>
+        <%= render "shared/field_errors", form: f, attribute: :content %>
       </div>
-    </div>
+
+        <%= f.submit "登録する",
+                    class: "form-btn" %>
+    <% end %>
   </div>
-</div>
+
+<% end %>

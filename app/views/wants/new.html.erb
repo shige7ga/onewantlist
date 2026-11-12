@@ -1,32 +1,35 @@
-<div class="centered-page">
-  <div class="w-full max-w-md">
-    <%= render "shared/back_btn", path: owner_home_path, btn_name: "マイページに戻る" %>
+<% page_title = t(".title") %>
 
-    <div class="app-card">
-      <div class="card-body">
-        <h2 class="page-title">
-          <%= t(".title") %>
-        </h2>
-        <%= render "shared/flash", flash: flash %>
+<%= render layout: "shared/layouts/centered_card",
+           locals: {
+             back_path: owner_home_path,
+             back_label: "マイページに戻る",
+             max_width: "max-w-md"
+           } do %>
 
-        <%= form_with(model: @want, html: { class: "space-y-4" }) do |f| %>
-          <%= hidden_field_tag :registration_source, "direct" %>
-          <div>
-            <% invalid = f.object.errors[:content].any? %>
-            <%= f.text_area :content,
-                        autofocus: true,
-                        rows: 8,
-                        "aria-invalid": invalid,
-                        "aria-describedby": (f.field_id(:content, :errors) if invalid),
-                        class: "textarea form-field rounded-2xl"
-                        %>
+  <div class="card-body">
+    <h2 class="page-title">
+      <%= page_title %>
+    </h2>
 
-            <%= render "shared/field_errors", form: f, attribute: :content %>
-          </div>
-          <%= f.submit class: "form-btn" %>
-        <% end %>
+    <%= render "shared/flash", flash: flash %>
+
+    <%= form_with(model: @want, html: { class: "space-y-4" }) do |f| %>
+      <%= hidden_field_tag :registration_source, "direct" %>
+      <div>
+        <% invalid = f.object.errors[:content].any? %>
+        <%= f.text_area :content,
+                    autofocus: true,
+                    rows: 8,
+                    "aria-invalid": invalid,
+                    "aria-describedby": (f.field_id(:content, :errors) if invalid),
+                    class: "textarea form-field rounded-2xl"
+                    %>
+
+        <%= render "shared/field_errors", form: f, attribute: :content %>
       </div>
-    </div>
-
+      <%= f.submit class: "form-btn" %>
+    <% end %>
   </div>
-</div>
+
+<% end %>
