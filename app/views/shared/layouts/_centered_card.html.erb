@@ -1,0 +1,17 @@
+<div class="centered-page">
+  <div class="relative w-full <%= max_width %>">
+
+    <%# 戻るボタン %>
+    <div class="absolute bottom-full left-0 mb-3">
+      <%= render "shared/back_btn",
+                 path: back_path,
+                 btn_name: back_label %>
+    </div>
+
+    <%# カード本体 %>
+    <div class="app-card">
+      <%= yield %>
+    </div>
+
+  </div>
+</div>

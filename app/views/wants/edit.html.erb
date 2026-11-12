@@ -1,63 +1,68 @@
-<div class="centered-page">
-  <div class="w-full max-w-md">
-    <%= render "shared/back_btn", path: want_path(@want), btn_name: "前ページに戻る" %>
-    <div class="app-card">
-      <div class="card-body">
-        <h2 class="page-title">
-          <%= t(".title") %>
-        </h2>
-        <%= render "shared/flash", flash: flash %>
+<% page_title = t(".title") %>
 
-        <%= form_with(model: @want, html: { class: "space-y-4", novalidate: true }) do |f| %>
-          <% invalids = %i[ content status due_date ].index_with do |attribute|
-            f.object.errors[attribute].any?
-          end %>
+<%= render layout: "shared/layouts/centered_card",
+           locals: {
+             back_path: want_path(@want),
+             back_label: "前ページに戻る",
+             max_width: "max-w-md"
+           } do %>
 
-          <%# やりたいこと内容 %>
-          <div>
-            <%= f.text_area :content,
-                        autofocus: true,
-                        rows: 8,
-                        "aria-invalid": invalids[:content],
-                        "aria-describedby": (f.field_id(:content, :errors) if invalids[:content]),
-                        class: "textarea form-field rounded-2xl" %>
-            <%= render "shared/field_errors", form: f, attribute: :content %>
-          </div>
+  <div class="card-body">
+    <h2 class="page-title">
+      <%= page_title %>
+    </h2>
 
-          <%# ステータス %>
-          <div>
-            <%= f.label :status,
-                        Want.human_attribute_name(:status),
-                        class: "form-label" %>
-            <%= f.select :status,
-                          Want.statuses.keys.map { |status|
-                            [ t("activerecord.enums.want.status.#{status}"), status ]
-                          },
-                          {},
-                          "aria-invalid": invalids[:status],
-                          "aria-describedby": (f.field_id(:status, :errors) if invalids[:status]),
-                          class: "select form-field" %>
-            <%= render "shared/field_errors", form: f, attribute: :status %>
-          </div>
+    <%= render "shared/flash", flash: flash %>
 
-          <%# 期限日 %>
-          <div>
-            <%= f.label :due_date,
-                        Want.human_attribute_name(:due_date),
-                        class: "form-label" %>
+    <%= form_with(model: @want, html: { class: "space-y-4", novalidate: true }) do |f| %>
+      <% invalids = %i[ content status due_date ].index_with do |attribute|
+        f.object.errors[attribute].any?
+      end %>
 
-            <%= f.date_field :due_date,
-                        "aria-invalid": invalids[:due_date],
-                        "aria-describedby": (f.field_id(:due_date, :errors) if invalids[:due_date]),
-                        class: "input form-field",
-                        min: Date.current  %>
-            <%= render "shared/field_errors", form: f, attribute: :due_date %>
-          </div>
-
-          <%= f.submit class: "form-btn" %>
-
-        <% end %>
+      <%# やりたいこと内容 %>
+      <div>
+        <%= f.text_area :content,
+                    autofocus: true,
+                    rows: 8,
+                    "aria-invalid": invalids[:content],
+                    "aria-describedby": (f.field_id(:content, :errors) if invalids[:content]),
+                    class: "textarea form-field rounded-2xl" %>
+        <%= render "shared/field_errors", form: f, attribute: :content %>
       </div>
-    </div>
+
+      <%# ステータス %>
+      <div>
+        <%= f.label :status,
+                    Want.human_attribute_name(:status),
+                    class: "form-label" %>
+        <%= f.select :status,
+                      Want.statuses.keys.map { |status|
+                        [ t("activerecord.enums.want.status.#{status}"), status ]
+                      },
+                      {},
+                      "aria-invalid": invalids[:status],
+                      "aria-describedby": (f.field_id(:status, :errors) if invalids[:status]),
+                      class: "select form-field" %>
+        <%= render "shared/field_errors", form: f, attribute: :status %>
+      </div>
+
+      <%# 期限日 %>
+      <div>
+        <%= f.label :due_date,
+                    Want.human_attribute_name(:due_date),
+                    class: "form-label" %>
+
+        <%= f.date_field :due_date,
+                    "aria-invalid": invalids[:due_date],
+                    "aria-describedby": (f.field_id(:due_date, :errors) if invalids[:due_date]),
+                    class: "input form-field",
+                    min: Date.current  %>
+        <%= render "shared/field_errors", form: f, attribute: :due_date %>
+      </div>
+
+      <%= f.submit class: "form-btn" %>
+
+    <% end %>
   </div>
-</div>
+
+<% end %>
