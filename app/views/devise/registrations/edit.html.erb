@@ -1,4 +1,11 @@
 <% page_title = t(".title") %>
+<% new_password_section = t(".new_password") %>
+<% blank_if_unchanged = t(".blank_if_unchanged") %>
+<% new_password_confirmation_section = t(".new_password_confirmation") %>
+<% current_password_section = t(".current_password") %>
+<% delete_title = t(".delete_title") %>
+<% delete_alert = t(".delete_alert") %>
+<% delete_btn = t(".delete_btn") %>
 
 <%= render layout: "shared/layouts/centered_card",
            locals: {
@@ -58,9 +65,9 @@
       <%# 新しいパスワード %>
       <div>
         <div class="mb-1 flex items-center gap-2">
-          <%= f.label :password, t(".new_password"), class: "form-label" %>
+          <%= f.label :password, new_password_section, class: "form-label" %>
           <span class="text-xs text-color/70">
-            <%= t(".blank_if_unchanged") %>
+            <%= blank_if_unchanged %>
           </span>
         </div>
 
@@ -81,7 +88,7 @@
 
       <%# パスワード確認 %>
       <div>
-        <%= f.label :password_confirmation, t(".new_password_confirmation"), class: "form-label" %>
+        <%= f.label :password_confirmation, new_password_confirmation_section, class: "form-label" %>
         <%= f.password_field :password_confirmation,
                             autocomplete: "new-password",
                             "aria-invalid": invalids[:password_confirmation],
@@ -93,7 +100,7 @@
 
       <%# 現在のパスワード %>
       <div>
-        <%= f.label :current_password, t(".current_password"), class: "form-label" %>
+        <%= f.label :current_password, current_password_section, class: "form-label" %>
         <%= f.password_field :current_password,
                             autocomplete: "current-password",
                             "aria-invalid": invalids[:current_password],
@@ -111,12 +118,12 @@
 
     <div class="text-center">
       <h3 class="mb-2 font-semibold">
-        <%= t(".delete_title") %>
+        <%= delete_title %>
       </h3>
       <p class="mb-3 text-xs text-color/70">
-        <%= t(".delete_alert") %>
+        <%= delete_alert %>
       </p>
-      <%= button_to t(".delete_btn"),
+      <%= button_to delete_btn,
                     registration_path(resource_name),
                     data: {
                       turbo_confirm: t("devise.registrations.edit.delete_confirm")
