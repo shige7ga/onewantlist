@@ -7,7 +7,7 @@ RSpec.describe "ヘッダー", type: :system do
 
       expect(page).to have_link("無料登録")
 
-      find("header summary").click
+      find('header button[aria-label="メニュー"]').click
 
       expect(page).to have_link("ログイン")
       expect(page).to have_no_link("ログアウト")
@@ -25,7 +25,7 @@ RSpec.describe "ヘッダー", type: :system do
         expect(page).to have_no_link("無料登録")
       end
 
-      find("header summary").click
+      find('header button[aria-label="メニュー"]').click
 
       expect(page).to have_link("マイページ")
       expect(page).to have_link("マイステータス")

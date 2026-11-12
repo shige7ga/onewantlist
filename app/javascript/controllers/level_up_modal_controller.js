@@ -6,13 +6,11 @@ export default class extends Controller {
     auto: { type: Boolean, default: true },
     level: Number,
     delay: { type: Number, default: 1500 },
-    duration: { type: Number, default: 6000 }
   }
 
   connect() {
     this.isOpen = false
     this.showTimer = null
-    this.closeTimer = null
 
     // Turboキャッシュ対策
     this.beforeCacheHandler = () => this.beforeCache()
@@ -45,11 +43,6 @@ export default class extends Controller {
     this.element.classList.remove("hidden")
     this.element.classList.add("flex")
     this.element.setAttribute("aria-hidden", "false")
-
-    // 指定時間が経過したら閉じる
-    this.closeTimer = setTimeout(() => {
-      this.close()
-    }, this.durationValue)
   }
 
   // モーダルを閉じる
@@ -75,9 +68,6 @@ export default class extends Controller {
     this.element.classList.remove("flex")
     this.element.setAttribute("aria-hidden", "true")
 
-    clearTimeout(this.closeTimer)
-    this.closeTimer = null
-
     // トップ画面のアニメーション待機を解除
     this.element.removeAttribute("data-hero-intro-lock")
   }
@@ -92,9 +82,15 @@ export default class extends Controller {
     clearTimeout(this.showTimer)
   }
 
+  // モーダルの外側をクリックした場合のみ閉じる
+  closeOnBackdrop(event) {
+    if (event.target !== this.element) return
+
+    this.close()
+  }
+
   disconnect() {
     clearTimeout(this.showTimer)
-    clearTimeout(this.closeTimer)
 
     document.removeEventListener(
       "turbo:before-cache",
