@@ -1,18 +1,3 @@
-<div class="mb-4 mt-2 flex items-center justify-between gap-2">
-
-  <h2 class="text-xl font-bold">
-    <%= t(".title") %>
-  </h2>
-
-  <% if user_signed_in? %>
-    <%= link_to memo_path,
-          class: "simple-btn" do %>
-      <span>✎ 簡単メモ</span>
-    <% end %>
-  <% end %>
-
-</div>
-
 <div class="space-y-4">
   <% wants.each do |want| %>
     <%= link_to want_path(want),

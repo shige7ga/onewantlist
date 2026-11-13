@@ -1,0 +1,67 @@
+<div class="w-full rounded-2xl
+            border border-dashed border-current
+            bg-transparent px-4 py-5 text-color
+            sm:px-6 sm:py-6">
+
+  <div class="flex flex-col items-center gap-4 text-center">
+
+    <% if user_status.want_registered_today? %>
+      <%# 本日登録後に削除した場合 %>
+      <h3 class="text-base font-semibold leading-relaxed">
+        今日の登録は完了しているよ！
+      </h3>
+
+      <p class="text-sm leading-7">
+        次の登録は明日から。<br>
+        また新しい「やりたいこと」を見つけよう。
+      </p>
+
+    <% else %>
+
+      <h3 class="text-base font-semibold leading-relaxed">
+        まずは一つ、やりたいことを登録してみよう。
+      </h3>
+
+      <%# やりたいこと登録 %>
+      <div class="flex flex-col items-center gap-1">
+
+        <p class="text-sm leading-7">
+          下にある
+          <span class="inline-flex items-center rounded-full bg-app-accent px-2 mx-1">
+            ＋ やりたいこと登録
+          </span>ボタンから<br>
+          かんたんに登録できるよ。
+        </p>
+      </div>
+
+      <%# やりたいことガチャ %>
+      <div class="flex flex-col items-center gap-1">
+
+        <p class="text-sm leading-7">
+          何を登録するか迷ったら、<br>
+
+          <span class="inline-flex items-center gap-1 rounded-full bg-[#E3C88F] px-2 mx-1">
+            <%= image_tag "icons/gacha_button.svg",
+                          alt: "",
+                          class: "w-3 h-3 shrink-0" %>
+            やりたいことガチャ
+          </span>を試してみよう。<br>
+
+          ランダムにやりたいこと候補を提案してくれるよ。
+        </p>
+
+      </div>
+    <% end %>
+
+    <%# キャラクター %>
+    <%= image_tag "wanta_risumaru_joy.png",
+                  alt: "",
+                  class: "w-20 max-w-full object-contain sm:w-24" %>
+
+    <%# 使い方ガイド %>
+    <%= link_to "使い方の詳細はこちら →",
+                guide_path,
+                class: "text-sm font-semibold text-sub-text underline underline-offset-4 hover:opacity-80" %>
+
+  </div>
+</div>
