@@ -8,11 +8,13 @@
              max_width: "max-w-lg"
            } do %>
 
-  <div class="card-body gap-5 p-6">
+  <div class="card-body p-6">
     <h2 class="page-title">
       <%= page_title %>
     </h2>
-    <%= render "shared/flash", flash: flash %>
+    <div id="flash">
+      <%= render "shared/flash", flash: flash %>
+    </div>
 
     <%# やりたいこと内容 %>
     <div>

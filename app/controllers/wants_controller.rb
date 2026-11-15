@@ -72,12 +72,19 @@ class WantsController < ApplicationController
   end
 
   def update_status
-    if @want.update(want_status_params)
-      respond_to do |format|
-        format.turbo_stream
+    updated = @want.update(want_status_params)
+    @want.reload unless updated
+
+    flash_message = updated ? "ステータスを更新しました" : "ステータスを更新できませんでした"
+    flash_type = updated ? :notice : :alert
+
+    respond_to do |format|
+      format.turbo_stream do
+        flash.now[flash_type] = flash_message
+        unless updated
+          render :update_status, status: :unprocessable_entity
+        end
       end
-    else
-      head :unprocessable_entity
     end
   end
 
