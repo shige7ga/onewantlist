@@ -1,0 +1,30 @@
+<%# カレンダー仮置き %>
+<section class="app-card lg:col-span-3">
+  <div class="card-body h-full gap-4 p-5">
+
+    <div class="flex flex-wrap items-center justify-between gap-2">
+      <h2 class="text-sm font-bold">
+        登録カレンダー
+      </h2>
+
+      <p class="text-xs text-sub-text">
+        今月の登録：
+        <span class="font-bold text-color">
+          <%= monthly_registration_count %> 件
+        </span>
+      </p>
+    </div>
+
+    <%# TODO: simple_calendar導入時に差し替え %>
+    <div class="flex min-h-64 flex-1 items-center justify-center
+                rounded-xl border border-dashed border-stone-300
+                bg-transparent p-4 text-center">
+
+      <p class="text-xs text-sub-text">
+        カレンダー表示エリア（後日実装）
+      </p>
+
+    </div>
+
+  </div>
+</section>

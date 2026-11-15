@@ -1,0 +1,60 @@
+<%# やりたいことの記録 %>
+<section class="app-card">
+  <div class="card-body gap-5 p-4 sm:p-5">
+
+    <h2 class="text-base font-bold">
+      やりたいことの記録
+    </h2>
+
+    <div class="grid grid-cols-2 items-center gap-3">
+
+      <div class="space-y-3 text-center">
+        <p class="text-xs text-sub-text sm:text-sm">
+          現在のやりたいこと数
+        </p>
+
+        <p class="font-bold leading-none
+                  text-6xl sm:text-7xl">
+          <%= want_counts[:total] %>
+          <span class="text-sm font-normal">件</span>
+        </p>
+      </div>
+
+      <%# 完了数・未着手・進行中 %>
+      <div class="space-y-4 text-center">
+
+        <div>
+          <p class="text-xs text-sub-text sm:text-sm">
+            完了数
+          </p>
+
+          <p class="mt-2 font-bold leading-none
+                    text-5xl sm:text-6xl">
+            <%= want_counts[:completed] %>
+            <span class="text-sm font-normal">件</span>
+          </p>
+        </div>
+
+        <div class="space-y-2 border-t border-stone-200 pt-3">
+
+          <p class="text-xs text-sub-text">
+            未着手
+            <span class="font-semibold text-color">
+              <%= want_counts[:not_started] %>件
+            </span>
+          </p>
+
+          <p class="text-xs text-sub-text">
+            進行中
+            <span class="font-semibold text-color">
+              <%= want_counts[:in_progress] %>件
+            </span>
+          </p>
+
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+</section>
