@@ -1,0 +1,3 @@
+<%= turbo_stream.replace dom_id(@want, :status) do %>
+  <%= render "wants/status_select", want: @want %>
+<% end %>

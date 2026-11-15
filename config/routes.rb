@@ -4,7 +4,10 @@ Rails.application.routes.draw do
     sessions: "users/sessions"
   }
 
-  resources :wants, except: [ :index ]
+  resources :wants, except: [ :index ] do
+    patch :update_status, on: :member
+  end
+
   resource :random_want, only: %i[ show edit ] do
     post :draw
   end

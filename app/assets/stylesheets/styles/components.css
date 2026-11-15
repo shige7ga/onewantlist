@@ -61,4 +61,22 @@
           focus-visible:outline-offset-2
           focus-visible:outline-[#4F5A4C];
   }
+
+  /* ステータス変更用バッジ本体 */
+  .want-status-badge {
+    @apply w-21 rounded-full border overflow-hidden;
+  }
+
+  /* ステータス変更用プルダウン */
+  .want-status-select {
+    @apply select w-full h-6 min-h-0
+           border-none bg-transparent
+           rounded-full text-color text-sm font-medium
+           leading-none cursor-pointer;
+  }
+
+  /* プルダウンの選択肢 */
+  .want-status-select option {
+    @apply bg-white text-color;
+  }
 }
