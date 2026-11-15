@@ -1,6 +1,8 @@
 require "rails_helper"
 
 RSpec.describe "Wants", type: :system do
+  include ActionView::RecordIdentifier
+
   context "ログイン時" do
     let!(:user) { create(:user) }
     let!(:user_status) { create(:user_status, owner: user) }
@@ -127,5 +129,68 @@ RSpec.describe "Wants", type: :system do
         expect(page).to have_content("富士山に登る")
         expect(page).to have_content("やりたいことを登録しました")
       end
+  end
+
+  describe "ステータス更新" do
+    let!(:user) { create(:user) }
+    let!(:user_status) { create(:user_status, owner: user) }
+    let!(:want) { create(:want, owner: user, status: :not_started) }
+
+    before do
+      login(user)
+
+      # ログインできたことを確認する
+      expect(page).to have_current_path(mypage_path)
+    end
+
+    it "詳細画面からステータスを変更できる" do
+      visit want_path(want)
+
+      expect(page).to have_current_path(want_path(want))
+
+      within "##{dom_id(want, :status)}" do
+        select "進行中", from: "want_status"
+
+        expect(page).to have_select("want_status", selected: "進行中")
+        expect(page).to have_css(".bg-\\[\\#E3C88F\\]")
+      end
+
+      expect(page).to have_content("ステータスを更新しました")
+      expect(want.reload.status).to eq("in_progress")
+    end
+
+    it "一覧画面から対象のWantだけステータスを変更できる" do
+      other_want = create(
+        :want,
+        owner: user,
+        status: :not_started,
+        content: "読書する"
+      )
+
+      visit mypage_path
+
+      within "##{dom_id(want, :status)}" do
+        select "進行中", from: "want_status"
+
+        expect(page).to have_select(
+          "want_status",
+          selected: "進行中"
+        )
+
+        expect(page).to have_css(".bg-\\[\\#E3C88F\\]")
+      end
+
+      within "##{dom_id(other_want, :status)}" do
+        expect(page).to have_select(
+          "want_status",
+          selected: "未着手"
+        )
+      end
+
+      expect(page).to have_content("ステータスを更新しました")
+
+      expect(want.reload.status).to eq("in_progress")
+      expect(other_want.reload.status).to eq("not_started")
+    end
   end
 end

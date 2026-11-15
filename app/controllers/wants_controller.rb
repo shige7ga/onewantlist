@@ -1,7 +1,7 @@
 class WantsController < ApplicationController
   before_action :check_guest_registration_limit, only: :new
   before_action :redirect_if_want_registered_today, only: :new
-  before_action :set_want, only: %i[ show edit update destroy ]
+  before_action :set_want, only: %i[ show edit update destroy update_status ]
 
   def show
   end
@@ -71,6 +71,23 @@ class WantsController < ApplicationController
     redirect_to owner_home_path, notice: t("defaults.flash_message.deleted", item: Want.model_name.human), status: :see_other
   end
 
+  def update_status
+    updated = @want.update(want_status_params)
+    @want.reload unless updated
+
+    flash_message = updated ? "ステータスを更新しました" : "ステータスを更新できませんでした"
+    flash_type = updated ? :notice : :alert
+
+    respond_to do |format|
+      format.turbo_stream do
+        flash.now[flash_type] = flash_message
+        unless updated
+          render :update_status, status: :unprocessable_entity
+        end
+      end
+    end
+  end
+
   private
 
   def registration_source
@@ -98,6 +115,10 @@ class WantsController < ApplicationController
 
   def want_params
     params.require(:want).permit(:content, :status, :due_date)
+  end
+
+  def want_status_params
+    params.require(:want).permit(:status)
   end
 
   def set_want

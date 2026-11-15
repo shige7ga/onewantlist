@@ -325,4 +325,53 @@ RSpec.describe "Wants", type: :request do
       expect(response).to redirect_to(mypage_path)
     end
   end
+
+  describe "PATCH /wants/:id/update_status" do
+    let!(:want) { create(:want, owner: user, status: :not_started) }
+
+    before do
+      sign_in user
+    end
+
+    context "他ユーザーのWantの場合" do
+      let(:other_user) { create(:user, email: "other@example.com") }
+      let!(:other_want) do
+        create(:want, owner: other_user, status: :not_started)
+      end
+
+      it "ステータスを変更できない" do
+        patch update_status_want_path(other_want),
+              params: { want: { status: "completed" } },
+              as: :turbo_stream
+
+        expect(other_want.reload.status).to eq("not_started")
+        expect(response).to redirect_to(mypage_path)
+      end
+    end
+
+    context "不正なステータスの場合" do
+      it "更新せず、元のステータスを返す" do
+        patch update_status_want_path(want),
+              params: { want: { status: "invalid_status" } },
+              as: :turbo_stream
+
+        expect(response).to have_http_status(:unprocessable_entity)
+        expect(want.reload.status).to eq("not_started")
+
+        expect(response.body).to include("ステータスを更新できませんでした")
+
+        document = Nokogiri::HTML.fragment(response.body)
+
+        select = document.at_css(
+          "#status_want_#{want.id} select"
+        )
+
+        expect(select).not_to be_nil
+
+        selected_option = select.at_css("option[selected]")
+
+        expect(selected_option["value"]).to eq("not_started")
+      end
+    end
+  end
 end

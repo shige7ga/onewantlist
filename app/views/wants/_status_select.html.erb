@@ -1,0 +1,26 @@
+<div id="<%= dom_id(want, :status) %>">
+
+  <%= form_with url: update_status_want_path(want), method: :patch do %>
+
+		<div class="want-status-badge <%= want_status_class(want.status) %>">
+			<%= select_tag "want[status]",
+						options_for_select(
+							Want.statuses.keys.map { |status|
+								[t("activerecord.enums.want.status.#{status}"), status]
+							},
+							want.status
+						),
+						class: "want-status-select",
+						"aria-label": "ステータス",
+						onchange: "this.form.requestSubmit()" %>
+		</div>
+
+  <% end %>
+
+  <% if local_assigns[:error].present? %>
+    <p role="alert" class="text-sm text-red-600">
+      <%= error %>
+    </p>
+  <% end %>
+
+</div>
