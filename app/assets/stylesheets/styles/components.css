@@ -79,4 +79,43 @@
   .want-status-select option {
     @apply bg-white text-color;
   }
+
+   /* カレンダー全体をカード内に収める */
+  .registration-calendar .simple-calendar {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    min-height: 0;
+  }
+
+  /* 月切り替えヘッダー */
+  .registration-calendar .calendar-heading {
+    flex-shrink: 0;
+  }
+
+  /* カレンダーテーブル */
+  .registration-calendar .simple-calendar table {
+    width: 100%;
+    height: 100%;
+    flex: 1;
+    min-height: 0;
+    table-layout: fixed;
+    border-collapse: collapse;
+  }
+
+  /* 日付セル */
+  .registration-calendar .simple-calendar td.day {
+    height: auto;
+    padding: 0;
+    text-align: center;
+    vertical-align: middle;
+  }
+
+  /* 曜日ヘッダー */
+  .registration-calendar .simple-calendar th {
+    height: 24px;
+    padding: 0;
+    text-align: center;
+    font-size: 0.75rem;
+  }
 }

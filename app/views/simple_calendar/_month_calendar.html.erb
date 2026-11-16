@@ -1,0 +1,46 @@
+<div class="simple-calendar flex min-h-0 flex-1 flex-col gap-1">
+
+  <%# 月切り替えヘッダー %>
+  <div class="calendar-heading flex shrink-0 items-center justify-between gap-2">
+
+    <%= link_to "＜ 前月",
+                calendar.url_for_previous_view,
+                class: "text-xs font-medium text-color hover:opacity-60" %>
+
+    <time datetime="<%= start_date.strftime('%Y-%m') %>"
+          class="text-sm font-bold text-color">
+      <%= start_date.year %>年<%= start_date.month %>月
+    </time>
+
+    <%= link_to "次月 ＞",
+                calendar.url_for_next_view,
+                class: "text-xs font-medium text-color hover:opacity-60" %>
+  </div>
+
+  <%# 曜日ヘッダー %>
+  <div class="grid shrink-0 grid-cols-7 text-center">
+    <% date_range.first(7).each do |day| %>
+      <span class="py-1 text-xs font-medium text-color">
+        <%= t("date.abbr_day_names")[day.wday] %>
+      </span>
+    <% end %>
+  </div>
+
+  <%# 日付グリッド %>
+  <div class="grid min-h-0 flex-1 grid-cols-7 auto-rows-fr overflow-hidden rounded-lg border-l border-t border-stone-200">
+
+    <% date_range.each do |day| %>
+
+      <div class="flex min-h-0 min-w-0 items-center justify-center overflow-hidden border-r border-b border-stone-200">
+
+        <%# 表示月の日付のみ描画する %>
+        <% if day.year == start_date.year && day.month == start_date.month %>
+          <% instance_exec(day, calendar.sorted_events_for(day), &passed_block) %>
+        <% end %>
+
+      </div>
+
+    <% end %>
+
+  </div>
+</div>
