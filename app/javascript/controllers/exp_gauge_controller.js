@@ -213,7 +213,7 @@ export default class extends Controller {
       100
     )
 
-    this.levelTarget.textContent = `Lv. ${level}`
+    this.levelTarget.textContent = level
     this.barTarget.style.width = `${percent}%`
 
     this.currentTarget.textContent = displayedExp
