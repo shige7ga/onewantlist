@@ -1,6 +1,6 @@
 <%# レベル・経験値カード %>
-<section class="app-card lg:col-span-2">
-  <div class="card-body h-full items-center gap-4 p-5 text-center">
+<section class="app-card md:col-span-2">
+  <div class="card-body h-full items-center gap-2 p-3 text-center sm:p-4">
 
     <h2 class="text-sm font-bold">
       レベル・経験値
@@ -12,43 +12,63 @@
 
     <%# 円形経験値ゲージ %>
     <div
-      class="radial-progress text-[#8EAD86]"
-      style="--value:<%= progress %>; --size:13rem; --thickness:0.8rem;"
+      class="radial-progress text-[#8EAD86]
+             [--size:10rem] [--thickness:0.65rem]"
+      style="--value:<%= progress %>;"
       role="progressbar"
       aria-label="次のレベルまでの経験値"
       aria-valuenow="<%= current_exp %>"
       aria-valuemin="0"
       aria-valuemax="<%= required_exp %>"
     >
+      <%# 桁数によって文字サイズを調整 %>
+      <% level_text_size =
+        case user_status.level.to_s.length
+        when 1
+          "text-[64px] lg:text-[68px]"
+        when 2
+          "text-[52px] lg:text-[56px]"
+        when 3
+          "text-[38px] lg:text-[42px]"
+        else
+          "text-[28px] lg:text-[32px]"
+        end
+      %>
 
       <div class="flex items-center justify-center text-color">
-        <div class="relative -translate-y-1">
-          <%# レベル数値：円の中央 %>
-          <span class="block text-[72px] font-bold leading-none sm:text-[96px]">
+        <div class="relative -translate-y-0.5">
+
+          <%# レベル数値 %>
+          <span class="block font-bold leading-none tabular-nums <%= level_text_size %>">
             <%= user_status.level %>
           </span>
 
-          <%# Lv.：数字の左下 %>
-          <span class="absolute bottom-1 right-full mr-1 whitespace-nowrap text-xl font-medium sm:bottom-2 sm:text-2xl">
+          <%# Lv.表示 %>
+          <span class="absolute bottom-0 right-full mr-1 whitespace-nowrap text-sm font-medium lg:text-base">
             Lv.
           </span>
+
         </div>
       </div>
-
     </div>
 
     <%# 次のレベルまで %>
-    <p class="text-sm font-medium text-color">
-      次のレベルまで
-      <%= user_status.exp_to_next_level %> EXP
-    </p>
+    <div class="text-center">
+      <p class="text-xs text-sub-text">
+        次のレベルまで
+      </p>
+      <p class="text-sm font-semibold">
+        <%= user_status.exp_to_next_level %> EXP
+      </p>
+    </div>
 
-    <%# 累計経験値：カード下部に補助表示 %>
-    <div class="mt-auto w-full border-t border-stone-200 pt-3">
+    <%# 累計経験値 %>
+    <div class="mt-auto w-full border-t border-stone-200 pt-2">
       <div class="flex items-center justify-center gap-2">
         <span class="text-xs text-sub-text">
           累計経験値
         </span>
+
         <span class="text-sm font-semibold">
           <%= number_with_delimiter(user_status.experience) %> EXP
         </span>

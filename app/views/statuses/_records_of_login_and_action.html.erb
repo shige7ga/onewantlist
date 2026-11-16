@@ -18,7 +18,7 @@
   <% record_cards.each do |record| %>
 
     <section class="app-card">
-      <div class="card-body items-center gap-3 p-3 text-center sm:p-5">
+      <div class="card-body items-center gap-2 p-3 text-center sm:p-4">
 
         <h2 class="text-sm font-bold sm:text-base">
           <%= record[:title] %>
@@ -30,8 +30,7 @@
             累計
           </p>
 
-          <p class="mt-1 font-bold leading-none
-                    text-5xl sm:text-7xl">
+          <p class="mt-1 font-bold leading-none text-4xl sm:text-5xl">
             <%= record[:total] || 0 %>
             <span class="text-sm font-normal">日</span>
           </p>
@@ -39,7 +38,7 @@
 
         <%# 連続・最長は補助的に表示 %>
         <div class="grid w-full grid-cols-2 gap-2 border-t
-                    border-stone-200 pt-3">
+                    border-stone-200 pt-2">
 
           <div>
             <p class="text-xs text-sub-text">連続</p>
