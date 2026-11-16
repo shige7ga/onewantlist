@@ -1,0 +1,65 @@
+<%# ログイン・アクションの記録 %>
+<% record_cards = [
+  {
+    title: "ログインの記録",
+    total: user_status.login_count,
+    streak: user_status.login_streak,
+    longest: user_status.longest_login_streak
+  },
+  {
+    title: "アクションの記録",
+    total: user_status.action_count,
+    streak: user_status.action_streak,
+    longest: user_status.longest_action_streak
+  }
+] %>
+
+<div class="grid grid-cols-2 gap-3 sm:gap-4">
+  <% record_cards.each do |record| %>
+
+    <section class="app-card">
+      <div class="card-body items-center gap-2 p-3 text-center sm:p-4">
+
+        <h2 class="text-sm font-bold sm:text-base">
+          <%= record[:title] %>
+        </h2>
+
+        <%# 累計を大きく表示 %>
+        <div>
+          <p class="text-xs text-sub-text">
+            累計
+          </p>
+
+          <p class="mt-1 font-bold leading-none text-4xl sm:text-5xl">
+            <%= record[:total] || 0 %>
+            <span class="text-sm font-normal">日</span>
+          </p>
+        </div>
+
+        <%# 連続・最長は補助的に表示 %>
+        <div class="grid w-full grid-cols-2 gap-2 border-t
+                    border-stone-200 pt-2">
+
+          <div>
+            <p class="text-xs text-sub-text">連続</p>
+
+            <p class="mt-1 text-base font-semibold sm:text-lg">
+              <%= record[:streak] || 0 %>日
+            </p>
+          </div>
+
+          <div>
+            <p class="text-xs text-sub-text">最長</p>
+
+            <p class="mt-1 text-base font-semibold sm:text-lg">
+              <%= record[:longest] || 0 %>日
+            </p>
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+  <% end %>
+</div>

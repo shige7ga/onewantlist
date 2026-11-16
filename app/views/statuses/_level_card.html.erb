@@ -1,0 +1,79 @@
+<%# レベル・経験値カード %>
+<section class="app-card md:col-span-2">
+  <div class="card-body h-full items-center gap-2 p-3 text-center sm:p-4">
+
+    <h2 class="text-sm font-bold">
+      レベル・経験値
+    </h2>
+
+    <% current_exp = user_status.current_level_exp %>
+    <% required_exp = user_status.required_exp_for_next_level %>
+    <% progress = required_exp.positive? ? (current_exp.to_f / required_exp * 100).clamp(0, 100) : 0 %>
+
+    <%# 円形経験値ゲージ %>
+    <div
+      class="radial-progress text-[#8EAD86]
+             [--size:10rem] [--thickness:0.65rem]"
+      style="--value:<%= progress %>;"
+      role="progressbar"
+      aria-label="次のレベルまでの経験値"
+      aria-valuenow="<%= current_exp %>"
+      aria-valuemin="0"
+      aria-valuemax="<%= required_exp %>"
+    >
+      <%# 桁数によって文字サイズを調整 %>
+      <% level_text_size =
+        case user_status.level.to_s.length
+        when 1
+          "text-[64px] lg:text-[68px]"
+        when 2
+          "text-[52px] lg:text-[56px]"
+        when 3
+          "text-[38px] lg:text-[42px]"
+        else
+          "text-[28px] lg:text-[32px]"
+        end
+      %>
+
+      <div class="flex items-center justify-center text-color">
+        <div class="relative -translate-y-0.5">
+
+          <%# レベル数値 %>
+          <span class="block font-bold leading-none tabular-nums <%= level_text_size %>">
+            <%= user_status.level %>
+          </span>
+
+          <%# Lv.表示 %>
+          <span class="absolute bottom-0 right-full mr-1 whitespace-nowrap text-sm font-medium lg:text-base">
+            Lv.
+          </span>
+
+        </div>
+      </div>
+    </div>
+
+    <%# 次のレベルまで %>
+    <div class="text-center">
+      <p class="text-xs text-sub-text">
+        次のレベルまで
+      </p>
+      <p class="text-sm font-semibold">
+        <%= user_status.exp_to_next_level %> EXP
+      </p>
+    </div>
+
+    <%# 累計経験値 %>
+    <div class="mt-auto w-full border-t border-stone-200 pt-2">
+      <div class="flex items-center justify-center gap-2">
+        <span class="text-xs text-sub-text">
+          累計経験値
+        </span>
+
+        <span class="text-sm font-semibold">
+          <%= number_with_delimiter(user_status.experience) %> EXP
+        </span>
+      </div>
+    </div>
+
+  </div>
+</section>
