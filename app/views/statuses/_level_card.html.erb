@@ -45,17 +45,13 @@
 
     <%# 累計経験値：カード下部に補助表示 %>
     <div class="mt-auto w-full border-t border-stone-200 pt-3">
-      <div class="flex items-center justify-between gap-2">
-
+      <div class="flex items-center justify-center gap-2">
         <span class="text-xs text-sub-text">
           累計経験値
         </span>
-
         <span class="text-sm font-semibold">
-          <%= number_with_delimiter(user_status.experience) %>
-          EXP
+          <%= number_with_delimiter(user_status.experience) %> EXP
         </span>
-
       </div>
     </div>
 
