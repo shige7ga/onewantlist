@@ -62,17 +62,42 @@
       </p>
     </div>
 
-    <%# 累計経験値 %>
-    <div class="mt-auto w-full border-t border-stone-200 pt-2">
-      <div class="flex items-center justify-center gap-2">
-        <span class="text-xs text-sub-text">
-          累計経験値
-        </span>
+    <%# ユーザー名・累計経験値 %>
+    <div class="mt-auto grid w-full grid-cols-[minmax(0,1fr)_auto] items-end gap-2 border-t border-stone-200 pt-2">
 
-        <span class="text-sm font-semibold">
-          <%= number_with_delimiter(user_status.experience) %> EXP
-        </span>
+      <%# 左：ユーザー名 %>
+      <div class="min-w-0 text-left">
+        <div class="flex items-center gap-1">
+          <span class="text-xs text-sub-text">
+            ユーザー名
+          </span>
+
+          <% if user_signed_in? %>
+            <%= link_to edit_user_registration_path,
+                        class: "text-xs text-sub-text hover:text-color",
+                        aria: { label: "ユーザー情報を編集" } do %>
+              ✎
+            <% end %>
+          <% end %>
+        </div>
+
+        <p class="truncate text-xs font-semibold"
+           title="<%= owner.name.presence || '未登録' %>">
+          <%= owner.name.presence || "未登録" %>
+        </p>
       </div>
+
+      <%# 右：累計経験値 %>
+      <div class="shrink-0 text-right">
+        <p class="text-xs text-sub-text">
+          累計経験値
+        </p>
+
+        <p class="text-xs font-semibold">
+          <%= number_with_delimiter(user_status.experience) %> EXP
+        </p>
+      </div>
+
     </div>
 
   </div>
