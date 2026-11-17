@@ -1,51 +1,55 @@
-<%# 登録カレンダー %>
-<section class="app-card h-[320px] overflow-hidden sm:h-[350px] md:absolute md:inset-0 md:h-full">
-  <div class="card-body flex h-full min-h-0 flex-col gap-2 overflow-hidden p-3 sm:p-4">
+<%= turbo_frame_tag "registration_calendar", class: "block min-w-0 md:relative md:col-span-3 md:min-h-0" do %>
 
-    <div class="flex shrink-0 flex-wrap items-center justify-between gap-2">
-      <h2 class="text-sm font-bold">
-        登録カレンダー
-      </h2>
+  <%# 登録カレンダー %>
+  <section class="app-card h-[320px] overflow-hidden sm:h-[350px] md:absolute md:inset-0 md:h-full">
+    <div class="card-body flex h-full min-h-0 flex-col gap-2 overflow-hidden p-3 sm:p-4">
 
-      <p class="text-xs text-sub-text">
-        表示月の登録：
-        <span class="text-sm font-bold text-color">
-          <%= @monthly_registration_count %> 件
-        </span>
-      </p>
-    </div>
+      <div class="flex shrink-0 flex-wrap items-center justify-between gap-2">
+        <h2 class="text-sm font-bold">
+          登録カレンダー
+        </h2>
 
-    <%= month_calendar(start_date: @calendar_date) do |date| %>
-
-      <% registered = @registered_dates.include?(date) %>
-      <% today = date == Date.current %>
-
-      <div class="relative flex h-full w-full min-h-0 min-w-0 items-center justify-center">
-
-        <%# 今日の日付に薄い丸を表示 %>
-        <% if today %>
-          <span
-            aria-hidden="true"
-            class="pointer-events-none absolute left-1/2 top-1/2
-                  h-7 w-7 max-h-[90%] max-w-[90%] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[#8EAD86]/40 <%= 'h-8 w-8 ring-2 ring-[#8EAD86]/50' if registered %>">
+        <p class="text-xs text-sub-text">
+          表示月の登録：
+          <span class="text-sm font-bold text-color">
+            <%= @monthly_registration_count %> 件
           </span>
-        <% end %>
-
-        <%# 肉球を日付セルの中央に配置 %>
-        <% if registered %>
-          <%= image_tag "icons/paws.png",
-                        alt: "",
-                        aria: { hidden: true },
-                        class: "pointer-events-none absolute left-1/2 top-1/2 h-[85%] w-[85%] max-h-9 max-w-9 md:max-h-* md:max-w-9 -translate-x-1/2 -translate-y-1/2 object-contain" %>
-        <% end %>
-
-        <%# 日付は中央から少し下に配置 %>
-        <span class="relative z-10 text-xs md:text-[11px] font-bold <%= registered ? 'text-white  translate-y-[4px]' : 'text-color' %>">
-          <%= date.day %>
-        </span>
-
+        </p>
       </div>
 
-    <% end %>
-  </div>
-</section>
+      <%= month_calendar(start_date: @calendar_date) do |date| %>
+
+        <% registered = @registered_dates.include?(date) %>
+        <% today = date == Date.current %>
+
+        <div class="relative flex h-full w-full min-h-0 min-w-0 items-center justify-center">
+
+          <%# 今日の日付に薄い丸を表示 %>
+          <% if today %>
+            <span
+              aria-hidden="true"
+              class="pointer-events-none absolute left-1/2 top-1/2
+                    h-7 w-7 max-h-[90%] max-w-[90%] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[#8EAD86]/40 <%= 'h-8 w-8 ring-2 ring-[#8EAD86]/50' if registered %>">
+            </span>
+          <% end %>
+
+          <%# 肉球を日付セルの中央に配置 %>
+          <% if registered %>
+            <%= image_tag "icons/paws.png",
+                          alt: "",
+                          aria: { hidden: true },
+                          class: "pointer-events-none absolute left-1/2 top-1/2 h-[85%] w-[85%] max-h-9 max-w-9 md:max-h-* md:max-w-9 -translate-x-1/2 -translate-y-1/2 object-contain" %>
+          <% end %>
+
+          <%# 日付は中央から少し下に配置 %>
+          <span class="relative z-10 text-xs md:text-[11px] font-bold <%= registered ? 'text-white  translate-y-[4px]' : 'text-color' %>">
+            <%= date.day %>
+          </span>
+
+        </div>
+
+      <% end %>
+    </div>
+  </section>
+
+<% end %>

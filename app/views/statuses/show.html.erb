@@ -20,10 +20,8 @@
                 owner: @owner %>
 
       <%# カレンダーをレベルカードの高さに合わせる %>
-      <div class="md:relative md:col-span-3 md:min-h-0">
-        <%= render "statuses/calender",
-                  monthly_registration_count: @monthly_registration_count %>
-      </div>
+      <%= render "statuses/calender",
+                monthly_registration_count: @monthly_registration_count %>
 
     </div>
 

@@ -3,7 +3,7 @@
   <%# 月切り替えヘッダー %>
   <div class="calendar-heading flex shrink-0 items-center justify-between gap-2">
 
-    <%= link_to "＜ 前月",
+    <%= link_to "＜ 前の月",
                 calendar.url_for_previous_view,
                 class: "text-xs font-medium text-color hover:opacity-60" %>
 
@@ -12,7 +12,7 @@
       <%= start_date.year %>年<%= start_date.month %>月
     </time>
 
-    <%= link_to "次月 ＞",
+    <%= link_to "次の月 ＞",
                 calendar.url_for_next_view,
                 class: "text-xs font-medium text-color hover:opacity-60" %>
   </div>
