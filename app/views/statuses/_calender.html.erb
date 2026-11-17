@@ -22,7 +22,10 @@
         <% registered = @registered_dates.include?(date) %>
         <% today = date == Date.current %>
 
-        <div class="relative flex h-full w-full min-h-0 min-w-0 items-center justify-center">
+        <div
+          data-date="<%= date.iso8601 %>"
+          class="relative flex h-full w-full min-h-0 min-w-0 items-center justify-center"
+        >
 
           <%# 今日の日付に薄い丸を表示 %>
           <% if today %>
