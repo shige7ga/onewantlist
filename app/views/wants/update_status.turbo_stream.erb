@@ -1,7 +1,16 @@
+<%# ステータス表示の更新 %>
 <%= turbo_stream.replace dom_id(@want, :status) do %>
   <%= render "wants/status_select", want: @want %>
 <% end %>
 
+<%# マイページの完了数を更新 %>
+<% unless @completed_wants_count.nil? %>
+  <%= turbo_stream.update "completed-wants-count" do %>
+    <%= @completed_wants_count %><span class="text-xs font-normal">件</span>
+  <% end %>
+<% end %>
+
+<%# フラッシュメッセージの更新 %>
 <%= turbo_stream.update "flash" do %>
   <%= render "shared/flash", flash: flash %>
 <% end %>

@@ -20,7 +20,7 @@ ja:
         status:
           not_started: 未着手
           in_progress: 進行中
-          completed: 完了
+          completed: 達成
     errors:
       models:
         want:

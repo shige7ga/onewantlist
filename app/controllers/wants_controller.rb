@@ -75,6 +75,9 @@ class WantsController < ApplicationController
     updated = @want.update(want_status_params)
     @want.reload unless updated
 
+    # 更新成功後に最新の完了数を取得
+    @completed_wants_count = current_owner.wants.completed.count if updated
+
     flash_message = updated ? "ステータスを更新しました" : "ステータスを更新できませんでした"
     flash_type = updated ? :notice : :alert
 
