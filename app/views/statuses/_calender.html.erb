@@ -18,22 +18,29 @@
     <%= month_calendar(start_date: @calendar_date) do |date| %>
 
       <% registered = @registered_dates.include?(date) %>
+      <% today = date == Date.current %>
 
       <div class="relative flex h-full w-full min-h-0 min-w-0 items-center justify-center">
+
+        <%# 今日の日付に薄い丸を表示 %>
+        <% if today %>
+          <span
+            aria-hidden="true"
+            class="pointer-events-none absolute left-1/2 top-1/2
+                  h-7 w-7 max-h-[90%] max-w-[90%] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[#8EAD86]/40 <%= 'h-8 w-8 ring-2 ring-[#8EAD86]/50' if registered %>">
+          </span>
+        <% end %>
 
         <%# 肉球を日付セルの中央に配置 %>
         <% if registered %>
           <%= image_tag "icons/paws.png",
                         alt: "",
                         aria: { hidden: true },
-                        class: "pointer-events-none absolute left-1/2 top-1/2
-                                h-[85%] w-[85%] max-h-9 max-w-9
-                                md:max-h-* md:max-w-9
-                                -translate-x-1/2 -translate-y-1/2 object-contain" %>
+                        class: "pointer-events-none absolute left-1/2 top-1/2 h-[85%] w-[85%] max-h-9 max-w-9 md:max-h-* md:max-w-9 -translate-x-1/2 -translate-y-1/2 object-contain" %>
         <% end %>
 
         <%# 日付は中央から少し下に配置 %>
-        <span class="relative z-10 translate-y-[4px] text-xs md:text-[11px] font-bold <%= registered ? 'text-white' : 'text-color' %>">
+        <span class="relative z-10 text-xs md:text-[11px] font-bold <%= registered ? 'text-white  translate-y-[4px]' : 'text-color' %>">
           <%= date.day %>
         </span>
 
