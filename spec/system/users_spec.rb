@@ -1,6 +1,8 @@
 require 'rails_helper'
 
 RSpec.describe "Users", type: :system do
+  include ActionView::RecordIdentifier
+
   let!(:user) { create(:user) }
   let!(:user_status) { create(:user_status, owner: user) }
   let!(:want) { create(:want, owner: user, content: "富士山に登る") }
@@ -59,6 +61,26 @@ RSpec.describe "Users", type: :system do
       )
 
       expect(user.reload.email).not_to eq("changed@example.com")
+    end
+
+    it "完了に変更するとマイページの完了数が更新される" do
+      visit mypage_path
+
+      expect(page).to have_css(
+        "#completed-wants-count",
+        text: "0件"
+      )
+
+      within "##{dom_id(want, :status)}" do
+        select "達成", from: "want_status"
+      end
+
+      expect(page).to have_css(
+        "#completed-wants-count",
+        text: "1件"
+      )
+
+      expect(want.reload.status).to eq("completed")
     end
   end
 

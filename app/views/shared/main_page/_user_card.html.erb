@@ -148,7 +148,7 @@
         ["ログイン数", user_status.login_count || 0, "日"],
         ["アクション数", user_status.action_count || 0, "日"],
         ["登録数", wants.size, "件"],
-        ["完了数", wants.count(&:completed?), "件"]
+        ["達成数", wants.count(&:completed?), "件"]
       ].each do |label, value, unit| %>
 
         <div class="min-w-0">
@@ -156,9 +156,12 @@
             <%= label %>
           </p>
 
-          <p class="text-lg font-bold tabular-nums">
+          <%= tag.p(
+                id: ("completed-wants-count" if label == "達成数"),
+                class: "text-lg font-bold tabular-nums"
+              ) do %>
             <%= value %><span class="text-xs font-normal"><%= unit %></span>
-          </p>
+          <% end %>
         </div>
 
       <% end %>

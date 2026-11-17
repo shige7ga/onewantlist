@@ -19,12 +19,12 @@
         </p>
       </div>
 
-      <%# 完了数・未着手・進行中 %>
+      <%# 達成数・未着手・進行中 %>
       <div class="space-y-4 text-center">
 
         <div>
           <p class="text-xs text-sub-text sm:text-sm">
-            完了数
+            <%= t("activerecord.enums.want.status.completed") %>
           </p>
 
           <p class="mt-2 font-bold leading-none text-4xl sm:text-5xl">
@@ -36,14 +36,14 @@
         <div class="space-y-2 border-t border-stone-200 pt-3">
 
           <p class="text-xs text-sub-text">
-            未着手
+            <%= t("activerecord.enums.want.status.not_started") %>
             <span class="font-semibold text-color">
               <%= want_counts[:not_started] %>件
             </span>
           </p>
 
           <p class="text-xs text-sub-text">
-            進行中
+            <%= t("activerecord.enums.want.status.in_progress") %>
             <span class="font-semibold text-color">
               <%= want_counts[:in_progress] %>件
             </span>
