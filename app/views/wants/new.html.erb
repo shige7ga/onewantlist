@@ -1,10 +1,27 @@
 <% page_title = t(".title") %>
 
+<%# 今日のやりたいこと登録状況 %>
+<% today_registered = @status.last_want_registration_date == Date.current %>
+
+<%# 通常のガチャ抽選が可能か %>
+<% can_draw_gacha = !today_registered && @status.random_gacha_available? %>
+
+<%# ガチャの遷移先・リクエスト方法 %>
+<% gacha_path = can_draw_gacha ? draw_random_want_path : random_want_path %>
+
+<% gacha_data = can_draw_gacha ? { turbo_method: :post } : {} %>
+
 <%= render layout: "shared/layouts/centered_card",
            locals: {
              back_path: owner_home_path,
              back_label: "マイページに戻る",
-             max_width: "max-w-md"
+             max_width: "max-w-md",
+             header_action: {
+               label: "やりたいことガチャ画面へ →",
+               path: gacha_path,
+               variant: :gacha,
+               data: gacha_data
+             }
            } do %>
 
   <div class="card-body">

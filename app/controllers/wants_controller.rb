@@ -8,6 +8,7 @@ class WantsController < ApplicationController
 
   def new
     @want = current_owner.wants.new
+    @status = current_owner.user_status
   end
 
   def create

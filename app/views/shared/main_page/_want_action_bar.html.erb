@@ -46,7 +46,7 @@
         </span>
 
         <span class="text-[10px] font-normal leading-none">
-          （残り 0 / <%= GuestUser::DIRECT_REGISTRATION_LIMIT %> 回）
+          （残り <%= owner.remaining_direct_registrations %> / <%= GuestUser::DIRECT_REGISTRATION_LIMIT %> 回）
         </span>
       </button>
 
@@ -96,7 +96,7 @@
         </span>
 
         <span class="text-[10px] font-normal leading-none">
-          （残り 0 / <%= GuestUser::GACHA_USAGE_LIMIT %> 回）
+          （残り <%= owner.remaining_gacha_usages %> / <%= GuestUser::GACHA_USAGE_LIMIT %> 回）
         </span>
 
       </button>

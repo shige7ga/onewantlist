@@ -1,11 +1,49 @@
 <div class="centered-page">
   <div class="relative w-full <%= max_width %>">
 
-    <%# 戻るボタン %>
-    <div class="absolute bottom-full left-0 mb-3">
+    <%# カード外側のヘッダー %>
+    <div class="absolute inset-x-0 bottom-full mb-3
+                flex items-center justify-between gap-2">
+
+      <%# 戻るボタン %>
       <%= render "shared/back_btn",
                  path: back_path,
                  btn_name: back_label %>
+
+      <%# 任意の右上リンク %>
+      <% if local_assigns[:header_action].present? %>
+        <% is_gacha = header_action[:variant] == :gacha %>
+
+        <%# 種類によって背景色・枠線・ホバー色を変更 %>
+        <% color_class = if is_gacha
+                          "border-[#E3C88F] bg-[#E3C88F]/50 hover:bg-[#E3C88F]/70"
+                        else
+                          "border-app-accent bg-app-accent/50 hover:bg-app-accent/70"
+                        end %>
+
+        <%= link_to header_action[:path],
+                    data: header_action[:data] do %>
+          <span class="inline-flex shrink-0 items-center gap-1.5
+                      rounded-full border px-3 py-1.5
+                      text-xs font-medium text-color
+                      transition-colors <%= color_class %>">
+
+            <%# 種類によってアイコンを変更 %>
+            <% if is_gacha %>
+              <%= image_tag "icons/gacha_button.svg",
+                            alt: "",
+                            class: "w-4 h-4 shrink-0" %>
+            <% else %>
+              <span aria-hidden="true" class="text-base leading-none">
+                ＋
+              </span>
+            <% end %>
+
+            <span><%= header_action[:label] %></span>
+          </span>
+        <% end %>
+      <% end %>
+
     </div>
 
     <%# カード本体 %>

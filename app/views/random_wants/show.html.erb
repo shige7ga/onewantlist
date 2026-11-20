@@ -13,7 +13,13 @@
            locals: {
              back_path: owner_home_path,
              back_label: "マイページに戻る",
-             max_width: "max-w-lg"
+             max_width: "max-w-lg",
+             header_action: {
+               label: "やりたいこと登録画面へ →",
+               path: new_want_path,
+               variant: :direct,
+               data: {}
+             }
            } do %>
 
   <div class="card-body gap-4">
