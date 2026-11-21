@@ -1,14 +1,14 @@
-<%# 今回獲得したEXPイベントを取得 %>
-<% events = status_events.map(&:with_indifferent_access) %>
-
 <%# ゲスト向けのモーダル設定 %>
 <% guest_page = !user_signed_in? %>
 
 <%# 自動表示：両方の体験が完全に終了した場合 %>
 <% auto_show_limit = guest_page && user.experience_finished? %>
 
+<%# EXP演出の情報を取得 %>
+<% animation = user_status.exp_gauge_animation(status_events) %>
+
 <%# EXP演出の実行有無を判定 %>
-<% wait_for_exp = guest_page && user_status.exp_gauge_animation(events).present? %>
+<% wait_for_exp = guest_page && animation.present? %>
 
 <div
   class="min-h-screen px-4 py-6 pb-32 sm:px-6"
@@ -31,7 +31,7 @@
     </div>
 
     <%# 通常レベルアップ用モーダル %>
-    <% events.select { |event| event[:type] == "lv_up" }.each do |event| %>
+    <% status_events.select { |event| event[:type] == "lv_up" }.each do |event| %>
       <%= render "shared/level_up_modal",
                   event: event,
                   content_partial: "shared/level_up/default_content",
@@ -46,7 +46,8 @@
                     user: user,
                     user_status: user_status,
                     wants: wants,
-                    events: events %>
+                    events: status_events,
+                    animation: animation %>
       </aside>
 
       <main class="min-w-0 lg:col-span-7 lg:col-start-1 lg:row-start-1">
@@ -81,7 +82,9 @@
   </div>
 
   <%# 下部アクションバー %>
-  <%= render "shared/main_page/want_action_bar" %>
+  <%= render "shared/main_page/want_action_bar",
+          owner: user,
+          status: user_status %>
 
   <%# ゲスト専用モーダル %>
   <% if guest_page %>

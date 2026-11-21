@@ -57,6 +57,10 @@ class UserStatus < ApplicationRecord
     random_gacha_date != Date.current || random_gacha_count < RANDOM_GACHA_LIMIT
   end
 
+  def daily_gacha_draw_available?
+    !want_registered_today? && random_gacha_available?
+  end
+
   def reset_action_streak_if_expired!
     return if last_action_date.nil?
     return if last_action_date >= Date.yesterday
@@ -124,6 +128,13 @@ class UserStatus < ApplicationRecord
   # 本日やりたいことを登録できるか
   def want_registered_today?
     last_want_registration_date == Date.current
+  end
+
+  # 本日のガチャ残り抽選回数
+  def remaining_random_gacha_count
+    return RANDOM_GACHA_LIMIT if random_gacha_date != Date.current
+
+    [RANDOM_GACHA_LIMIT - random_gacha_count, 0].max
   end
 
   private

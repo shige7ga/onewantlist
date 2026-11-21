@@ -1,8 +1,5 @@
-<%# 今回獲得した経験値イベント %>
-<% events = status_events.map(&:with_indifferent_access) %>
-
 <%# レベルアップモーダル %>
-<% events.select { |event| event[:type] == "lv_up" }.each do |event| %>
+<% status_events.select { |event| event[:type] == "lv_up" }.each do |event| %>
   <%= render "shared/level_up_modal",
               event: event,
               content_partial: "shared/level_up/default_content",
@@ -10,17 +7,17 @@
 <% end %>
 
 <%= render layout: "shared/layouts/centered_card",
-           locals: {
-             back_path: owner_home_path,
-             back_label: "マイページに戻る",
-             max_width: "max-w-lg",
-             header_action: {
-               label: "やりたいこと登録画面へ →",
-               path: new_want_path,
-               variant: :direct,
-               data: {}
-             }
-           } do %>
+          locals: {
+            back_path: owner_home_path,
+            back_label: "マイページに戻る",
+            max_width: "max-w-lg",
+            header_action: {
+              label: "やりたいこと登録画面へ →",
+              variant: :direct,
+              path: new_want_path,
+              data: {}
+            }
+          } do %>
 
   <div class="card-body gap-4">
     <h2 class="page-title">
@@ -70,7 +67,7 @@
         </span>
 
         <span class="text-[10px] font-normal">
-          （残り<%= UserStatus::RANDOM_GACHA_LIMIT - @user_status.random_gacha_count %>/<%= UserStatus::RANDOM_GACHA_LIMIT %>回）
+          （残り<%= @user_status.remaining_random_gacha_count %>/<%= UserStatus::RANDOM_GACHA_LIMIT %>回）
         </span>
 
       <% end %>
