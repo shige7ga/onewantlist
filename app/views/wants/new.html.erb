@@ -1,10 +1,17 @@
 <% page_title = t(".title") %>
+<% gacha_options = gacha_link_options(current_owner.user_status) %>
 
 <%= render layout: "shared/layouts/centered_card",
            locals: {
              back_path: owner_home_path,
              back_label: "マイページに戻る",
-             max_width: "max-w-md"
+             max_width: "max-w-md",
+             header_action: {
+              label: "やりたいことガチャ画面へ →",
+              variant: :gacha,
+              path: gacha_options[:path],
+              data: gacha_options[:data]
+             }
            } do %>
 
   <div class="card-body">

@@ -18,9 +18,7 @@ module ApplicationHelper
   # EXP付与メッセージ用
   def exp_gain_messages(events)
     events.filter_map do |event|
-      event = event.with_indifferent_access
       next unless event[:type] == "exp_up"
-
       "#{exp_source_label(event[:source])}により＋#{event[:exp]}EXP"
     end
   end

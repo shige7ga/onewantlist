@@ -20,7 +20,7 @@ class GuestUser < ApplicationRecord
   def gacha_usage_limited?
     return false if gacha_usage_available?
 
-    user_status.random_gacha_date != Date.current || user_status.last_want_registration_date == Date.current
+    user_status.random_gacha_date != Date.current || user_status.want_registered_today?
   end
 
   def gacha_usage_available?

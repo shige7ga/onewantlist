@@ -11,6 +11,6 @@ module StatusEventHandling
   end
 
   def status_events
-    @status_events ||= session.delete(:status_events) || []
+    @status_events ||= (session.delete(:status_events) || []).map(&:with_indifferent_access)
   end
 end
