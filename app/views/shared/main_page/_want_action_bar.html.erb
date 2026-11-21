@@ -1,15 +1,9 @@
 <% owner = current_owner %>
 <% status = owner.user_status %>
-<% guest = !user_signed_in? %>
+<% is_guest = !user_signed_in? %>
 
 <%# 今日のやりたいこと登録状況 %>
 <% today_registered = status.last_want_registration_date == Date.current %>
-
-<%# 自由登録のゲスト利用制限 %>
-<% direct_limited = guest && !owner.direct_registration_available? %>
-
-<%# ガチャのゲスト利用制限 %>
-<% gacha_limited = guest && owner.gacha_usage_limited? %>
 
 <%# 通常のガチャ抽選が可能か %>
 <% can_draw_gacha = !today_registered && status.random_gacha_available? %>
@@ -28,106 +22,31 @@
 
   <div class="grid grid-cols-2 gap-3">
 
-    <%# ========================================
-        やりたいこと自由登録
-    ======================================== %>
+    <%# 自由登録ボタン %>
+    <%= render "shared/main_page/action_bar_item",
+          label: "＋ やりたいこと登録",
+          icon: nil,
+          is_guest: is_guest,
+          limited: guest_action_limited?(:direct),
+          remaining: is_guest ? owner.remaining_direct_registrations : nil,
+          limit: GuestUser::DIRECT_REGISTRATION_LIMIT,
+          limit_type: "direct",
+          path: new_want_path,
+          link_data: {},
+          extra_class: nil %>
 
-    <% if direct_limited %>
-
-      <%# ゲスト利用制限到達：モーダル表示 %>
-      <button
-        type="button"
-        data-action="guest-limit-modal#open"
-        data-guest-limit-type="direct"
-        class="action-bar-btn"
-      >
-        <span class="whitespace-nowrap">
-          ＋ やりたいこと登録
-        </span>
-
-        <span class="text-[10px] font-normal leading-none">
-          （残り <%= owner.remaining_direct_registrations %> / <%= GuestUser::DIRECT_REGISTRATION_LIMIT %> 回）
-        </span>
-      </button>
-
-    <% else %>
-
-      <%# 通常の登録画面へ %>
-      <%= link_to new_want_path, class: "action-bar-btn" do %>
-
-        <span class="whitespace-nowrap">
-          ＋ やりたいこと登録
-        </span>
-
-        <% if guest %>
-          <span class="text-[10px] font-normal leading-none">
-            （残り <%= owner.remaining_direct_registrations %> /
-            <%= GuestUser::DIRECT_REGISTRATION_LIMIT %> 回）
-          </span>
-        <% end %>
-
-      <% end %>
-
-    <% end %>
-
-
-    <%# ========================================
-        やりたいことガチャ
-    ======================================== %>
-
-    <% if gacha_limited %>
-
-      <%# ゲスト利用制限到達：モーダル表示 %>
-      <button
-        type="button"
-        data-action="guest-limit-modal#open"
-        data-guest-limit-type="gacha"
-        class="action-bar-btn gap-0.5 bg-[#E3C88F]"
-      >
-
-        <span class="flex items-center justify-center gap-1.5">
-          <%= image_tag "icons/gacha_button.svg",
-                        alt: "",
-                        class: "w-4 h-4 shrink-0" %>
-
-          <span class="whitespace-nowrap">
-            やりたいことガチャ
-          </span>
-        </span>
-
-        <span class="text-[10px] font-normal leading-none">
-          （残り <%= owner.remaining_gacha_usages %> / <%= GuestUser::GACHA_USAGE_LIMIT %> 回）
-        </span>
-
-      </button>
-
-    <% else %>
-
-      <%# 通常のガチャ処理 %>
-      <%= link_to gacha_path,
-            data: gacha_data,
-            class: "action-bar-btn gap-0.5 bg-[#E3C88F]" do %>
-
-        <span class="flex items-center justify-center gap-1.5">
-          <%= image_tag "icons/gacha_button.svg",
-                        alt: "",
-                        class: "w-4 h-4 shrink-0" %>
-
-          <span class="whitespace-nowrap">
-            やりたいことガチャ
-          </span>
-        </span>
-
-        <% if guest %>
-          <span class="text-[10px] font-normal leading-none">
-            （残り <%= owner.remaining_gacha_usages %> /
-            <%= GuestUser::GACHA_USAGE_LIMIT %> 回）
-          </span>
-        <% end %>
-
-      <% end %>
-
-    <% end %>
+    <%# ガチャボタン %>
+    <%= render "shared/main_page/action_bar_item",
+          label: "やりたいことガチャ",
+          icon: "icons/gacha_button.svg",
+          is_guest: is_guest,
+          limited: guest_action_limited?(:gacha),
+          remaining: is_guest ? owner.remaining_gacha_usages : nil,
+          limit: GuestUser::GACHA_USAGE_LIMIT,
+          limit_type: "gacha",
+          path: gacha_path,
+          link_data: gacha_data,
+          extra_class: "gap-0.5 bg-[#E3C88F]" %>
 
   </div>
 </div>

@@ -1,0 +1,38 @@
+<%# ボタン内の表示内容 %>
+<% content = capture do %>
+  <span class="flex items-center justify-center gap-1.5">
+    <% if icon.present? %>
+      <%= image_tag icon, alt: "", class: "w-4 h-4 shrink-0" %>
+    <% end %>
+
+    <span class="whitespace-nowrap">
+      <%= label %>
+    </span>
+  </span>
+
+  <% if is_guest %>
+    <span class="text-[10px] font-normal leading-none">
+      （残り <%= remaining %> / <%= limit %> 回）
+    </span>
+  <% end %>
+<% end %>
+
+<%# ボタンのスタイル %>
+<% classes = ["action-bar-btn", extra_class].compact.join(" ") %>
+
+<% if limited %>
+  <%# 利用制限到達：モーダルを表示 %>
+  <%= button_tag type: "button",
+        data: {
+          action: "guest-limit-modal#open",
+          guest_limit_type: limit_type
+        },
+        class: classes do %>
+    <%= content %>
+  <% end %>
+<% else %>
+  <%# 通常のリンク・処理 %>
+  <%= link_to path, data: link_data, class: classes do %>
+    <%= content %>
+  <% end %>
+<% end %>

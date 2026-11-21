@@ -14,23 +14,18 @@
 
       <%# 戻るボタン %>
       <%= render "shared/back_btn",
-                 path: back_path,
-                 btn_name: back_label %>
+                path: back_path,
+                btn_name: back_label %>
 
       <%# 任意の右上リンク %>
       <% if local_assigns[:header_action].present? %>
-        <% is_gacha = header_action[:variant] == :gacha %>
+        <% variant = header_action[:variant] %>
+        <% is_gacha = variant == :gacha %>
 
         <%# ゲストの利用制限を判定 %>
         <% limit_type =
-          unless user_signed_in?
-            case header_action[:variant]
-            when :direct
-              :direct unless current_owner.direct_registration_available?
-            when :gacha
-              :gacha if current_owner.gacha_usage_limited?
-            end
-          end
+          variant if %i[direct gacha].include?(variant) &&
+            guest_action_limited?(variant)
         %>
 
         <%# 種類によって背景色・枠線・ホバー色を変更 %>
