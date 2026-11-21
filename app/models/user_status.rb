@@ -134,7 +134,7 @@ class UserStatus < ApplicationRecord
   def remaining_random_gacha_count
     return RANDOM_GACHA_LIMIT if random_gacha_date != Date.current
 
-    [RANDOM_GACHA_LIMIT - random_gacha_count, 0].max
+    [ RANDOM_GACHA_LIMIT - random_gacha_count, 0 ].max
   end
 
   private
