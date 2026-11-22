@@ -9,3 +9,4 @@
 #   end
 
 load Rails.root.join("db/seeds/random_wants.rb")
+load Rails.root.join("db/seeds/admin_user.rb")
