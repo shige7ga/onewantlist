@@ -116,4 +116,32 @@ RSpec.describe User, type: :model do
       end
     end
   end
+
+  describe "ロール管理" do
+    it "デフォルトでは一般ユーザーになる" do
+      user = create(:user)
+
+      expect(user.reload).to be_general
+    end
+
+    it "検証用ユーザーを作成できる" do
+      user = create(:user, :tester)
+
+      expect(user.reload).to be_tester
+    end
+
+    it "管理者を作成できる" do
+      user = create(:user, :admin)
+
+      expect(user.reload).to be_admin
+    end
+
+    it "定義されていないロールは設定できない" do
+      user = build(:user)
+
+      expect {
+        user.role = :unknown
+      }.to raise_error(ArgumentError)
+    end
+  end
 end

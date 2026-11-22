@@ -27,6 +27,19 @@ RSpec.describe "Users::Registrations", type: :request do
         post user_registration_path, params: valid_params
         expect(User.last.user_status.level).to eq(3)
       end
+
+      it "管理者ロールを送信しても一般ユーザーとして登録される" do
+        valid_params[:user][:role] = "admin"
+
+        expect {
+          post user_registration_path, params: valid_params
+        }.to change(User, :count).by(1)
+
+        user = User.find_by!(email: valid_params[:user][:email])
+
+        expect(user).to be_general
+        expect(response).to redirect_to(mypage_path)
+      end
     end
 
     context "無効なパラメータの場合" do
@@ -239,6 +252,20 @@ RSpec.describe "Users::Registrations", type: :request do
         expect(user.reload.name).to be_nil
         expect(response).to be_redirect
       end
+    end
+
+    it "アカウント編集から管理者権限を取得できない" do
+      put user_registration_path, params: {
+        user: {
+          name: "new_name",
+          role: "admin",
+          current_password: "password"
+        }
+      }
+
+      expect(user.reload).to be_general
+      expect(user.name).to eq("new_name")
+      expect(response).to be_redirect
     end
   end
 
