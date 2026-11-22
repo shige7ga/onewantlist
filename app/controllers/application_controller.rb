@@ -2,6 +2,9 @@ class ApplicationController < ActionController::Base
   include CurrentOwner
   include StatusEventHandling
   include UserStatusTracking
+  include Pundit::Authorization
+
+  rescue_from Pundit::NotAuthorizedError, with: :user_not_authorized
 
   before_action :record_daily_login, if: :user_signed_in?, unless: :devise_controller?
   before_action :reset_expired_action_streak
@@ -26,5 +29,11 @@ class ApplicationController < ActionController::Base
   def redirect_to_guest_limit_modal(type)
     session[:guest_limit_modal_type] = type.to_s
     redirect_to guest_user_path, status: :see_other
+  end
+
+  def user_not_authorized
+    redirect_to owner_home_path,
+                alert: "この操作を行う権限がありません",
+                status: :see_other
   end
 end
