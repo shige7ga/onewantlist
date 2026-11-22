@@ -8,6 +8,12 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
 
+  enum :role, {
+    general: 0,
+    tester: 1,
+    admin: 2
+  }
+
   # nameの空白を削除する or 空白文字等の場合にnilを返す
   normalizes :name, with: ->(name) { name.strip.presence }
   validates :name, length: { maximum: 40 }, allow_nil: true
