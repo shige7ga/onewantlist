@@ -41,5 +41,19 @@ RSpec.describe "Users::Sessions", type: :request do
       expect(flash[:alert])
         .to eq("メールアドレスまたはパスワードが正しくありません")
     end
+
+    it "管理者はログイン後に管理画面へ遷移する" do
+      admin = create(:user, :admin, email: "admin@example.com")
+      create(:user_status, owner: admin)
+
+      post user_session_path, params: {
+        user: {
+          email: admin.email,
+          password: "password"
+        }
+      }
+
+      expect(response).to redirect_to(admin_root_path)
+    end
   end
 end
