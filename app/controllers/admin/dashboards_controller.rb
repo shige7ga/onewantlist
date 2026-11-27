@@ -1,7 +1,7 @@
 module Admin
   class DashboardsController < BaseController
     def show
-      authorize [:admin, :dashboard], :show?
+      authorize [ :admin, :dashboard ], :show?
 
       @total_users = User.count
       @general_users = User.general.count

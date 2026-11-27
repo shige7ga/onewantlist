@@ -2,7 +2,6 @@ require "rails_helper"
 
 RSpec.describe "Admin::Dashboards", type: :request do
   describe "GET /admin" do
-
     context "管理者の場合" do
       let(:admin) { create(:user, :admin) }
 
