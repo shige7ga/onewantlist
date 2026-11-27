@@ -17,6 +17,10 @@ Rails.application.routes.draw do
     resource :user, only: :show
   end
 
+  namespace :admin do
+    root "dashboards#show"
+  end
+
   get "mypage", to: "users#show", as: :mypage
   resource :status, only: :show
   root "top#index"

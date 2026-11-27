@@ -1,0 +1,63 @@
+<% content_for :title, "管理者ダッシュボード" %>
+
+<div class="mx-auto w-full max-w-5xl px-4 py-8 sm:px-6">
+
+  <%# フラッシュメッセージ %>
+  <%= render "shared/flash", flash: flash %>
+
+  <%# タイトル %>
+  <div class="mb-6">
+    <h1 class="page-title">
+      管理者ダッシュボード
+    </h1>
+
+    <p class="mt-2 text-sm text-sub-text">
+      アプリの利用状況やユーザー情報を管理します。
+    </p>
+  </div>
+
+  <%# ユーザー数の集計 %>
+  <div class="grid grid-cols-1 gap-4 sm:grid-cols-3">
+
+    <div class="app-card p-5 text-center">
+      <p class="text-sm">登録ユーザー数</p>
+      <p class="mt-2 text-2xl font-bold">
+        <%= @total_users %>
+      </p>
+    </div>
+
+    <div class="app-card p-5 text-center">
+      <p class="text-sm">一般ユーザー数</p>
+      <p class="mt-2 text-2xl font-bold">
+        <%= @general_users %>
+      </p>
+    </div>
+
+    <div class="app-card p-5 text-center">
+      <p class="text-sm">検証用ユーザー数</p>
+      <p class="mt-2 text-2xl font-bold">
+        <%= @tester_users %>
+      </p>
+    </div>
+
+  </div>
+
+  <%# 今後追加する管理機能 %>
+  <div class="app-card mt-6 p-6">
+    <h2 class="text-lg font-bold">
+      ユーザー管理
+    </h2>
+
+    <p class="mt-2 text-sm text-sub-text">
+      ユーザー一覧や権限変更機能を追加予定です。
+    </p>
+  </div>
+
+  <%# マイページへ戻る %>
+  <div class="mt-6">
+    <%= link_to "マイページに戻る",
+                mypage_path,
+                class: "simple-btn" %>
+  </div>
+
+</div>
