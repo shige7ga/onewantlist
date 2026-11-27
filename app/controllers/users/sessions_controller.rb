@@ -27,7 +27,7 @@ class Users::SessionsController < Devise::SessionsController
 
   # sign in後のredirect先を指定するメソッドを追加
   def after_sign_in_path_for(resource)
-    mypage_path
+    resource.admin? ? admin_root_path : mypage_path
   end
 
   # sign out後のredirect先を指定するメソッドを追加

@@ -81,6 +81,13 @@
               </li>
             <% end %>
 
+            <%# 管理者のみ表示 %>
+            <% if current_user.admin? %>
+              <li>
+                <%= link_to "管理画面", admin_root_path %>
+              </li>
+            <% end %>
+
           <% else %>
 
             <%# ログイン前：アカウント %>
