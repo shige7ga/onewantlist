@@ -18,7 +18,7 @@ Rails.application.routes.draw do
   end
 
   namespace :admin do
-    root "dashboard#show"
+    root "dashboards#show"
   end
 
   get "mypage", to: "users#show", as: :mypage
